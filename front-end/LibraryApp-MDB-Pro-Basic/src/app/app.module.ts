@@ -6,7 +6,13 @@ import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
 import {AppComponent} from './app.component';
 
-import {MDBBootstrapModulesPro, MDBSpinningPreloader, NavbarModule, StickyHeaderModule, ToastModule} from 'ng-uikit-pro-standard';
+import {
+  MDBBootstrapModulesPro,
+  MDBSpinningPreloader,
+  NavbarModule,
+  StickyHeaderModule,
+  ToastModule
+} from 'ng-uikit-pro-standard';
 import {BoardAdminComponent} from './board-admin/board-admin.component';
 import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
 import {BoardUserComponent} from './board-user/board-user.component';
@@ -16,8 +22,11 @@ import {ProfileComponent} from './profile/profile.component';
 import {RegisterComponent} from './register/register.component';
 import {authInterceptorProviders} from './_helpers/auth.interceptor';
 import {AppRoutingModule} from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { NotFoundComponent } from './_errors/not-found/not-found.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {NotFoundComponent} from './_errors/not-found/not-found.component';
+import {UserComponent} from './user/user.component';
+import { AuthorComponent } from './_core/author/author.component';
+import { BookComponent } from './_core/book/book.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +40,9 @@ import { NotFoundComponent } from './_errors/not-found/not-found.component';
     RegisterComponent,
     DashboardComponent,
     NotFoundComponent,
+    UserComponent,
+    AuthorComponent,
+    BookComponent,
 
   ],
   imports: [

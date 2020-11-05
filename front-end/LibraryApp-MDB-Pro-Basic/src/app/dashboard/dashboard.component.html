@@ -17,7 +17,7 @@
           <mdb-accordion [multiple]="false" aria-multiselectable="false">
 
             <mdb-accordion-item class="no-collase">
-              <mdb-accordion-item-head mdbWavesEffect>
+              <mdb-accordion-item-head mdbWavesEffect [routerLink]="['/dashboard']">
                 <mdb-icon fas icon="home"></mdb-icon>
                 Home
               </mdb-accordion-item-head>
@@ -33,7 +33,7 @@
             </mdb-accordion-item>
 
             <mdb-accordion-item class="no-collase">
-              <mdb-accordion-item-head mdbWavesEffect>
+              <mdb-accordion-item-head mdbWavesEffect routerLink="author">
                 <mdb-icon fas icon="address-book"></mdb-icon>
                 Authors
               </mdb-accordion-item-head>
@@ -41,7 +41,7 @@
             </mdb-accordion-item>
 
             <mdb-accordion-item class="no-collase">
-              <mdb-accordion-item-head mdbWavesEffect>
+              <mdb-accordion-item-head mdbWavesEffect routerLink="book">
                 <mdb-icon fas icon="book"></mdb-icon>
                 Books
               </mdb-accordion-item-head>
@@ -64,12 +64,18 @@
               <mdb-accordion-item-body></mdb-accordion-item-body>
             </mdb-accordion-item>
 
-            <mdb-accordion-item class="no-collase">
+            <mdb-accordion-item *ngIf="showAdminBoard">
               <mdb-accordion-item-head mdbWavesEffect>
                 <mdb-icon fas icon="cogs"></mdb-icon>
                 Admin panel
               </mdb-accordion-item-head>
-              <mdb-accordion-item-body></mdb-accordion-item-body>
+              <mdb-accordion-item-body>
+                <ul>
+                  <li>
+                    <a routerLink="user" mdbWavesEffect class="menu-item">Users</a>
+                  </li>
+                </ul>
+              </mdb-accordion-item-body>
             </mdb-accordion-item>
 
           </mdb-accordion>
@@ -124,9 +130,6 @@
 
 <!--Main Layout-->
 <main>
-
-  <app-board-admin></app-board-admin>
-
-
+  <router-outlet></router-outlet>
 </main>
 <!--/Main layout-->

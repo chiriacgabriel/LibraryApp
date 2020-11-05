@@ -86,18 +86,16 @@ public class UserRestController {
                    .equals(user.getEmail())) {
             dbUser.setEmail(user.getEmail());
         }
-        if (!dbUser.getPassword()
+        if (user.getPassword() != null && !user.getPassword().isEmpty() && !dbUser.getPassword()
                    .equals(user.getPassword())) {
             dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
         if (!user.getRoleSet().isEmpty()) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
             dbUser.setRoleSet(user.getRoleSet());
         }
 
-        System.out.println(user.getRoleSet().isEmpty());
+
         return ResponseEntity.ok(userRepository.save(dbUser));
     }
 }

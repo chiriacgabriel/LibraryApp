@@ -10,3 +10,15 @@
 .side-nav .collapsible .card {
   padding: 10px !important;
 }
+
+.side-nav .collapsible .card-body li a {
+  background-color: rgba(0,0,0,.15);
+  color: #fff;
+  display: block;
+  font-size: 1.1rem !important;
+  font-weight: 300;
+  height: 55px !important;
+  line-height: 32px;
+  padding-left: 47px;
+  padding-top: 10px;
+}
