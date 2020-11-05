@@ -1,0 +1,105 @@
+<!--Content-->
+<div class="modal-content form-elegant">
+    <!--Header-->
+    <div class="modal-header text-center">
+        <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
+            <strong>Sign in</strong>
+        </h3>
+        <button (click)="modalRef.hide()" aria-label="Close" class="close" data-dismiss="modal"
+                type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!--Body-->
+    <form #f="ngForm"
+          (ngSubmit)="f.form.valid && onSubmit()"
+          *ngIf="!isLoggedIn"
+          name="form"
+          novalidate
+    >
+        <div class="modal-body mx-4">
+            <!--Body-->
+            <div class="md-form mb-5">
+                <input [(ngModel)]="form.email" [formControl]="modalFormElegantEmail" class="form-control"
+                       id="Form-email1"
+                       mdbInput
+                       mdbValidate
+                       name="email"
+                       type="email">
+                <label for="Form-email1">Your email</label>
+                <mdb-error
+                        *ngIf="modalFormElegantEmail.invalid && (modalFormElegantEmail.dirty || modalFormElegantEmail.touched)">
+                    Incorrect email format !
+                </mdb-error>
+                <mdb-success
+                        *ngIf="modalFormElegantEmail.valid && (modalFormElegantEmail.dirty || modalFormElegantEmail.touched)">Input
+                    valid
+                </mdb-success>
+            </div>
+            <div class="md-form pb-3">
+                <input [(ngModel)]="form.password" [formControl]="modalFormElegantPassword" class="form-control"
+                       id="Form-pass1"
+                       mdbInput
+                       mdbValidate
+                       minlength="6"
+                       name="password"
+                       type="password">
+                <label for="Form-pass1">Your password</label>
+                <mdb-error
+                        *ngIf="modalFormElegantPassword.invalid && (modalFormElegantPassword.dirty || modalFormElegantPassword.touched)">
+                    Minimum length must be 6 characters !
+                </mdb-error>
+
+                <mdb-success
+                        *ngIf="modalFormElegantPassword.valid && (modalFormElegantPassword.dirty || modalFormElegantPassword.touched)">
+                    Input valid
+                </mdb-success>
+                <p class="font-small blue-text d-flex justify-content-end">Forgot
+                    <a class="blue-text ml-1" href="#"> Password?</a>
+                </p>
+            </div>
+            <div class="text-center mb-3">
+                <button block="true" class="z-depth-1a waves-light" gradient="blue" mdbBtn mdbWavesEffect
+                        rounded="true"
+                        type="submit">Sign in
+                </button>
+            </div>
+
+            <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> or Sign in
+                with:</p>
+            <div class="row my-3 d-flex justify-content-center">
+                <!--Facebook-->
+                <button class="mr-md-3 z-depth-1a waves-light" color="white" mdbBtn mdbWavesEffect rounded="true"
+                        type="button">
+                    <mdb-icon class="text-center" fab icon="facebook-f"></mdb-icon>
+                </button>
+                <!--Twitter-->
+                <button class="mr-md-3 z-depth-1a waves-light" color="white" mdbBtn mdbWavesEffect rounded="true"
+                        type="button">
+                    <mdb-icon fab icon="twitter"></mdb-icon>
+                </button>
+                <!--Google +-->
+                <button class="z-depth-1a waves-light" color="white" mdbBtn mdbWavesEffect rounded="true"
+                        type="button">
+                    <mdb-icon fab icon="google-plus"></mdb-icon>
+                </button>
+            </div>
+
+            <div *ngIf="f.submitted && isLoginFailed"
+                    class="alert alert-danger"
+                    role="alert">
+                Login failed: {{ errorMessage }}
+            </div>
+
+
+        </div>
+
+    </form>
+    <!--Footer-->
+    <div class="modal-footer mx-5 pt-3 mb-1">
+        <p class="font-small grey-text d-flex justify-content-end">Not a member?
+            <a class="blue-text ml-1" href="#"> Sign Up</a>
+        </p>
+    </div>
+</div>
+<!--/.Content-->

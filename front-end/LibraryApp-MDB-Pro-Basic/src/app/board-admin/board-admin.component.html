@@ -1,0 +1,131 @@
+<!-- Editable table -->
+<div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Users Profile</h3>
+  <div class="card-body">
+    <div class="table-editable" id="table">
+
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <tr>
+          <th class="text-center">Name</th>
+          <th class="text-center">Last Name</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Role</th>
+          <th class="text-center">Password</th>
+          <th class="text-center">Edit</th>
+          <th class="text-center">Remove</th>
+        </tr>
+        <tr *ngFor="let user of users">
+          <td>
+            <span>{{user.name}}</span>
+          </td>
+
+          <td>
+            <span>{{user.lastName}}</span>
+          </td>
+
+          <td>
+            <span>{{user.email}}</span>
+          </td>
+
+          <td>
+            <span *ngFor="let role of user.roleSet">{{role.nameOfRole}}</span>
+          </td>
+
+          <td>
+            <span class="table-remove">
+              <button class="my-0" color="default" mdbBtn rounded="true" size="sm"
+                      type="button">
+                Reset Password</button>
+            </span>
+          </td>
+
+          <td>
+            <span class="table-remove">
+              <button (click)="editUser(user,frame)" class="my-0" color="warning"
+                      mdbBtn
+                      mdbWavesEffect
+                      rounded="true" size="sm" type="button">
+                Edit</button>
+            </span>
+          </td>
+
+          <td>
+            <span class="table-remove">
+              <button class="my-0" color="danger" mdbBtn rounded="true" size="sm" type="button">
+                Remove</button>
+            </span>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Modal Edit User -->
+      <div #frame="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade top" id="frameModalTop"
+           mdbModal
+           role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-notify modal-warning" role="document">
+          <!--Content-->
+          <div class="modal-content">
+            <!--Header-->
+            <ng-container *ngIf="userForm">
+              <div class="modal-header text-center">
+                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Edit Profile</h4>
+                <button (click)="frame.hide()" aria-label="Close" class="close" data-dismiss="modal"
+                        type="button">
+                  <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+              </div>
+              <!--Body-->
+              <div class="modal-body">
+
+                <form (ngSubmit)="saveUser()" [formGroup]="userForm">
+
+                  <div class="form-group">
+                    <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                    <label class="col-sm-2 col-form-label" for="name">Name</label>
+                    <input class="form-control" formControlName="name" id="name" type="text">
+
+                  </div>
+
+                  <div class="form-group">
+                    <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                    <label class="col-sm-3 col-form-label" for="lastName">Last name</label>
+                    <input class="form-control" formControlName="lastName" id="lastName"
+                           type="text">
+                  </div>
+
+                  <div class="form-group">
+                    <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                    <label class="col-sm-2 col-form-label" for="email">Email</label>
+                    <input class="form-control" formControlName="email" id="email" type="text">
+                  </div>
+
+
+                        <div class="form-group">
+                            <mdb-icon fas icon="universal-access" class="prefix grey-text"></mdb-icon>
+                            <label for="role" class="col-sm-2 col-form-label">Role</label>
+                            <select id="role" class="form-control" formArrayName="roleSet">
+                              <option *ngFor="let roleSet of listRoles"
+                                      [ngValue]="roleSet">
+                                {{roleSet.nameOfRole}}
+                              </option>
+                            </select>
+                        </div>
+
+                  <div class="modal-footer justify-content-center">
+                    <input type="submit" value="save">
+                  </div>
+                </form>
+              </div>
+            </ng-container>
+            <!--Footer-->
+
+          </div>
+          <!--/.Content-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- Editable table -->
+

@@ -1,0 +1,132 @@
+<!--Double navigation-->
+<header>
+  <!-- Sidebar navigation -->
+  <mdb-side-nav #sidenav [fixed]="true" class="fixed stylish-color">
+
+    <mdb-navbar-brand class="img-center">
+      <!-- Logo -->
+
+      <img src="/assets/images/logo.png" style="max-height: 120px; max-width: 120px;">
+      <!--/. Logo -->
+    </mdb-navbar-brand>
+
+    <links>
+      <!-- Side navigation links -->
+      <li>
+        <ul class="collapsible collapsible-accordion">
+          <mdb-accordion [multiple]="false" aria-multiselectable="false">
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="home"></mdb-icon>
+                Home
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="calendar-check"></mdb-icon>
+                Reservations
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="address-book"></mdb-icon>
+                Authors
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="book"></mdb-icon>
+                Books
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="comments"></mdb-icon>
+                Reviews
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="comments"></mdb-icon>
+                Clients
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+            <mdb-accordion-item class="no-collase">
+              <mdb-accordion-item-head mdbWavesEffect>
+                <mdb-icon fas icon="cogs"></mdb-icon>
+                Admin panel
+              </mdb-accordion-item-head>
+              <mdb-accordion-item-body></mdb-accordion-item-body>
+            </mdb-accordion-item>
+
+          </mdb-accordion>
+        </ul>
+      </li>
+      <!--/. Side navigation links -->
+    </links>
+
+  </mdb-side-nav>
+  <!--/. Sidebar navigation -->
+
+  <!-- Navbar -->
+  <mdb-navbar
+    SideClass="navbar fixed-top navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav stylish-color text-white"
+    [containerInside]="false">
+
+    <navlinks class="navbar-container">
+      <!-- SideNav slide-out button -->
+      <div class="float-left">
+        <a (click)="sidenav.show()" class="button-collapse">
+          <mdb-icon fas icon="bars"></mdb-icon>
+        </a>
+      </div>
+      <!--/. SideNav slide-out button -->
+    </navlinks>
+
+    <navlinks>
+      <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect>
+            <mdb-icon fas icon="envelope"></mdb-icon>
+            <span class="clearfix d-none d-sm-inline-block">Contact</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect>
+            <mdb-icon far icon="comments"></mdb-icon>
+            <span (click)="logout()" class="clearfix d-none d-sm-inline-block">Logout</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link waves-light" mdbWavesEffect>
+            <mdb-icon fas icon="user"></mdb-icon>
+            <span (click)="openModalProfile()"
+                  class="clearfix d-none d-sm-inline-block">{{email}}</span></a>
+        </li>
+      </ul>
+    </navlinks>
+  </mdb-navbar>
+  <!--/. Navbar -->
+
+</header>
+<!--/.Double navigation-->
+
+<!--Main Layout-->
+<main>
+
+  <app-board-admin></app-board-admin>
+
+
+</main>
+<!--/Main layout-->
