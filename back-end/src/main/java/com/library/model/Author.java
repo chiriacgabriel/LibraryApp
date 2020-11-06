@@ -21,9 +21,23 @@ public class Author {
     @Column(name = "dateOfBirth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "nationality")
+    private String nationality;
+
+    @OneToOne(mappedBy = "author")
+    private AuthorImageUrl authorImageUrl;
+
     @Column(name = "book")
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
     private Set<Book> bookList = new HashSet<>();
+
+    public AuthorImageUrl getImageUrl() {
+        return authorImageUrl;
+    }
+
+    public void setImageUrl(AuthorImageUrl authorImageUrl) {
+        this.authorImageUrl = authorImageUrl;
+    }
 
     public int getId() {
         return id;
@@ -66,6 +80,14 @@ public class Author {
         bookList.forEach(book -> book.setAuthor(this));
     }
 
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,11 +97,14 @@ public class Author {
                 Objects.equals(name, author.name) &&
                 Objects.equals(lastName, author.lastName) &&
                 Objects.equals(dateOfBirth, author.dateOfBirth) &&
-                Objects.equals(bookList, author.bookList);
+                Objects.equals(bookList, author.bookList) &&
+                Objects.equals(authorImageUrl, author.authorImageUrl) &&
+                Objects.equals(nationality, author.nationality);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lastName, dateOfBirth, bookList);
+        return Objects.hash(id, name, lastName, dateOfBirth, bookList, authorImageUrl,
+                nationality);
     }
 }

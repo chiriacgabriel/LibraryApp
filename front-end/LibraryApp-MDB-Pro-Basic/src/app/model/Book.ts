@@ -1,4 +1,5 @@
 import {Author} from './Author';
+import {BookImageUrl} from './BookImageUrl';
 
 export class Book{
   id: string;
@@ -10,4 +11,5 @@ export class Book{
   reviewList: any;
   bookCategory: string;
   typeOkBook: string;
+  bookImageUrl: BookImageUrl;
 }

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {Role} from '../Model/Role';
+import {Role} from '../model/Role';
 import {UserService} from '../_services/user.service';
 import {RoleService} from '../_services/role.service';
-import {User} from '../Model/User';
+import {User} from '../model/User';
 import {ModalDirective} from 'ng-uikit-pro-standard';
 
 
@@ -17,7 +17,6 @@ export class UserComponent implements OnInit {
   userForm: FormGroup;
   listRoles: any;
   listRoleSelected: Role[] = [];
-
 
   constructor(private userService: UserService,
               private roleService: RoleService) {
@@ -64,22 +63,19 @@ export class UserComponent implements OnInit {
   }
 
   saveUser(modalDirective: ModalDirective): void {
-
+    modalDirective.toggle();
     const index = this.users.findIndex(user => user.id == this.userForm.value.id);
     this.users[index] = this.userForm.value;
     const id = this.users[index].id;
 
     this.userService.editUserById(id, this.users[index]).subscribe(response => {
-
+        this.ngOnInit();
       },
       error => {
         console.log(error);
       });
 
     this.listRoleSelected = [];
-    modalDirective.toggle();
-
-    this.ngOnInit();
   }
 
 
@@ -88,7 +84,7 @@ export class UserComponent implements OnInit {
     const id = this.users[index].id;
 
     this.userService.deleteUser(id).subscribe(response => {
-        console.log('This was successful');
+        this.ngOnInit();
       },
       error => {
         console.log(error);

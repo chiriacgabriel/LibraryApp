@@ -27,6 +27,7 @@ import {NotFoundComponent} from './_errors/not-found/not-found.component';
 import {UserComponent} from './user/user.component';
 import { AuthorComponent } from './_core/author/author.component';
 import { BookComponent } from './_core/book/book.component';
+import { MediaComponent } from './_core/media/media.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,8 @@ import { BookComponent } from './_core/book/book.component';
     UserComponent,
     AuthorComponent,
     BookComponent,
+    MediaComponent,
+
 
   ],
   imports: [

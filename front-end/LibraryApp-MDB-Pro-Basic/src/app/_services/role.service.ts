@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Role} from '../Model/Role';
+import {Role} from '../model/Role';
 
 const API_URL = 'http://localhost:8080/api/users/roles';
 

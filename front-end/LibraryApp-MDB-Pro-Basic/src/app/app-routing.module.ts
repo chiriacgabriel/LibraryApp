@@ -13,6 +13,7 @@ import {NotFoundComponent} from './_errors/not-found/not-found.component';
 import {UserComponent} from './user/user.component';
 import {AuthorComponent} from './_core/author/author.component';
 import {BookComponent} from './_core/book/book.component';
+import {MediaComponent} from './_core/media/media.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -34,6 +35,9 @@ const routes: Routes = [
       },
       {
         path: 'book', component: BookComponent
+      },
+      {
+        path: 'media', component: MediaComponent
       }
     ]
   },

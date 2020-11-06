@@ -1,7 +1,5 @@
 package com.library.controller;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.model.User;
 import com.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -55,7 +52,7 @@ public class UserRestController {
     }
 
     //Create
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return ResponseEntity.ok(userRepository.save(user));
     }
@@ -86,12 +83,14 @@ public class UserRestController {
                    .equals(user.getEmail())) {
             dbUser.setEmail(user.getEmail());
         }
-        if (user.getPassword() != null && !user.getPassword().isEmpty() && !dbUser.getPassword()
-                   .equals(user.getPassword())) {
+        if (user.getPassword() != null && !user.getPassword()
+                                               .isEmpty() && !dbUser.getPassword()
+                                                                    .equals(user.getPassword())) {
             dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        if (!user.getRoleSet().isEmpty()) {
+        if (!user.getRoleSet()
+                 .isEmpty()) {
             dbUser.setRoleSet(user.getRoleSet());
         }
 

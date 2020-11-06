@@ -27,6 +27,9 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
+    @OneToOne(mappedBy = "book")
+    private BookImageUrl bookImageUrl;
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
@@ -37,6 +40,15 @@ public class Book {
     @Column(name = "type_of_book")
     @Enumerated(EnumType.STRING)
     private TypeOfBook typeOfBook;
+
+
+    public BookImageUrl getBookImageUrl() {
+        return bookImageUrl;
+    }
+
+    public void setBookImageUrl(BookImageUrl bookImageUrl) {
+        this.bookImageUrl = bookImageUrl;
+    }
 
     public Set<Client> getClientSet() {
         return Collections.unmodifiableSet(clientSet);
@@ -124,6 +136,7 @@ public class Book {
                 Objects.equals(clientSet, book.clientSet) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(reservationList, book.reservationList) &&
+                Objects.equals(bookImageUrl, book.bookImageUrl) &&
                 Objects.equals(reviewList, book.reviewList) &&
                 bookCategory == book.bookCategory &&
                 typeOfBook == book.typeOfBook;
@@ -131,6 +144,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stock, title, clientSet, author, reservationList, reviewList, bookCategory, typeOfBook);
+        return Objects.hash(id, stock, title, clientSet, author, reservationList, bookImageUrl, reviewList, bookCategory, typeOfBook);
     }
 }
