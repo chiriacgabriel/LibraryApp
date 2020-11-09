@@ -28,6 +28,7 @@ import {UserComponent} from './user/user.component';
 import { AuthorComponent } from './_core/author/author.component';
 import { BookComponent } from './_core/book/book.component';
 import { MediaComponent } from './_core/media/media.component';
+import { AuthorDetailsComponent } from './_core/author-details/author-details.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MediaComponent } from './_core/media/media.component';
     AuthorComponent,
     BookComponent,
     MediaComponent,
+    AuthorDetailsComponent,
 
 
   ],

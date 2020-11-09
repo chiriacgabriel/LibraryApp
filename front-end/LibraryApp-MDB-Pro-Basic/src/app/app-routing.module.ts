@@ -14,6 +14,7 @@ import {UserComponent} from './user/user.component';
 import {AuthorComponent} from './_core/author/author.component';
 import {BookComponent} from './_core/book/book.component';
 import {MediaComponent} from './_core/media/media.component';
+import {AuthorDetailsComponent} from "./_core/author-details/author-details.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -31,7 +32,10 @@ const routes: Routes = [
         path: 'user', component: UserComponent
       },
       {
-        path: 'author', component: AuthorComponent
+        path: 'author', component: AuthorComponent,
+      },
+      {
+        path: 'author/:id', component: AuthorDetailsComponent
       },
       {
         path: 'book', component: BookComponent

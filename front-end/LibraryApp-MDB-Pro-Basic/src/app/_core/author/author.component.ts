@@ -3,6 +3,8 @@ import {AuthorService} from '../../_services/author.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthorImageUrlService} from '../../_services/author-image-url.service';
 import {ModalDirective} from 'ng-uikit-pro-standard';
+import {Author} from '../../model/Author';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-author',
@@ -17,15 +19,14 @@ export class AuthorComponent implements OnInit {
   dateForm: FormGroup;
 
   constructor(private authorService: AuthorService,
-              private authorImageUrl: AuthorImageUrlService) {
+              private authorImageUrl: AuthorImageUrlService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
     this.getAuthors();
     this.getImageUrlAuthors();
     this.formAuthor();
-
-    console.log(JSON.stringify(this.addAuthorForm.controls.authorImageUrl.value));
 
     this.dateForm = new FormGroup({
       dateBirth: new FormControl(''),
@@ -36,7 +37,6 @@ export class AuthorComponent implements OnInit {
   getAuthors() {
     this.authorService.getAllAuthors().subscribe((data: any) => {
         this.authors = data;
-        console.log(this.authors);
       },
       error => {
         this.authors = JSON.parse(error.message).message;
@@ -60,13 +60,13 @@ export class AuthorComponent implements OnInit {
       dateOfBirth: new FormControl(''),
       nationality: new FormControl(''),
       description: new FormControl(''),
+      type: new FormControl(''),
       authorImageUrl: new FormControl('')
     });
   }
 
   addAuthor(modalDirective: ModalDirective) {
     this.addAuthorForm.controls.dateOfBirth.setValue(this.dateForm.controls.dateBirth.value + ' - ' + this.dateForm.controls.deathDate.value);
-    console.log(this.addAuthorForm.controls.authorImageUrl.value);
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
         this.ngOnInit();
@@ -75,6 +75,10 @@ export class AuthorComponent implements OnInit {
         console.log(error);
       });
     modalDirective.toggle();
+  }
+
+  sendToAuthorInfo(author: Author) {
+    this.router.navigateByUrl('dashboard/author/' + author.id);
   }
 
 }

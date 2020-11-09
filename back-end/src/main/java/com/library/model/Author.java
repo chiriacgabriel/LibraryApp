@@ -27,6 +27,9 @@ public class Author {
     @Column(name = "description", length = 2000)
     private String description;
 
+    @Column(name = "type")
+    private String type;
+
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinTable(name = "author_image_url_helper" , joinColumns =
     @JoinColumn(name =
@@ -51,6 +54,14 @@ public class Author {
 
     public void setAuthorImageUrl(AuthorImageUrl authorImageUrl) {
         this.authorImageUrl = authorImageUrl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {
@@ -114,12 +125,13 @@ public class Author {
                 Objects.equals(bookList, author.bookList) &&
                 Objects.equals(authorImageUrl, author.authorImageUrl) &&
                 Objects.equals(description, author.description) &&
+                Objects.equals(type, author.type) &&
                 Objects.equals(nationality, author.nationality);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name, lastName, dateOfBirth, bookList,
-                authorImageUrl, description, nationality);
+                authorImageUrl, description, type,nationality);
     }
 }

@@ -27,8 +27,13 @@ export class AuthorService {
       dateOfBirth: author.dateOfBirth,
       nationality: author.nationality,
       description: author.description,
+      type: author.type,
       authorImageUrl: author.authorImageUrl
     }, httpOptions);
+  }
+
+  getAuthorById(id: number){
+   return this.http.get<Author>(API_URL + id);
   }
 
 }

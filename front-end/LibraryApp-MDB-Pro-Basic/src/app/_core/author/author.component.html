@@ -49,7 +49,7 @@
 
         <form (ngSubmit)="addAuthor(addAuthorFrame)" [formGroup]="addAuthorForm">
           <div class="row">
-            <div class="col-6">
+            <div class="col-4">
               <div class="form-group">
                 <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
                 <label class="col-sm-4 col-form-label" for="name">Name</label>
@@ -58,14 +58,24 @@
               </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-4">
               <div class="form-group">
                 <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                <label class="col-sm-4 col-form-label" for="lastName">Last name</label>
+                <label class="col-sm-5 col-form-label" for="lastName">Last name</label>
                 <input class="form-control" formControlName="lastName" id="lastName"
                        type="text">
               </div>
             </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                <label class="col-sm-4 col-form-label" for="type">Type</label>
+                <input class="form-control" formControlName="type" id="type"
+                       type="text" placeholder="Ex: Poet, Romancer, Novelist...">
+              </div>
+            </div>
+
           </div>
 
           <form [formGroup]="dateForm">
@@ -73,17 +83,17 @@
               <div class="col-6">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="dateOfBirth">Date of Birth</label>
+                  <label class="col-sm-4 col-form-label" for="dateOfBirth">Year of Birth</label>
                   <input class="form-control" formControlName="dateBirth" id="dateOfBirth" mdbInput
-                         type="date">
+                         type="text" maxlength="4">
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="deathDate">Death date</label>
+                  <label class="col-sm-5 col-form-label" for="deathDate">Year of Death</label>
                   <input class="form-control" formControlName="deathDate" id="deathDate"
-                         type="date">
+                         type="text" maxlength="4">
                 </div>
               </div>
             </div>
@@ -99,24 +109,23 @@
               </div>
             </div>
             <div class="col-6">
-              <div class="form-group">
-                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                <label class="col-sm-2 col-form-label" for="description">Description</label>
-                <input class="form-control" formControlName="description" id="description"
-                       type="text">
-              </div>
+              <mdb-icon class="prefix grey-text" fas icon="universal-access"></mdb-icon>
+              <label class="col-sm-6 col-form-label" for="imageUrl">Profile Image</label>
+              <select class="form-control" formControlName="authorImageUrl" id="imageUrl">
+                <option disabled hidden selected value="">Select image of author by name</option>
+                <option *ngFor="let image of imageUrlList" [ngValue]="image">
+                  {{image.title}}
+                </option>
+              </select>
             </div>
-          </div>
 
-          <div class="form-group ">
-            <mdb-icon class="prefix grey-text" fas icon="universal-access"></mdb-icon>
-            <label class="col-sm-2 col-form-label" for="imageUrl">Image</label>
-            <select class="form-control" id="imageUrl" formControlName="authorImageUrl" >
-              <option disabled hidden selected value="">Select image of author by name</option>
-              <option *ngFor="let image of imageUrlList" [ngValue]="image">
-                {{image.title}}
-              </option>
-            </select>
+
+            <div class="form-group col-12">
+              <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+              <label class="col-sm-2 col-form-label" for="description">Description</label>
+              <textarea class="form-control" formControlName="description" id="description"
+                        type="text"></textarea>
+            </div>
           </div>
 
           <div class="justify-content-center" style="display: flex">
@@ -131,25 +140,51 @@
 </div>
 <!-- End modal -->
 
-<div class="row">
-  <div *ngFor="let author of authors" class="col-md-2-custom mx-auto my-2">
-    <!--Card-->
-    <mdb-card class="text-center" id="height-card">
+<!-- Content -->
 
-      <!--Card image-->
-      <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-        <mdb-card-img src="{{author.authorImageUrl.imageUrl}}"></mdb-card-img>
-        <a>
-          <div class="mask rgba-white-slight"></div>
-        </a>
+<!--Grid row-->
+<div class="row">
+
+  <!--Grid column-->
+  <div *ngFor="let author of authors" class="col-md-3">
+
+    <mdb-card class="testimonial-card">
+      <!--Bacground color-->
+      <div class="card-up indigo lighten-1">
       </div>
-      <!--/Card image-->
+
+      <!--Avatar-->
+      <div class="avatar mx-auto">
+        <img class="rounded-circle" src="{{author.authorImageUrl.imageUrl}}">
+      </div>
+
       <mdb-card-body>
-        <h4 class="card-title">
-          <strong>{{author.authorImageUrl.title}}</strong>
-        </h4>
+        <!--Name-->
+        <mdb-card-title>
+          <h4>{{author.name}} {{author.lastName}}</h4>
+        </mdb-card-title>
+        <!--Quotation-->
+
       </mdb-card-body>
+
+      <mdb-card-footer>
+        <div class="d-flex justify-content-center">
+          <button (click)="sendToAuthorInfo(author)" color="info" mdbBtn mdbWavesEffect rounded="true" size="sm"
+                  type="button">Info
+          </button>
+          <button color="default" mdbBtn mdbWavesEffect rounded="true" size="sm" type="button">Edit
+          </button>
+          <button color="danger" mdbBtn mdbWavesEffect rounded="true" size="sm" type="button">Delete
+          </button>
+        </div>
+
+      </mdb-card-footer>
     </mdb-card>
-    <!--/.Card-->
+
   </div>
+  <!--Grid column-->
+
 </div>
+<!--Grid row-->
+
+<!-- End Content -->

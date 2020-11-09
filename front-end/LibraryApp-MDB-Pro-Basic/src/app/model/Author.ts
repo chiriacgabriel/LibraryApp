@@ -8,6 +8,7 @@ export class Author{
   dateOfBirth: string;
   nationality: string;
   description: string;
+  type: string;
   authorImageUrl: AuthorImageUrl;
   books: Book[];
 }
