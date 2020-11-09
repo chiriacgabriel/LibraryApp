@@ -27,14 +27,13 @@ public class Author {
     @Column(name = "description", length = 2000)
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinTable(name = "author_image_url_helper" , joinColumns =
     @JoinColumn(name =
             "author_id"),
     inverseJoinColumns = @JoinColumn(name = "author_image_url_id"))
     private AuthorImageUrl authorImageUrl;
 
-    @Column(name = "book")
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
     private Set<Book> bookList = new HashSet<>();
 
