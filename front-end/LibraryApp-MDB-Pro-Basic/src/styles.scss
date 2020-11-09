@@ -23,5 +23,22 @@
   padding-top: 10px;
 }
 
+//CSS Style Component for Author
+.fixed-top-author{
+  position: fixed;
+  top: 55px !important;
+  max-height: 60px;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.fas-author{
+  font-size: 25px;
+  margin-left: 10px;
+}
+
+//END
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

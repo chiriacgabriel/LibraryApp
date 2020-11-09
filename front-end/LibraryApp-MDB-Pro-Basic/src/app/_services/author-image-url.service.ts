@@ -24,7 +24,6 @@ export class AuthorImageUrlService {
     return this.http.post<AuthorImageUrl>(API_URL, {
       title: authorImageUrl.title,
       imageUrl: authorImageUrl.imageUrl,
-      author: authorImageUrl.author
     }, httpOptions);
   }
 }

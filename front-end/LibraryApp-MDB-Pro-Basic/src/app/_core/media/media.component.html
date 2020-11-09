@@ -1,18 +1,24 @@
+<!--<button (click)="frameAuthor.toggle()" color="default" mdbBtn mdbWavesEffect-->
+<!--        rounded="true"-->
+<!--        style="margin-bottom: 10px" type="button">Author Image-->
+<!--</button>-->
 
-    <button (click)="frameAuthor.toggle()" color="default" mdbBtn mdbWavesEffect
-            rounded="true"
-            style="margin-bottom: 10px" type="button">Author Image
-    </button>
+<!--<button (click)="frameBook.show()" color="default" mdbBtn mdbWavesEffect-->
+<!--        rounded="true"-->
+<!--        type="button">Book Image-->
+<!--</button>-->
 
-    <button (click)="frameBook.show()" color="default" mdbBtn mdbWavesEffect
-            rounded="true"
-            type="button">Book Image
-    </button>
+<form class="form-inline d-flex justify-content-center md-form form-sm">
+  <button (click)="frameAuthor.toggle()"  color="default" mdbBtn mdbWavesEffect rounded="true" style="margin-bottom: 10px" type="button">Add Author Image</button>
+  <button (click)="frameBook.toggle()" color="default" mdbBtn mdbWavesEffect rounded="true"
+          type="button">Book
+    Image</button>
+  <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search Image" aria-label="Search">
+  <i class="fas fa-search" aria-hidden="true"></i>
+</form>
 
-    <h5>
-      <span>{{authorImages.length}} Images with authors</span>
-    </h5>
 <!--MODALS FOR LINK-->
+<h3 class="card-header info-color white-text text-uppercase text-center">Media Authors</h3>
 <div #frameAuthor="mdbModal" aria-hidden="true" aria-labelledby="myModalLabel"
      class="modal fade top" id="frameModalAuthor"
      mdbModal
@@ -98,25 +104,27 @@
 
 
 <!--Cards TO VIEW IMAGES-->
-  <div class="row">
-    <div *ngFor="let image of authorImages" class="col-md-2-custom mx-auto my-2">
-      <!--Card-->
-      <mdb-card class="text-center" id="height-card">
 
-        <!--Card image-->
-        <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-          <mdb-card-img src="{{image.imageUrl}}"></mdb-card-img>
-          <a>
-            <div class="mask rgba-white-slight"></div>
-          </a>
-        </div>
-        <!--/Card image-->
-        <mdb-card-body>
-          <h4 class="card-title">
-            <strong>{{image.title}}</strong>
-          </h4>
-        </mdb-card-body>
-      </mdb-card>
-      <!--/.Card-->
-    </div>
+
+<div class="row">
+  <div *ngFor="let image of authorImages" class="col-md-2-custom mx-auto my-2">
+    <!--Card-->
+    <mdb-card class="text-center" id="height-card">
+
+      <!--Card image-->
+      <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+        <mdb-card-img src="{{image.imageUrl}}"></mdb-card-img>
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      <!--/Card image-->
+      <mdb-card-body>
+        <h4 class="card-title">
+          <strong>{{image.title}}</strong>
+        </h4>
+      </mdb-card-body>
+    </mdb-card>
+    <!--/.Card-->
   </div>
+</div>

@@ -3,6 +3,7 @@ package com.library.controller;
 import com.library.model.AuthorImageUrl;
 import com.library.repository.AuthorImageUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class AuthorImageUrlRestController {
 
     @GetMapping
     public ResponseEntity<List<AuthorImageUrl>> getAllImages(){
-        return ResponseEntity.ok(authorImageUrlRepository.findAll());
+        return ResponseEntity.ok(authorImageUrlRepository.findAll(Sort.by(Sort.DEFAULT_DIRECTION, "title")));
     }
 
 

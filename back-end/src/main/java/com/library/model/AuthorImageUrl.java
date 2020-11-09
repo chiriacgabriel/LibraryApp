@@ -17,18 +17,6 @@ public class AuthorImageUrl {
     @Column(name = "author_image")
     private String imageUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "author_id")
-    private Author author;
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
     public int getId() {
         return id;
     }
@@ -61,12 +49,11 @@ public class AuthorImageUrl {
         AuthorImageUrl authorImageUrl = (AuthorImageUrl) o;
         return id == authorImageUrl.id &&
                 Objects.equals(imageUrl, authorImageUrl.imageUrl) &&
-                Objects.equals(author, authorImageUrl.author) &&
                 Objects.equals(title, authorImageUrl.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, imageUrl, author, title);
+        return Objects.hash(id, imageUrl, title);
     }
 }

@@ -1,1 +1,155 @@
-<button type="button" class="btn btn-success btn-rounded">Success</button>
+<!-- Navbar Authors-->
+<mdb-navbar
+  SideClass="navbar fixed-top-author navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav grey lighten-5 navbar-dark"
+  [containerInside]="false">
+  <navlinks class="navbar-container">
+    <mdb-icon class="fas-author" fas icon="address-book"></mdb-icon>
+  </navlinks>
+  <navlinks class="navbar-container">
+    <span class="clearfix d-none d-sm-inline-block span-author">Authors</span>
+  </navlinks>
+  <navlinks>
+    <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
+      <li class="nav-item">
+        <button (click)="addAuthorFrame.show()" color="primary" mdbBtn mdbWavesEffect rounded="true"
+                size="md"
+                type="button">Add
+          Author
+        </button>
+      </li>
+    </ul>
+  </navlinks>
+
+
+</mdb-navbar>
+
+<!-- End navbar -->
+
+<!-- Modal Add new Author -->
+
+<div #addAuthorFrame="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel"
+     class="modal fade top"
+     id="frameModalTop"
+     mdbModal
+     role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-notify modal-warning" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h4 class="modal-title white-text w-100 font-weight-bold py-2">Add Author</h4>
+        <button (click)="addAuthorFrame.hide()" aria-label="Close" class="close"
+                data-dismiss="modal"
+                type="button">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+
+        <form (ngSubmit)="addAuthor(addAuthorFrame)" [formGroup]="addAuthorForm">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                <label class="col-sm-4 col-form-label" for="name">Name</label>
+                <input class="form-control" formControlName="name" id="name" type="text">
+
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                <label class="col-sm-4 col-form-label" for="lastName">Last name</label>
+                <input class="form-control" formControlName="lastName" id="lastName"
+                       type="text">
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="dateForm">
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                  <label class="col-sm-4 col-form-label" for="dateOfBirth">Date of Birth</label>
+                  <input class="form-control" formControlName="dateBirth" id="dateOfBirth" mdbInput
+                         type="date">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                  <label class="col-sm-4 col-form-label" for="deathDate">Death date</label>
+                  <input class="form-control" formControlName="deathDate" id="deathDate"
+                         type="date">
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                <label class="col-sm-2 col-form-label" for="nationality">Nationality</label>
+                <input class="form-control" formControlName="nationality" id="nationality"
+                       type="text">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                <label class="col-sm-2 col-form-label" for="description">Description</label>
+                <input class="form-control" formControlName="description" id="description"
+                       type="text">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group ">
+            <mdb-icon class="prefix grey-text" fas icon="universal-access"></mdb-icon>
+            <label class="col-sm-2 col-form-label" for="imageUrl">Image</label>
+            <select class="form-control" id="imageUrl" formControlName="authorImageUrl" >
+              <option disabled hidden selected value="">Select image of author by name</option>
+              <option *ngFor="let image of imageUrlList">
+                {{image.title}}
+              </option>
+            </select>
+          </div>
+
+          <div class="justify-content-center" style="display: flex">
+            <button color="warning" mdbBtn mdbWavesEffect
+                    rounded="true" type="submit">Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End modal -->
+
+<div class="row">
+  <div *ngFor="let author of authors" class="col-md-2-custom mx-auto my-2">
+    <!--Card-->
+    <mdb-card class="text-center" id="height-card">
+
+      <!--Card image-->
+      <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+        <mdb-card-img src="{{author.authorImageUrl.imageUrl}}"></mdb-card-img>
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      <!--/Card image-->
+      <mdb-card-body>
+        <h4 class="card-title">
+          <strong>{{author.authorImageUrl.title}}</strong>
+        </h4>
+      </mdb-card-body>
+    </mdb-card>
+    <!--/.Card-->
+  </div>
+</div>
