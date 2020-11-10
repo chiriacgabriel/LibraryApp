@@ -65,6 +65,8 @@ public class AuthorRestController {
         dbAuthor.setDateOfBirth(author.getDateOfBirth());
         dbAuthor.setNationality(author.getNationality());
         dbAuthor.setType(author.getType());
+        dbAuthor.setAuthorImageUrl(author.getAuthorImageUrl());
+        dbAuthor.setDescription(author.getDescription());
         dbAuthor.setBookList(author.getBookList());
 
         return ResponseEntity.ok(authorRepository.save(dbAuthor));

@@ -3,16 +3,94 @@
   font-family: 'Font Awesome 5 Pro', 'Font Awesome 5 Free';
   font-size: 25px;
 }
-
-.modal-dialog{
+.modal-dialog {
   max-width: 800px;
 }
-
-mdb-card{
+mdb-card {
   margin-top: 50px;
 }
-
-.col-md-3{
+.col-md-3 {
   flex: 0 0 24%;
   max-width: 20%;
 }
+//Design for card Author
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700");
+body {
+  font-family: Roboto, sans-serif;
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%);
+}
+.card {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.5);
+  min-width: 360px;
+  display: flex;
+  flex-direction: row;
+  border-radius: 25px;
+  position: relative;
+  margin: 2px;
+}
+.card h2 {
+  margin: 0;
+  padding: 0 1rem;
+}
+.card .title {
+  padding: 0.5rem;
+  text-align: right;
+  color: #0d47a1;
+  font-weight: bold;
+  font-size: 12px;
+}
+.card .desc {
+  padding: 0.5rem 1rem;
+  font-size: 12px;
+}
+.card .actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.card-text {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+.title-total {
+  padding: 2.5em 1.5em 1.5em 1.5em;
+}
+path {
+  fill: white;
+}
+.img-portada {
+  width: 100%;
+}
+.portada {
+  width: 120%;
+  height: 100%;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-position: bottom center;
+  background-size: cover;
+}
+.button-newCard {
+  border: none;
+  background: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition:.5s;
+  &:hover{
+    color: #4CAF50  ;
+    transform: rotate(22deg)
+  }
+}
+.col-md-2-custom {
+  flex: 0 0 24.6666666667%;
+  max-width: 24.6666666667%;
+}
+// End Design For Card Authors

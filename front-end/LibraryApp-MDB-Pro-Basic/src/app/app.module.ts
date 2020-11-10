@@ -13,9 +13,6 @@ import {
   StickyHeaderModule,
   ToastModule
 } from 'ng-uikit-pro-standard';
-import {BoardAdminComponent} from './board-admin/board-admin.component';
-import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
-import {BoardUserComponent} from './board-user/board-user.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {ProfileComponent} from './profile/profile.component';
@@ -29,13 +26,11 @@ import { AuthorComponent } from './_core/author/author.component';
 import { BookComponent } from './_core/book/book.component';
 import { MediaComponent } from './_core/media/media.component';
 import { AuthorDetailsComponent } from './_core/author-details/author-details.component';
+import { StatsCardComponent } from './dashboard/stats-card/stats-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BoardAdminComponent,
-    BoardModeratorComponent,
-    BoardUserComponent,
     HomeComponent,
     LoginComponent,
     ProfileComponent,
@@ -47,6 +42,7 @@ import { AuthorDetailsComponent } from './_core/author-details/author-details.co
     BookComponent,
     MediaComponent,
     AuthorDetailsComponent,
+    StatsCardComponent,
 
 
   ],

@@ -16,7 +16,9 @@ export class AuthorComponent implements OnInit {
   authors = [];
   imageUrlList = [];
   addAuthorForm: FormGroup;
+  editAuthorForm: FormGroup;
   dateForm: FormGroup;
+  stringDescription: string[] = [];
 
   constructor(private authorService: AuthorService,
               private authorImageUrl: AuthorImageUrlService,
@@ -41,7 +43,6 @@ export class AuthorComponent implements OnInit {
       error => {
         this.authors = JSON.parse(error.message).message;
       });
-
   }
 
   getImageUrlAuthors() {
@@ -65,7 +66,24 @@ export class AuthorComponent implements OnInit {
     });
   }
 
+  editFormAuthor(author: Author, modalDirective: ModalDirective) {
+    modalDirective.toggle();
+
+    this.editAuthorForm = new FormGroup({
+      id: new FormControl(author.id),
+      name: new FormControl(author.name),
+      lastName: new FormControl(author.lastName),
+      dateOfBirth: new FormControl(author.dateOfBirth),
+      nationality: new FormControl(author.nationality),
+      description: new FormControl(author.description),
+      type: new FormControl(author.type),
+      bookList: new FormControl(author.bookList),
+      authorImageUrl: new FormControl(author.authorImageUrl)
+    });
+  }
+
   addAuthor(modalDirective: ModalDirective) {
+    // tslint:disable-next-line:max-line-length
     this.addAuthorForm.controls.dateOfBirth.setValue(this.dateForm.controls.dateBirth.value + ' - ' + this.dateForm.controls.deathDate.value);
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
@@ -77,8 +95,43 @@ export class AuthorComponent implements OnInit {
     modalDirective.toggle();
   }
 
+
+  updateAuthor(modalDirective: ModalDirective): void {
+    modalDirective.toggle();
+    const index = this.authors.findIndex(author => author.id == this.editAuthorForm.value.id);
+    this.authors[index] = this.editAuthorForm.value;
+    const id = this.authors[index].id;
+
+    this.authorService.editAuthorById(id, this.authors[index]).subscribe(response => {
+      this.ngOnInit();
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  deleteAuthor(author: Author) {
+    const index = this.authors.findIndex(obj => obj.id = author.id);
+    const id = this.authors[index].id;
+
+    this.authorService.deleteAuthorById(id).subscribe(response => {
+        this.ngOnInit();
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
   sendToAuthorInfo(author: Author) {
     this.router.navigateByUrl('dashboard/author/' + author.id);
   }
 
+
+   // splitDescription(author: Author){
+   //  let initialDescript = this.authors.findIndex(obj => obj.description = author.description);
+   //
+   //  this.stringDescription = initialDescript.toString().split(' ');
+   //
+   //  console.log(this.stringDescription.length);
+   //
+   // }
 }

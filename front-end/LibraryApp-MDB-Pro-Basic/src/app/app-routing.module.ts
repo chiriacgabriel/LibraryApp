@@ -5,16 +5,14 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {ProfileComponent} from './profile/profile.component';
-import {BoardUserComponent} from './board-user/board-user.component';
-import {BoardModeratorComponent} from './board-moderator/board-moderator.component';
-import {BoardAdminComponent} from './board-admin/board-admin.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NotFoundComponent} from './_errors/not-found/not-found.component';
 import {UserComponent} from './user/user.component';
 import {AuthorComponent} from './_core/author/author.component';
 import {BookComponent} from './_core/book/book.component';
 import {MediaComponent} from './_core/media/media.component';
-import {AuthorDetailsComponent} from "./_core/author-details/author-details.component";
+import {AuthorDetailsComponent} from './_core/author-details/author-details.component';
+import {StatsCardComponent} from './dashboard/stats-card/stats-card.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -22,9 +20,6 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent},
-  {path: 'user-board', component: BoardUserComponent},
-  {path: 'mod-board', component: BoardModeratorComponent},
-  {path: 'admin', component: BoardAdminComponent},
   {
     path: 'dashboard', component: DashboardComponent,
     children: [
@@ -42,6 +37,9 @@ const routes: Routes = [
       },
       {
         path: 'media', component: MediaComponent
+      },
+      {
+        path: '', component: StatsCardComponent
       }
     ]
   },

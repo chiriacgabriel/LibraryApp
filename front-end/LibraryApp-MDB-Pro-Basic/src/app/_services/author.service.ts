@@ -20,7 +20,7 @@ export class AuthorService {
     return this.http.get<Author>(API_URL);
   }
 
-  addAuthor(author: Author): Observable<Author>{
+  addAuthor(author: Author): Observable<Author> {
     return this.http.post<Author>(API_URL, {
       name: author.name,
       lastName: author.lastName,
@@ -32,8 +32,24 @@ export class AuthorService {
     }, httpOptions);
   }
 
-  getAuthorById(id: number){
-   return this.http.get<Author>(API_URL + id);
+  editAuthorById(id: number, author): Observable<Author> {
+    return this.http.put<Author>(API_URL + id, {
+      name: author.name,
+      lastName: author.lastName,
+      dateOfBirth: author.dateOfBirth,
+      nationality: author.nationality,
+      description: author.description,
+      type: author.type,
+      bookList: author.bookList,
+      authorImageUrl: author.authorImageUrl
+    }, httpOptions);
   }
 
+  getAuthorById(id: number) {
+    return this.http.get<Author>(API_URL + id);
+  }
+
+  deleteAuthorById(id: number): Observable<Author> {
+    return this.http.delete<Author>(API_URL + id);
+  }
 }

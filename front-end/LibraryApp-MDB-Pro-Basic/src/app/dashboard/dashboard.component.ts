@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from '../_services/token-storage.service';
 import {MDBModalRef, MDBModalService} from 'ng-uikit-pro-standard';
 import {ProfileComponent} from '../profile/profile.component';
+import {AuthorService} from '../_services/author.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -20,7 +21,8 @@ export class DashboardComponent implements OnInit {
     modalRefProfile: MDBModalRef;
 
     constructor(private tokenStorageService: TokenStorageService,
-                private modalService: MDBModalService) {
+                private modalService: MDBModalService,
+                private authorService: AuthorService) {
     }
 
     ngOnInit(): void {
@@ -45,4 +47,5 @@ export class DashboardComponent implements OnInit {
     openModalProfile() {
         this.modalRefProfile = this.modalService.show(ProfileComponent);
     }
+
 }

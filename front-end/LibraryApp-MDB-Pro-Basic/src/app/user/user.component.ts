@@ -31,13 +31,11 @@ export class UserComponent implements OnInit {
   getAllUsers() {
     this.userService.getUsers().subscribe((data: any[]) => {
         this.users = data;
-
       },
       err => {
         this.users = JSON.parse(err.error).message;
       }
     );
-
   }
 
   getAllRole() {
