@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {BookImageUrlService} from '../../_services/book-image-url.service';
 
 @Component({
   selector: 'app-book',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookComponent implements OnInit {
 
-  constructor() { }
+  bookImages = [];
+
+  constructor(private bookImageUrlService: BookImageUrlService) { }
 
   ngOnInit(): void {
+    this.getAllBookImages();
   }
 
+  getAllBookImages(){
+    this.bookImageUrlService.getAllImageBook().subscribe((data: any) => {
+        this.bookImages = data;
+      },
+      err =>
+        this.bookImages = JSON.parse(err.message).message
+    );
+  }
 }

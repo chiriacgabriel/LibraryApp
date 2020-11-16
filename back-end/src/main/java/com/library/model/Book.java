@@ -1,5 +1,7 @@
 package com.library.model;
 
+import com.library.model.enums.EnumFictional;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -37,14 +39,17 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
-    @Column(name = "book_category")
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "book_category_id")
     private BookCategory bookCategory;
 
-    @Column(name = "type_of_book")
-    @Enumerated(EnumType.STRING)
-    private TypeOfBook typeOfBook;
+    @ManyToOne
+    @JoinColumn(name = "fictional_id")
+    private Fictional fictional;
 
+    @ManyToOne
+    @JoinColumn(name = "nonfictiona_id")
+    private Nonfictional nonfictional;
 
     public BookImageUrl getBookImageUrl() {
         return bookImageUrl;
@@ -121,16 +126,25 @@ public class Book {
         this.bookCategory = bookCategory;
     }
 
-    public TypeOfBook getTypeOfBook() {
-        return typeOfBook;
+    public Fictional getFictional() {
+        return fictional;
     }
 
-    public void setTypeOfBook(TypeOfBook typeOfBook) {
-        this.typeOfBook = typeOfBook;
+    public void setFictional(Fictional fictional) {
+        this.fictional = fictional;
+    }
+
+    public Nonfictional getNonfictional() {
+        return nonfictional;
+    }
+
+    public void setNonfictional(Nonfictional nonfictional) {
+        this.nonfictional = nonfictional;
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
@@ -140,16 +154,15 @@ public class Book {
                 Objects.equals(clientSet, book.clientSet) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(reservationList, book.reservationList) &&
-                Objects.equals(reviewList, book.reviewList) &&
                 Objects.equals(bookImageUrl, book.bookImageUrl) &&
-                bookCategory == book.bookCategory &&
-                typeOfBook == book.typeOfBook;
+                Objects.equals(reviewList, book.reviewList) &&
+                Objects.equals(bookCategory, book.bookCategory) &&
+                Objects.equals(fictional, book.fictional) &&
+                Objects.equals(nonfictional, book.nonfictional);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stock, title, clientSet, author,
-                reservationList, reviewList, bookImageUrl, bookCategory,
-                typeOfBook);
+        return Objects.hash(id, stock, title, clientSet, author, reservationList, bookImageUrl, reviewList, bookCategory, fictional, nonfictional);
     }
 }

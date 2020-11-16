@@ -62,12 +62,11 @@ public class BookRestController {
 
         dbBook.setAuthor(book.getAuthor());
         dbBook.setTitle(book.getTitle());
-        dbBook.setTypeOfBook(book.getTypeOfBook());
         dbBook.setStock(book.getStock());
-        dbBook.setBookCategory(book.getBookCategory());
         dbBook.setClientSet(book.getClientSet());
         dbBook.setReservationList(book.getReservationList());
         dbBook.setReviewList(book.getReviewList());
+        dbBook.setBookImageUrl(book.getBookImageUrl());
 
         return ResponseEntity.ok(bookRepository.save(dbBook));
 

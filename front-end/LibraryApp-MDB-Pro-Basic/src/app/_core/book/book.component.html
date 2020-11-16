@@ -1,1 +1,50 @@
-<p>book works!</p>
+<!-- Navbar Authors-->
+<mdb-navbar
+  SideClass="navbar fixed-top-author navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav grey lighten-5 navbar-dark"
+  [containerInside]="false">
+  <navlinks class="navbar-container">
+    <mdb-icon class="fas-author" fas icon="address-book"></mdb-icon>
+  </navlinks>
+  <navlinks class="navbar-container">
+    <span class="clearfix d-none d-sm-inline-block span-author">Books</span>
+  </navlinks>
+  <navlinks>
+    <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
+      <li class="nav-item">
+        <button color="primary" mdbBtn mdbWavesEffect rounded="true"
+                size="md"
+                type="button">Add Book
+        </button>
+      </li>
+    </ul>
+  </navlinks>
+</mdb-navbar>
+<!-- End navbar -->
+
+<!--Content-->
+
+<div class="row" style="margin-top: 50px">
+  <div class="col-md-2-custom" *ngFor="let bookImage of bookImages">
+
+    <div class="container-custom" style="background-image: url({{bookImage.imageUrl}})">
+      <div class="overlay">
+        <div class="items"></div>
+        <div class="items head">
+          <p>Flower Embroidery Hoop Art</p>
+          <hr>
+        </div>
+        <div class="items price">
+          <p class="old">$699</p>
+          <p class="new">$345</p>
+        </div>
+        <div class="items cart">
+          <i class="fa fa-shopping-cart"></i>
+          <span>ADD TO CART</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!--End Content-->

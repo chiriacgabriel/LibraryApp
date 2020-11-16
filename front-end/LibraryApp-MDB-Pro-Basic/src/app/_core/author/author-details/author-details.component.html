@@ -11,11 +11,11 @@
   <navlinks>
     <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
       <li class="nav-item">
-        <button  color="primary" mdbBtn mdbWavesEffect rounded="true"
-                size="md"
-                type="button">Add
-          Author
-        </button>
+        <a mdbBtn type="button" floating="true" size="sm" color="default"
+           class="waves-light" mdbWavesEffect
+           [routerLink]="['/dashboard/author']">
+          <mdb-icon fas icon="arrow-left"></mdb-icon>
+        </a>
       </li>
     </ul>
   </navlinks>

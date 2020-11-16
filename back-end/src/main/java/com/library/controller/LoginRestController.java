@@ -1,9 +1,9 @@
 package com.library.controller;
 
 import com.library.config.security.jwt.JwtUtils;
-import com.library.model.EnumRole;
 import com.library.model.Role;
 import com.library.model.User;
+import com.library.model.enums.EnumRole;
 import com.library.payload.request.LoginRequest;
 import com.library.payload.request.SignupRequest;
 import com.library.payload.response.JwtResponse;

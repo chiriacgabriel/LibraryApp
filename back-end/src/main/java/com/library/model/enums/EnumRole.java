@@ -1,4 +1,4 @@
-package com.library.model;
+package com.library.model.enums;
 
 public enum EnumRole {
     ROLE_USER("User"),
