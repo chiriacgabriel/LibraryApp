@@ -27,7 +27,11 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<Reservation> reservationList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "book")
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinTable(name = "book_image_url_helper" , joinColumns =
+    @JoinColumn(name =
+            "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_image_url_id"))
     private BookImageUrl bookImageUrl;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
@@ -136,14 +140,16 @@ public class Book {
                 Objects.equals(clientSet, book.clientSet) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(reservationList, book.reservationList) &&
-                Objects.equals(bookImageUrl, book.bookImageUrl) &&
                 Objects.equals(reviewList, book.reviewList) &&
+                Objects.equals(bookImageUrl, book.bookImageUrl) &&
                 bookCategory == book.bookCategory &&
                 typeOfBook == book.typeOfBook;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stock, title, clientSet, author, reservationList, bookImageUrl, reviewList, bookCategory, typeOfBook);
+        return Objects.hash(id, stock, title, clientSet, author,
+                reservationList, reviewList, bookImageUrl, bookCategory,
+                typeOfBook);
     }
 }

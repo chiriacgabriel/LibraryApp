@@ -17,10 +17,6 @@ public class BookImageUrl {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "book_id")
-    private Book book;
-
     public int getId() {
         return id;
     }
@@ -45,13 +41,6 @@ public class BookImageUrl {
         this.imageUrl = imageUrl;
     }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,12 +49,11 @@ public class BookImageUrl {
         BookImageUrl that = (BookImageUrl) o;
         return id == that.id &&
                 Objects.equals(title, that.title) &&
-                Objects.equals(imageUrl, that.imageUrl) &&
-                Objects.equals(book, that.book);
+                Objects.equals(imageUrl, that.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, imageUrl, book);
+        return Objects.hash(id, title, imageUrl);
     }
 }

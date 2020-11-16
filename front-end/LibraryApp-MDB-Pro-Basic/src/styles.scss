@@ -43,3 +43,13 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+//Alert
+#toast-container > mdb-toast-component {
+  opacity: .8 !important;
+}
+
+.md-toast-top-right{
+  top: 72px !important;
+}

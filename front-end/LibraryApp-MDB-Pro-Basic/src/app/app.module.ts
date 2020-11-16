@@ -25,7 +25,7 @@ import {UserComponent} from './user/user.component';
 import { AuthorComponent } from './_core/author/author.component';
 import { BookComponent } from './_core/book/book.component';
 import { MediaComponent } from './_core/media/media.component';
-import { AuthorDetailsComponent } from './_core/author-details/author-details.component';
+import { AuthorDetailsComponent } from './_core/author/author-details/author-details.component';
 import { StatsCardComponent } from './dashboard/stats-card/stats-card.component';
 
 @NgModule({

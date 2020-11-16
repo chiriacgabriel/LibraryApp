@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthorImageUrlService} from '../../_services/author-image-url.service';
-import {ModalDirective} from 'ng-uikit-pro-standard';
+import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
 import {FormControl, FormGroup} from '@angular/forms';
+import {AuthorImageUrl} from '../../model/AuthorImageUrl';
+import {BookImageUrlService} from '../../_services/book-image-url.service';
+import {BookImageUrl} from "../../model/BookImageUrl";
 
 @Component({
   selector: 'app-media',
@@ -12,13 +15,25 @@ export class MediaComponent implements OnInit {
 
   authorImages = [];
   authorImageForm: FormGroup;
+  errorMessageAuthor = '';
+  isAuthorTitlePresent = false;
 
-  constructor(private authorImageUrlService: AuthorImageUrlService) {
+  bookImages = [];
+  bookImageForm: FormGroup;
+  errorMessageBook = '';
+  isBookTitlePresent = false;
+
+  constructor(private authorImageUrlService: AuthorImageUrlService,
+              private bookImageUrlService: BookImageUrlService,
+              private toast: ToastService) {
   }
 
   ngOnInit(): void {
     this.getAllAuthorImages();
     this.authorForm();
+
+    this.bookForm();
+    this.getAllBookImages();
 
   }
 
@@ -27,6 +42,10 @@ export class MediaComponent implements OnInit {
       title: new FormControl(''),
       imageUrl: new FormControl('')
     });
+  }
+
+  get authorTitle() {
+    return this.authorImageForm.get('title');
   }
 
   getAllAuthorImages() {
@@ -41,14 +60,77 @@ export class MediaComponent implements OnInit {
 
   addAuthorImage(modalDirective: ModalDirective) {
     this.authorImageUrlService.createImageUrl(this.authorImageForm.value).subscribe(response => {
-
         this.ngOnInit();
+        modalDirective.toggle();
+        this.alertShowSuccess();
+        this.isAuthorTitlePresent = false;
       },
-      error => {
+      err => {
+        this.errorMessageAuthor = err.error.message;
+        this.isAuthorTitlePresent = true;
+      });
+  }
+
+  deleteAuthorImageById(authorImageUrl: AuthorImageUrl) {
+    if (window.confirm('Are you sure you want to delete this image ?')) {
+      this.authorImageUrlService.deleteImageById(authorImageUrl.id).subscribe(response => {
+          this.ngOnInit();
+        },
+        error => {
+          console.log(error);
+        }
+      );
+      this.alertShowWarning();
+    }
+  }
+
+  bookForm() {
+    this.bookImageForm = new FormGroup({
+      title: new FormControl(''),
+      imageUrl: new FormControl('')
+    });
+  }
+
+  getAllBookImages(){
+    this.bookImageUrlService.getAllImageBook().subscribe((data: any) => {
+      this.bookImages = data;
+    },
+      err =>
+    this.bookImages = JSON.parse(err.message).message
+    );
+  }
+
+  addBookImage(modalDirective: ModalDirective){
+    this.bookImageUrlService.addBookImageUrl(this.bookImageForm.value).subscribe(response => {
+      this.ngOnInit();
+      modalDirective.toggle();
+      this.alertShowSuccess();
+      this.isBookTitlePresent = false;
+    },
+      err =>{
+      this.errorMessageBook = err.error.message;
+      this.isBookTitlePresent = true;
+      });
+  }
+
+  deleteBookImageById(bookImageUrl: BookImageUrl){
+    if (window.confirm('Are you sure you want to delete this image ?')){
+      this.bookImageUrlService.deleteBookImageById(bookImageUrl.id).subscribe(response => {
+        this.ngOnInit();
+      }, error => {
         console.log(error);
       });
+      this.alertShowWarning();
+    }
+  }
 
+  alertShowSuccess() {
+    const options = {extendedTimeOut: 4500};
+    this.toast.success('Action performed successfully', '', options);
+  }
 
-    modalDirective.toggle();
+  alertShowWarning() {
+    const options = {extendedTimeOut: 4500};
+    this.toast.warning('Delete was successful', '', options);
   }
 }

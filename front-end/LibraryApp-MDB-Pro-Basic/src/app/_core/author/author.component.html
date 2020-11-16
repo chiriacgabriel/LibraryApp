@@ -115,7 +115,6 @@
               </select>
             </div>
 
-
             <div class="form-group col-12">
               <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
               <label class="col-sm-2 col-form-label" for="description">Description</label>
@@ -126,7 +125,7 @@
 
           <div class="justify-content-center" style="display: flex">
             <button color="warning" mdbBtn mdbWavesEffect
-                    rounded="true" type="submit">Save
+                    rounded="true" type="submit" (click)="alertShowSuccess()">Save
             </button>
           </div>
         </form>
@@ -136,17 +135,121 @@
 </div>
 <!-- End modal -->
 
+<!-- Edit Author Modal -->
+<div #frameEditAuthor="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel"
+     class="modal fade top"
+     id="frameEditAuthor"
+     mdbModal
+     role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <ng-container *ngIf="editAuthorForm">
+        <!--Header-->
+        <div class="modal-header text-center">
+          <h3 class="modal-title w-100 font-weight-bold">Update Author</h3>
+          <button (click)="frameEditAuthor.hide()" aria-label="Close" class="close"
+                  data-dismiss="modal"
+                  type="button">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body">
+
+          <form (ngSubmit)="updateAuthor(frameEditAuthor)" [formGroup]="editAuthorForm">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                  <label class="col-sm-4 col-form-label" for="nameEdit">Name</label>
+                  <input class="form-control" formControlName="name" id="nameEdit" type="text" mdbCharCounter mdbInput>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                  <label class="col-sm-5 col-form-label" for="lastNameEdit">Last name</label>
+                  <input class="form-control" formControlName="lastName" id="lastNameEdit"
+                         type="text" mdbCharCounter mdbInput>
+                </div>
+              </div>
+
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" fas icon="signature"></mdb-icon>
+                  <label class="col-sm-4 col-form-label" for="typeEdit">Type</label>
+                  <input class="form-control" formControlName="type" id="typeEdit"
+                         placeholder="Ex: Poet, Romancer, Novelist..." type="text" mdbCharCounter mdbInput>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" far icon="far fa-calendar-alt"></mdb-icon>
+                  <label class="col-sm-4 col-form-label" for="dateOfBirthEdit">Years</label>
+                  <input class="form-control" formControlName="dateOfBirth" id="dateOfBirthEdit"
+                         maxlength="11" length="11"
+                         mdbInput type="text" mdbCharCounter>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <mdb-icon class="prefix grey-text" fas icon="fas fa-flag"></mdb-icon>
+                  <label class="col-sm-2 col-form-label" for="nationalityEdit">Nationality</label>
+                  <input class="form-control" formControlName="nationality" id="nationalityEdit"
+                         type="text" mdbCharCounter mdbInput>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <mdb-icon class="prefix grey-text" fas icon="universal-access"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="imageUrlEdit">Profile Image</label>
+                <select class="form-control" formControlName="authorImageUrl" id="imageUrlEdit">
+                  <option *ngFor="let image of imageUrlList" [ngValue]="image">
+                    {{image.title}}
+                  </option>
+
+                </select>
+              </div>
+
+              <div class="form-group col-12">
+                <mdb-icon class="prefix grey-text" far icon="far fa-comment-alt"></mdb-icon>
+                <label class="col-sm-2 col-form-label" for="descriptionEdit">Description</label>
+                <textarea class="form-control" formControlName="description" id="descriptionEdit"
+                          type="text" length="2000" mdbCharCounter></textarea>
+              </div>
+            </div>
+
+            <div class="justify-content-center" style="display: flex">
+              <button color="amber" outline="true" mdbBtn mdbWavesEffect
+                      rounded="true" type="submit" (click)="alertShowSuccess()">Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<!-- End Edit Author -->
+
 <!-- Content -->
-<div class="row">
-  <div *ngFor="let author of authors" class="card col-md-2-custom my-5">
+<div class="row my-5">
+  <div *ngFor="let author of authors" class="card col-md-2-custom my-2">
     <div class="card-text">
       <div class="portada" style="background-image: url({{author.authorImageUrl.imageUrl}})">
       </div>
       <div class="title-total">
         <div class="title">{{author.type}}</div>
         <h2>{{author.name}} {{author.lastName}}</h2>
-        <div class="desc">Morgan has collected ants since they were six years old and now has many
-          dozen ants but none in their pants.
+        <div class="desc">{{author.description}}
         </div>
         <div class="actions">
           <button (click)="sendToAuthorInfo(author)" class="button-newCard"
@@ -163,109 +266,3 @@
   </div>
 </div>
 <!-- End Content -->
-
-<!-- Edit Author Modal -->
-<div #frameEditAuthor="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel"
-     class="modal fade top"
-     id="frameEditAuthor"
-     mdbModal
-     role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-notify modal-warning" role="document">
-    <!--Content-->
-    <div class="modal-content">
-      <ng-container *ngIf="editAuthorForm">
-        <!--Header-->
-        <div class="modal-header text-center">
-          <h4 class="modal-title white-text w-100 font-weight-bold py-2">Update Author</h4>
-          <button (click)="frameEditAuthor.hide()" aria-label="Close" class="close"
-                  data-dismiss="modal"
-                  type="button">
-            <span aria-hidden="true" class="white-text">&times;</span>
-          </button>
-        </div>
-        <!--Body-->
-        <div class="modal-body">
-
-          <form (ngSubmit)="updateAuthor(frameEditAuthor)" [formGroup]="editAuthorForm">
-            <div class="row">
-              <div class="col-4">
-                <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="nameEdit">Name</label>
-                  <input class="form-control" formControlName="name" id="nameEdit" type="text">
-                </div>
-              </div>
-
-              <div class="col-4">
-                <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                  <label class="col-sm-5 col-form-label" for="lastNameEdit">Last name</label>
-                  <input class="form-control" formControlName="lastName" id="lastNameEdit"
-                         type="text">
-                </div>
-              </div>
-
-              <div class="col-4">
-                <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="typeEdit">Type</label>
-                  <input class="form-control" formControlName="type" id="typeEdit"
-                         placeholder="Ex: Poet, Romancer, Novelist..." type="text">
-                </div>
-              </div>
-
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="dateOfBirthEdit">Years</label>
-                  <input class="form-control" formControlName="dateOfBirth" id="dateOfBirthEdit"
-                         maxlength="11"
-                         mdbInput type="text">
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-2 col-form-label" for="nationalityEdit">Nationality</label>
-                  <input class="form-control" formControlName="nationality" id="nationalityEdit"
-                         type="text">
-                </div>
-              </div>
-              <div class="col-6">
-                <mdb-icon class="prefix grey-text" fas icon="universal-access"></mdb-icon>
-                <label class="col-sm-6 col-form-label" for="imageUrlEdit">Profile Image</label>
-                <select class="form-control" formControlName="authorImageUrl" id="imageUrlEdit">
-                  <option *ngFor="let image of imageUrlList" [ngValue]="image">
-                    {{image.title}}
-                  </option>
-
-                </select>
-              </div>
-
-
-              <div class="form-group col-12">
-                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                <label class="col-sm-2 col-form-label" for="descriptionEdit">Description</label>
-                <textarea class="form-control" formControlName="description" id="descriptionEdit"
-                          type="text"></textarea>
-              </div>
-            </div>
-
-            <div class="justify-content-center" style="display: flex">
-              <button color="warning" mdbBtn mdbWavesEffect
-                      rounded="true" type="submit">Save
-              </button>
-            </div>
-          </form>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</div>
-<!-- End Edit Author -->

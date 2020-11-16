@@ -49,6 +49,8 @@ body {
 .card .desc {
   padding: 0.5rem 1rem;
   font-size: 12px;
+  overflow: hidden;
+  height:  130px;
 }
 .card .actions {
   display: grid;

@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import com.library.model.User;
+import com.library.payload.response.MessageResponse;
 import com.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +60,7 @@ public class UserRestController {
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUser(@PathVariable int id,
+    public ResponseEntity<?> editUser(@PathVariable int id,
                                          @RequestBody User user) {
         Optional<User> optionalUser = userRepository.findById(id);
 
@@ -86,7 +87,13 @@ public class UserRestController {
         if (user.getPassword() != null && !user.getPassword()
                                                .isEmpty() && !dbUser.getPassword()
                                                                     .equals(user.getPassword())) {
-            dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            if (user.getPassword()
+                    .length() >= 6) {
+                dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            }else {
+                return ResponseEntity.badRequest().body(new MessageResponse(
+                        "Password must be at least 6 characters long"));
+            }
         }
 
         if (!user.getRoleSet()

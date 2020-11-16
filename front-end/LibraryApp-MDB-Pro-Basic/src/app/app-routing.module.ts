@@ -11,7 +11,7 @@ import {UserComponent} from './user/user.component';
 import {AuthorComponent} from './_core/author/author.component';
 import {BookComponent} from './_core/book/book.component';
 import {MediaComponent} from './_core/media/media.component';
-import {AuthorDetailsComponent} from './_core/author-details/author-details.component';
+import {AuthorDetailsComponent} from './_core/author/author-details/author-details.component';
 import {StatsCardComponent} from './dashboard/stats-card/stats-card.component';
 
 const routes: Routes = [
@@ -20,8 +20,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent},
-  {
-    path: 'dashboard', component: DashboardComponent,
+  {path: 'dashboard', component: DashboardComponent,
     children: [
       {
         path: 'user', component: UserComponent

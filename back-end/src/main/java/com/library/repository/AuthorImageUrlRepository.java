@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AuthorImageUrlRepository extends JpaRepository<AuthorImageUrl, Integer> {
 
+    Boolean existsByTitle(String title);
+
 }

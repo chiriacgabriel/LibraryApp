@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Role} from '../model/Role';
 import {UserService} from '../_services/user.service';
 import {RoleService} from '../_services/role.service';
 import {User} from '../model/User';
-import {ModalDirective} from 'ng-uikit-pro-standard';
+import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
 
 
 @Component({
@@ -17,9 +17,12 @@ export class UserComponent implements OnInit {
   userForm: FormGroup;
   listRoles: any;
   listRoleSelected: Role[] = [];
+  errorMessage = '';
+  isResetPasswordFailed = false;
 
   constructor(private userService: UserService,
-              private roleService: RoleService) {
+              private roleService: RoleService,
+              private toast: ToastService) {
   }
 
   ngOnInit(): void {
@@ -55,13 +58,39 @@ export class UserComponent implements OnInit {
       name: new FormControl(user.name),
       lastName: new FormControl(user.lastName),
       email: new FormControl(user.email),
-      password: new FormControl(''),
+      password: new FormControl('', Validators.required),
       roleSet: new FormControl(this.listRoleSelected)
     });
   }
 
+  get password() {
+    return this.userForm.get('password');
+  }
+
+  resetPassword(modalDirective: ModalDirective): void {
+
+    const index = this.users.findIndex(user => user.id == this.userForm.value.id);
+    this.users[index] = this.userForm.value;
+    const id = this.users[index].id;
+
+    this.userService.editUserById(id, this.users[index]).subscribe(response => {
+
+        this.ngOnInit();
+        modalDirective.toggle();
+        this.alertShowSuccess();
+
+        this.isResetPasswordFailed = false;
+
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isResetPasswordFailed = true;
+      });
+  }
+
   saveUser(modalDirective: ModalDirective): void {
     modalDirective.toggle();
+
     const index = this.users.findIndex(user => user.id == this.userForm.value.id);
     this.users[index] = this.userForm.value;
     const id = this.users[index].id;
@@ -69,8 +98,10 @@ export class UserComponent implements OnInit {
     this.userService.editUserById(id, this.users[index]).subscribe(response => {
         this.ngOnInit();
       },
-      error => {
-        console.log(error);
+      err => {
+        console.log(err);
+        // this.errorMessage = err.error.message;
+        // this.isResetPasswordFailed = true;
       });
 
     this.listRoleSelected = [];
@@ -78,21 +109,34 @@ export class UserComponent implements OnInit {
 
 
   deleteUser(user: User, idTable: number) {
-    const index = this.users.findIndex(obj => obj.id = user.id);
-    const id = this.users[index].id;
+    if (window.confirm('Are you sure you want to delete this user ?')) {
+      const index = this.users.findIndex(obj => obj.id = user.id);
+      const id = this.users[index].id;
 
-    this.userService.deleteUser(id).subscribe(response => {
-        this.ngOnInit();
-      },
-      error => {
-        console.log(error);
-      });
+      this.userService.deleteUser(id).subscribe(response => {
+          this.ngOnInit();
+        },
+        error => {
+          console.log(error);
+        });
 
-    this.users.splice(idTable, 1);
+      this.users.splice(idTable, 1);
+      this.alertShowWarning();
+    }
   }
 
   selectedObject(role: Role) {
     this.listRoleSelected.push(role);
+  }
+
+  alertShowSuccess() {
+    const options = {extendedTimeOut: 4500};
+    this.toast.success('Action performed successfully', '', options);
+  }
+
+  alertShowWarning() {
+    const options = {extendedTimeOut: 4500};
+    this.toast.warning('Delete was successful', '', options);
   }
 
 }

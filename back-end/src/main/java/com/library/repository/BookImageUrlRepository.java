@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface BookImageUrlRepository extends JpaRepository<BookImageUrl,
         Integer> {
 
+    Boolean existsByTitle(String title);
+
 }

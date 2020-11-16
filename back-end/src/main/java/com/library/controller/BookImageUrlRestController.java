@@ -1,15 +1,17 @@
 package com.library.controller;
 
 import com.library.model.BookImageUrl;
+import com.library.payload.response.MessageResponse;
 import com.library.repository.BookImageUrlRepository;
 import com.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/book-image", produces = "application/json")
 public class BookImageUrlRestController {
@@ -27,7 +29,15 @@ public class BookImageUrlRestController {
     }
 
     @PostMapping
-    public ResponseEntity<BookImageUrl> createBookImage(@RequestBody BookImageUrl bookImageUrl){
+    public ResponseEntity<?> createBookImage(@Valid @RequestBody BookImageUrl bookImageUrl){
+        String trimTitle = bookImageUrl.getTitle().trim();
+        bookImageUrl.setTitle(trimTitle);
+
+        if (bookImageUrlRepository.existsByTitle(bookImageUrl.getTitle())){
+            return ResponseEntity.badRequest().body(new MessageResponse(
+                    "Title already exists"));
+        }
+
         return ResponseEntity.ok(bookImageUrlRepository.save(bookImageUrl));
     }
 

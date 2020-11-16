@@ -121,7 +121,7 @@
 
             <div class="justify-content-center" style="display: flex">
               <button mdbBtn type="submit" color="warning"
-                      rounded="true" mdbWavesEffect>Save
+                      rounded="true" mdbWavesEffect (click)="alertShowSuccess()">Save
               </button>
             </div>
           </form>
@@ -152,18 +152,28 @@
         <!--Body-->
         <div class="modal-body">
 
-          <form (ngSubmit)="saveUser(resetFrame)" [formGroup]="userForm">
+          <form (ngSubmit)="rstPassword.form.valid && resetPassword(resetFrame)"
+                [formGroup]="userForm" #rstPassword = "ngForm">
 
             <div class="form-group">
               <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
               <label class="col-sm-2 col-form-label" for="password">Password</label>
               <input class="form-control" formControlName="password" id="password" type="password">
 
+              <mdb-error
+                *ngIf="password.invalid && (password.dirty || password.touched)">
+                Password invalid
+              </mdb-error>
+
+            </div>
+
+            <div class="alert alert-warning" *ngIf="rstPassword.submitted && isResetPasswordFailed">
+              Reset Password failed !<br />{{ errorMessage }}
             </div>
 
             <div class="justify-content-center" style="display: flex">
-              <button mdbBtn type="submit" color="warning"
-                      rounded="true" mdbWavesEffect>Reset
+              <button mdbBtn type="submit" color="warning" rounded="true" mdbWavesEffect >
+                Reset
               </button>
             </div>
           </form>

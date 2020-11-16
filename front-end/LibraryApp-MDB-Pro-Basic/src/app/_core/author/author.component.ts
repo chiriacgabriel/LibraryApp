@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthorService} from '../../_services/author.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthorImageUrlService} from '../../_services/author-image-url.service';
-import {ModalDirective} from 'ng-uikit-pro-standard';
+import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
 import {Author} from '../../model/Author';
 import {Router} from '@angular/router';
 
@@ -18,10 +18,10 @@ export class AuthorComponent implements OnInit {
   addAuthorForm: FormGroup;
   editAuthorForm: FormGroup;
   dateForm: FormGroup;
-  stringDescription: string[] = [];
 
   constructor(private authorService: AuthorService,
               private authorImageUrl: AuthorImageUrlService,
+              private toast: ToastService,
               private router: Router) {
   }
 
@@ -95,7 +95,6 @@ export class AuthorComponent implements OnInit {
     modalDirective.toggle();
   }
 
-
   updateAuthor(modalDirective: ModalDirective): void {
     modalDirective.toggle();
     const index = this.authors.findIndex(author => author.id == this.editAuthorForm.value.id);
@@ -110,28 +109,31 @@ export class AuthorComponent implements OnInit {
   }
 
   deleteAuthor(author: Author) {
-    const index = this.authors.findIndex(obj => obj.id = author.id);
-    const id = this.authors[index].id;
+    if (window.confirm('Are you sure you want to delete this Author ?')) {
+      const index = this.authors.findIndex(obj => obj.id = author.id);
+      const id = this.authors[index].id;
 
-    this.authorService.deleteAuthorById(id).subscribe(response => {
-        this.ngOnInit();
-      },
-      error => {
-        console.log(error);
-      });
+      this.authorService.deleteAuthorById(id).subscribe(response => {
+          this.ngOnInit();
+        },
+        error => {
+          console.log(error);
+        });
+      this.alertShowWarning();
+    }
   }
 
   sendToAuthorInfo(author: Author) {
     this.router.navigateByUrl('dashboard/author/' + author.id);
   }
 
+  alertShowSuccess(){
+    const options = {extendedTimeOut: 4500};
+    this.toast.success('Action performed successfully', '', options);
+  }
 
-   // splitDescription(author: Author){
-   //  let initialDescript = this.authors.findIndex(obj => obj.description = author.description);
-   //
-   //  this.stringDescription = initialDescript.toString().split(' ');
-   //
-   //  console.log(this.stringDescription.length);
-   //
-   // }
+  alertShowWarning(){
+    const options = {extendedTimeOut: 4500};
+    this.toast.warning('Delete was successful', '', options);
+  }
 }

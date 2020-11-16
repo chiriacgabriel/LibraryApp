@@ -20,10 +20,14 @@ export class AuthorImageUrlService {
     return this.http.get<AuthorImageUrl>(API_URL);
   }
 
-  createImageUrl(authorImageUrl: AuthorImageUrl): Observable<AuthorImageUrl> {
-    return this.http.post<AuthorImageUrl>(API_URL, {
+  createImageUrl(authorImageUrl: AuthorImageUrl): Observable<any> {
+    return this.http.post<any>(API_URL, {
       title: authorImageUrl.title,
       imageUrl: authorImageUrl.imageUrl,
     }, httpOptions);
+  }
+
+  deleteImageById(id: number): Observable<AuthorImageUrl>{
+    return this.http.delete<AuthorImageUrl>(API_URL + id);
   }
 }

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorService} from '../../_services/author.service';
+import {AuthorService} from '../../../_services/author.service';
 import {ActivatedRoute} from '@angular/router';
-import {Author} from '../../model/Author';
-import {AuthorImageUrl} from '../../model/AuthorImageUrl';
+import {Author} from '../../../model/Author';
+import {AuthorImageUrl} from '../../../model/AuthorImageUrl';
 
 @Component({
   selector: 'app-author-details',
