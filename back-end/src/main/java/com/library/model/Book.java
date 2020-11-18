@@ -1,5 +1,6 @@
 package com.library.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.library.model.enums.EnumFictional;
 import lombok.EqualsAndHashCode;
@@ -25,7 +26,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Author author;
 
     @Column(name = "stock")

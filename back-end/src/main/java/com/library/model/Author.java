@@ -42,7 +42,7 @@ public class Author {
     @Column(name = "type")
     private String type;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> bookSet = new ArrayList<>();
 
