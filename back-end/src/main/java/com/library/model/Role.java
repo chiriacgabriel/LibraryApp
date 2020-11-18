@@ -1,10 +1,16 @@
 package com.library.model;
 
 import com.library.model.enums.EnumRole;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "role")
 public class Role {
@@ -26,38 +32,4 @@ public class Role {
     public Role() {
     }
 
-    public String getNameOfRole() {
-        return getEnumRole().getNameRole();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public EnumRole getEnumRole() {
-        return enumRole;
-    }
-
-    public void setEnumRole(EnumRole enumRole) {
-        this.enumRole = enumRole;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return id == role.id &&
-                enumRole == role.enumRole &&
-                Objects.equals(nameOfRole, role.nameOfRole);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, enumRole, nameOfRole);
-    }
 }

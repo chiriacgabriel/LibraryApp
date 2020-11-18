@@ -14,7 +14,7 @@ public enum EnumFictional {
     FAIRYTALE("Fairytale"),
     FANTASY("Fantasy"),
     NOVEL("Novel"),
-    HISTORICAL_FICTION("Historical fictiona"),
+    HISTORICAL_FICTION("Historical fiction"),
     HORROR("Horror"),
     MYSTERY("Mystery"),
     PARANORMAL_ROMANCE("Paranormal romance"),

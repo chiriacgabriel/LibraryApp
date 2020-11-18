@@ -1,5 +1,8 @@
 import {Author} from './Author';
 import {BookImageUrl} from './BookImageUrl';
+import {BookCategory} from './BookCategory';
+import {Fictional} from './Fictional';
+import {Nonfictional} from './Nonfictional';
 
 export class Book{
   id: string;
@@ -9,7 +12,8 @@ export class Book{
   stock: number;
   reservationList: any;
   reviewList: any;
-  bookCategory: string;
-  typeOkBook: string;
+  bookCategory: BookCategory;
+  fictional: Fictional;
+  nonfictional: Nonfictional;
   bookImageUrl: BookImageUrl;
 }

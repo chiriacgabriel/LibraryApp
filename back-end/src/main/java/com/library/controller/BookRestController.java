@@ -22,50 +22,50 @@ public class BookRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks(){
+    public ResponseEntity<List<Book>> getAllBooks() {
         return ResponseEntity.ok(bookRepository.findAll());
     }
 
     //Read
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable int id){
+    public ResponseEntity<Book> getBookById(@PathVariable int id) {
         return bookRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                             .map(ResponseEntity::ok)
+                             .orElse(ResponseEntity.notFound()
+                                                   .build());
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Book> deleteBookById(@PathVariable int id){
+    public ResponseEntity<Book> deleteBookById(@PathVariable int id) {
         bookRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                             .build();
     }
 
     //Create
     @PostMapping
-    public ResponseEntity<Book> createBook(@RequestBody Book book){
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
         return ResponseEntity.ok(bookRepository.save(book));
     }
 
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBookById(@PathVariable int id,
-                                               @RequestBody Book book){
+                                               @RequestBody Book book) {
 
         Optional<Book> optionalBook = bookRepository.findById(id);
 
-        if (!optionalBook.isPresent()){
-            return ResponseEntity.notFound().build();
+        if (!optionalBook.isPresent()) {
+            return ResponseEntity.notFound()
+                                 .build();
         }
 
         Book dbBook = optionalBook.get();
 
-        dbBook.setAuthor(book.getAuthor());
         dbBook.setTitle(book.getTitle());
         dbBook.setStock(book.getStock());
-        dbBook.setClientSet(book.getClientSet());
-        dbBook.setReservationList(book.getReservationList());
-        dbBook.setReviewList(book.getReviewList());
+        dbBook.setAuthor(book.getAuthor());
         dbBook.setBookImageUrl(book.getBookImageUrl());
 
         return ResponseEntity.ok(bookRepository.save(dbBook));

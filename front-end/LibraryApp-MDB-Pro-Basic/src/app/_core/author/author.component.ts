@@ -77,7 +77,7 @@ export class AuthorComponent implements OnInit {
       nationality: new FormControl(author.nationality),
       description: new FormControl(author.description),
       type: new FormControl(author.type),
-      bookList: new FormControl(author.bookList),
+      bookList: new FormControl(author.bookSet),
       authorImageUrl: new FormControl(author.authorImageUrl)
     });
   }
@@ -88,11 +88,12 @@ export class AuthorComponent implements OnInit {
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
         this.ngOnInit();
+        this.alertShowSuccess();
+        modalDirective.toggle();
       },
       error => {
         console.log(error);
       });
-    modalDirective.toggle();
   }
 
   updateAuthor(modalDirective: ModalDirective): void {

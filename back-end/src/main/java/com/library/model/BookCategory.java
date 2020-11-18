@@ -1,12 +1,18 @@
 package com.library.model;
 
 import com.library.model.enums.EnumBookCategory;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@Setter
+@EqualsAndHashCode
 @Entity
 @Table(name = "book_category")
 public class BookCategory {
@@ -20,54 +26,4 @@ public class BookCategory {
 
     private String nameOfBookCategory;
 
-    @OneToMany(mappedBy = "bookCategory", cascade = CascadeType.ALL)
-    private List<Book> bookList = new ArrayList<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public EnumBookCategory getEnumBookCategory() {
-        return enumBookCategory;
-    }
-
-    public void setEnumBookCategory(EnumBookCategory enumBookCategory) {
-        this.enumBookCategory = enumBookCategory;
-    }
-
-    public String getNameOfBookCategory() {
-        return nameOfBookCategory;
-    }
-
-    public void setNameOfBookCategory(String nameOfBookCategory) {
-        this.nameOfBookCategory = nameOfBookCategory;
-    }
-
-    public List<Book> getBookList() {
-        return bookList;
-    }
-
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookCategory that = (BookCategory) o;
-        return id == that.id &&
-                enumBookCategory == that.enumBookCategory &&
-                Objects.equals(nameOfBookCategory, that.nameOfBookCategory) &&
-                Objects.equals(bookList, that.bookList);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, enumBookCategory, nameOfBookCategory, bookList);
-    }
 }

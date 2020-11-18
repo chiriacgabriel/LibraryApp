@@ -40,7 +40,6 @@ export class AuthorService {
       nationality: author.nationality,
       description: author.description,
       type: author.type,
-      bookList: author.bookList,
       authorImageUrl: author.authorImageUrl
     }, httpOptions);
   }

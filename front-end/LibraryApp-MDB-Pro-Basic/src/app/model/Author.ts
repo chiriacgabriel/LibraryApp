@@ -10,5 +10,5 @@ export class Author{
   description: string;
   type: string;
   authorImageUrl: AuthorImageUrl;
-  bookList: Book[];
+  bookSet: Book;
 }

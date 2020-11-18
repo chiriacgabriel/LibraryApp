@@ -3,6 +3,7 @@ import {AuthorService} from '../../../_services/author.service';
 import {ActivatedRoute} from '@angular/router';
 import {Author} from '../../../model/Author';
 import {AuthorImageUrl} from '../../../model/AuthorImageUrl';
+import {BookService} from '../../../_services/book.service';
 
 @Component({
   selector: 'app-author-details',
@@ -23,5 +24,7 @@ export class AuthorDetailsComponent implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     this.authorService.getAuthorById(Number(id)).subscribe(author => this.author = author);
   }
+
+
 
 }
