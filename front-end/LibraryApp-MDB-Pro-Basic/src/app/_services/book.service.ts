@@ -28,9 +28,6 @@ export class BookService {
       title: book.title,
       author: book.author,
       stock: book.stock,
-      // bookCategory: book.bookCategory,
-      // fictional: book.fictional,
-      // nonfictional: book.nonfictional,
       bookImageUrl: book.bookImageUrl
     }, httpOptions);
   }
@@ -40,9 +37,6 @@ export class BookService {
       title: book.title,
       author: book.author,
       stock: book.stock,
-      bookCategory: book.bookCategory,
-      fictional: book.fictional,
-      nonfictional: book.nonfictional,
       bookImageUrl: book.bookImageUrl
     }, httpOptions);
   }

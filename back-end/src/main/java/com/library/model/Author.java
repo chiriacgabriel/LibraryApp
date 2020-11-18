@@ -13,11 +13,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity
-@Table(name = "author", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
-        property = "@authorId")
+@Table(name = "author")
 public class Author {
 
     @Id
@@ -42,6 +39,8 @@ public class Author {
     @Column(name = "type")
     private String type;
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> bookSet = new ArrayList<>();
 

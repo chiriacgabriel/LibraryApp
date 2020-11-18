@@ -14,11 +14,8 @@ import java.util.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @Entity
-@Table(name = "book", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
-        property = "@bookId")
+@Table(name = "book")
 public class Book {
 
     @Id
@@ -30,6 +27,8 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
     private Author author;
 
     @Column(name = "stock")
