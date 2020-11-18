@@ -1,7 +1,9 @@
 package com.library.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.library.model.enums.EnumFictional;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +16,9 @@ import java.util.*;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "book")
+@Table(name = "book", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property = "@bookId")
 public class Book {
 
     @Id
@@ -26,7 +30,6 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    @JsonBackReference
     private Author author;
 
     @Column(name = "stock")

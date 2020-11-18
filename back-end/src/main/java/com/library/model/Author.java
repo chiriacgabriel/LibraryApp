@@ -1,8 +1,6 @@
 package com.library.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +15,9 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "author")
+@Table(name = "author", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,
+        property = "@authorId")
 public class Author {
 
     @Id
@@ -42,7 +42,6 @@ public class Author {
     @Column(name = "type")
     private String type;
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> bookSet = new ArrayList<>();
 
