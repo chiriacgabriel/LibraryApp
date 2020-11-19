@@ -4,5 +4,5 @@ export class BookCategory{
   id: number;
   enumBookCategory: string;
   nameOfBookCategory: string;
-  bookList: Book;
+  bookListCategory: Book;
 }

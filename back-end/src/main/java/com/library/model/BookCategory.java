@@ -1,5 +1,7 @@
 package com.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.library.model.enums.EnumBookCategory;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,5 +27,9 @@ public class BookCategory {
     private EnumBookCategory enumBookCategory;
 
     private String nameOfBookCategory;
+
+    @OneToMany(mappedBy = "bookCategory", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Book> bookListCategory = new ArrayList<>();
 
 }

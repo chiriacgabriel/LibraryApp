@@ -4,6 +4,6 @@ export class Nonfictional {
   id: number;
   enumNonfictional: string;
   nameOfNonfictional: string;
-  nonfictionalBookList: Book;
+  bookListNonfictional: Book;
 }
 

@@ -2,7 +2,10 @@ package com.library.controller;
 
 
 import com.library.model.BookCategory;
+import com.library.model.Fictional;
 import com.library.repository.BookCategoryRepository;
+import com.library.repository.FictionalRepository;
+import com.library.repository.NonfictionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -8,6 +8,8 @@ import {AuthorService} from "../../_services/author.service";
 import {isEmpty} from "rxjs/operators";
 import { Author } from 'src/app/model/Author';
 import {Role} from "../../model/Role";
+import {dashCaseToCamelCase} from "@angular/compiler/src/util";
+import {BookCategory} from "../../model/BookCategory";
 
 @Component({
   selector: 'app-book',
@@ -23,7 +25,9 @@ export class BookComponent implements OnInit {
   books = [];
   authors = [];
   addBookForm: FormGroup;
-  ifFictional = false;
+
+  isFictional = false;
+  isNonfictional = false;
 
   constructor(private bookImageUrlService: BookImageUrlService,
               private bookCategoryTypeService: BookCategoryTypeService,
@@ -35,6 +39,9 @@ export class BookComponent implements OnInit {
     this.getAllBookImages();
     this.getAllBooks();
     this.getAllAuthors();
+    this.getAllBookCategories();
+    this.getAllFictionals();
+    this.getAllNonfictionals();
     this.formBook();
   }
 
@@ -43,7 +50,10 @@ export class BookComponent implements OnInit {
       title: new FormControl(''),
       author: new FormControl(''),
       stock: new FormControl(''),
-      bookImageUrl: new FormControl(this.bookImages)
+      bookImageUrl: new FormControl(this.bookImages),
+      bookCategory: new FormControl(this.bookCategories),
+      fictional: new FormControl(this.fictionals),
+      nonfictional: new FormControl(this.nonfictionals)
     });
   }
 
@@ -68,10 +78,34 @@ export class BookComponent implements OnInit {
   getAllBooks(){
     this.bookService.getAllBooks().subscribe((data: any) => {
       this.books = data;
-      console.log(this.books)
     }, error => {
       this.books = JSON.parse(error.message).message;
     });
+  }
+
+  getAllBookCategories(){
+    this.bookCategoryTypeService.getAllBookCategories().subscribe((data: any) => {
+      this.bookCategories = data;
+    }, error => {
+      this.bookCategories = JSON.parse(error.message).message;
+    });
+  }
+
+  getAllFictionals(){
+    this.bookCategoryTypeService.getAllFictional().subscribe((data: any) => {
+      this.fictionals = data
+    }, error => {
+      this.fictionals = JSON.parse(error.message).message;
+    });
+  }
+
+  getAllNonfictionals(){
+    this.bookCategoryTypeService.getAllNonfictional().subscribe((data: any) => {
+      this.nonfictionals = data;
+    },
+      error => {
+      this.nonfictionals = JSON.parse(error.message).message;
+      });
   }
 
   addBook(modalDirective: ModalDirective){
@@ -85,4 +119,15 @@ export class BookComponent implements OnInit {
     modalDirective.toggle();
   }
 
+  isFictionalSelected(bookCategory: BookCategory){
+    if (bookCategory.nameOfBookCategory == 'Fiction'){
+      this.isFictional = true;
+      this.isNonfictional = false;
+    }
+
+    if (bookCategory.nameOfBookCategory == 'Nonfiction'){
+      this.isFictional = false;
+      this.isNonfictional = true;
+    }
+  }
 }

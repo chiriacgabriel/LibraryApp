@@ -1,11 +1,14 @@
 package com.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.model.enums.EnumFictional;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +26,7 @@ public class Fictional {
 
     private String nameOfFictional;
 
-
+    @OneToMany(mappedBy = "fictional", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Book> bookListFictional = new ArrayList<>();
 }

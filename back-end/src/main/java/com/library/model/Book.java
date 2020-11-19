@@ -36,4 +36,15 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "book_image_url_id"))
     private BookImageUrl bookImageUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "book_category_id")
+    private BookCategory bookCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "fictional_id")
+    private Fictional fictional;
+
+    @ManyToOne
+    @JoinColumn(name = "nonfictional_id")
+    private Nonfictional nonfictional;
 }

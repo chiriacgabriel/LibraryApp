@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -67,9 +68,11 @@ public class BookRestController {
         dbBook.setStock(book.getStock());
         dbBook.setAuthor(book.getAuthor());
         dbBook.setBookImageUrl(book.getBookImageUrl());
+        dbBook.setBookCategory(book.getBookCategory());
+        dbBook.setFictional(book.getFictional());
+        dbBook.setNonfictional(book.getNonfictional());
 
         return ResponseEntity.ok(bookRepository.save(dbBook));
-
 
     }
 }
