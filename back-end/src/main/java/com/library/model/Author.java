@@ -39,8 +39,7 @@ public class Author {
     @Column(name = "type")
     private String type;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
+    @JsonIgnoreProperties("author")
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> bookSet = new ArrayList<>();
 
