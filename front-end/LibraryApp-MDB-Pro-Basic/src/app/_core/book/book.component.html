@@ -21,8 +21,7 @@
 </mdb-navbar>
 <!-- End navbar -->
 
-
-<!-- Modal Add new Author -->
+<!-- Modal Add new Book -->
 <div #bookFrame="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel"
      class="modal fade top"
      id="frameModalTop"
@@ -49,7 +48,9 @@
               <div class="form-group">
                 <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
                 <label class="col-sm-4 col-form-label" for="title">Title</label>
-                <input class="form-control" formControlName="title" id="title" type="text">
+                <input [(ngModel)]="preSelectedTitle" class="form-control" disabled
+                       formControlName="title"
+                       id="title" type="text">
 
               </div>
             </div>
@@ -71,58 +72,70 @@
               <div class="form-group">
                 <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
                 <label class="col-sm-4 col-form-label" for="stock">Stock</label>
-                <input class="form-control" formControlName="stock" id="stock" type="number">
+                <input class="form-control" formControlName="stock" id="stock" min=1
+                       oninput="validity.valid||(value='')" type="number">
               </div>
             </div>
           </div>
 
-          <div class="col-4">
-            <div class="form-group">
-              <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
-              <label class="col-sm-4 col-form-label" for="bookImageUrl">Book Image</label>
-              <select class="form-control" formControlName="bookImageUrl" id="bookImageUrl">
-                <option disabled hidden selected value="">Select image</option>
-                <option *ngFor="let bookImage of bookImages" [ngValue]="bookImage">
-                  {{bookImage.title}}
-                </option>
-              </select>
-            </div>
-
-
-            <div class="form-group">
-              <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-              <label class="col-sm-5 col-form-label" for="bookCategory">Category</label>
-              <select class="form-control" formControlName="bookCategory" id="bookCategory">
-                <option disabled hidden selected value="">Select Category</option>
-                <option *ngFor="let category of bookCategories" [ngValue]="category"
-                        (click)="isFictionalSelected(category)">
-                  {{category.nameOfBookCategory}}
-                </option>
-              </select>
-            </div>
-
-              <div class="form-group" *ngIf="isFictional">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                <label class="col-sm-5 col-form-label" for="fictional">Type</label>
-                <select class="form-control" formControlName="fictional" id="fictional">
-                  <option disabled hidden selected value="">Select Type</option>
-                  <option *ngFor="let fictional of fictionals" [ngValue]="fictional">
-                    {{fictional.nameOfFictional}}
-                  </option>
-                </select>
-              </div>
-
-              <div class="form-group" *ngIf="isNonfictional">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                <label class="col-sm-5 col-form-label" for="nonfictional">Type</label>
-                <select class="form-control" formControlName="nonfictional" id="nonfictional">
-                  <option disabled hidden selected value="">Select Type</option>
-                  <option *ngFor="let nonfictional of nonfictionals" [ngValue]="nonfictional">
-                    {{nonfictional.nameOfNonfictional}}
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
+                <label class="col-sm-10 col-form-label" for="bookImageUrl">Book Image</label>
+                <select class="form-control" formControlName="bookImageUrl" id="bookImageUrl">
+                  <option disabled hidden selected value="">Select image</option>
+                  <option (click)="getPreSelectedTitle(bookImage)"
+                          *ngFor="let bookImage of bookImages"
+                          [ngValue]="bookImage">
+                    {{bookImage.title}}
                   </option>
                 </select>
               </div>
             </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
+                <label class="col-sm-5 col-form-label" for="bookCategory">Category</label>
+                <select class="form-control" formControlName="bookCategory" id="bookCategory">
+                  <option disabled hidden selected value="">Select Category</option>
+                  <option (click)="isFictionalSelected(category)"
+                          *ngFor="let category of bookCategories"
+                          [ngValue]="category">
+                    {{category.nameOfBookCategory}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
+
+                <div *ngIf="isFictional">
+                  <label class="col-sm-5 col-form-label" for="fictional">Type</label>
+                  <select class="form-control" formControlName="fictional" id="fictional">
+                    <option disabled hidden selected value="">Select Type</option>
+                    <option *ngFor="let fictional of fictionals" [ngValue]="fictional">
+                      {{fictional.nameOfFictional}}
+                    </option>
+                  </select>
+                </div>
+
+                <div *ngIf="isNonfictional">
+                  <label class="col-sm-5 col-form-label" for="fictional">Type</label>
+                  <select class="form-control" formControlName="nonfictional" id="nonfictional">
+                    <option disabled hidden selected value="">Select Type</option>
+                    <option *ngFor="let nonfictional of nonfictionals" [ngValue]="nonfictional">
+                      {{nonfictional.nameOfNonfictional}}
+                    </option>
+                  </select>
+                </div>
+
+              </div>
+            </div>
+          </div>
 
           <div class="justify-content-center" style="display: flex">
             <button color="warning" mdbBtn mdbWavesEffect
@@ -135,7 +148,6 @@
   </div>
 </div>
 <!-- End modal -->
-
 
 <!--Content-->
 <div class="row" style="margin-top: 50px">
@@ -150,12 +162,12 @@
         </div>
         <div class="items price">
           <p *ngIf="book.fictional != null" class="new">{{book.fictional.nameOfFictional}}</p>
-          <p
-            *ngIf="book.nonfictional != null "
-            class="new">{{book.nonfictional.nameOfNonfictional}}</p>
+          <p *ngIf="book.nonfictional != null" class="new">{{book.nonfictional.nameOfNonfictional}}</p>
         </div>
         <div class="items cart">
-          <i class="fa fa-shopping-cart"></i>
+          <button (click)="deleteBook(book)" class="float-right" size="sm">
+            <i class="far fa-trash-alt"></i>
+          </button>
           <span>{{book.bookCategory.nameOfBookCategory}}</span>
         </div>
       </div>

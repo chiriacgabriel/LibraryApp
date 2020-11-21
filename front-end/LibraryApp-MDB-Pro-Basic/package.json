@@ -30,6 +30,7 @@
     "ng-uikit-pro-standard": "file:ng-uikit-pro-standard-10.0.0.tgz",
     "rxjs": "~6.5.4",
     "screenfull": "3.3.x",
+    "sweetalert": "^2.1.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },

@@ -5,6 +5,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {AuthorImageUrl} from '../../model/AuthorImageUrl';
 import {BookImageUrlService} from '../../_services/book-image-url.service';
 import {BookImageUrl} from "../../model/BookImageUrl";
+import {AlertsService} from "../../_services/alerts.service";
 
 @Component({
   selector: 'app-media',
@@ -25,7 +26,7 @@ export class MediaComponent implements OnInit {
 
   constructor(private authorImageUrlService: AuthorImageUrlService,
               private bookImageUrlService: BookImageUrlService,
-              private toast: ToastService) {
+              private alertsService: AlertsService) {
   }
 
   ngOnInit(): void {
@@ -62,7 +63,7 @@ export class MediaComponent implements OnInit {
     this.authorImageUrlService.createImageUrl(this.authorImageForm.value).subscribe(response => {
         this.ngOnInit();
         modalDirective.toggle();
-        this.alertShowSuccess();
+        this.alertsService.alertShowSuccess();
         this.isAuthorTitlePresent = false;
       },
       err => {
@@ -75,12 +76,12 @@ export class MediaComponent implements OnInit {
     if (window.confirm('Are you sure you want to delete this image ?')) {
       this.authorImageUrlService.deleteImageById(authorImageUrl.id).subscribe(response => {
           this.ngOnInit();
+          this.alertsService.alertShowWarning();
         },
         error => {
           console.log(error);
         }
       );
-      this.alertShowWarning();
     }
   }
 
@@ -104,7 +105,7 @@ export class MediaComponent implements OnInit {
     this.bookImageUrlService.addBookImageUrl(this.bookImageForm.value).subscribe(response => {
       this.ngOnInit();
       modalDirective.toggle();
-      this.alertShowSuccess();
+      this.alertsService.alertShowSuccess();
       this.isBookTitlePresent = false;
     },
       err =>{
@@ -117,20 +118,11 @@ export class MediaComponent implements OnInit {
     if (window.confirm('Are you sure you want to delete this image ?')){
       this.bookImageUrlService.deleteBookImageById(bookImageUrl.id).subscribe(response => {
         this.ngOnInit();
+        this.alertsService.alertShowWarning()
       }, error => {
         console.log(error);
       });
-      this.alertShowWarning();
     }
   }
 
-  alertShowSuccess() {
-    const options = {extendedTimeOut: 4500};
-    this.toast.success('Action performed successfully', '', options);
-  }
-
-  alertShowWarning() {
-    const options = {extendedTimeOut: 4500};
-    this.toast.warning('Delete was successful', '', options);
-  }
 }

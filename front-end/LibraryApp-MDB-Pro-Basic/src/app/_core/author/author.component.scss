@@ -3,16 +3,20 @@
   font-family: 'Font Awesome 5 Pro', 'Font Awesome 5 Free';
   font-size: 25px;
 }
+
 .modal-dialog {
   max-width: 800px;
 }
+
 mdb-card {
   margin-top: 50px;
 }
+
 .col-md-3 {
   flex: 0 0 24%;
   max-width: 20%;
 }
+
 //Design for card Author
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700");
 body {
@@ -24,6 +28,7 @@ body {
   justify-items: center;
   background-image: linear-gradient(to top, #96fbc4 0%, #f9f586 100%);
 }
+
 .card {
   background: #fff;
   border-radius: 4px;
@@ -35,10 +40,12 @@ body {
   position: relative;
   margin: 2px;
 }
+
 .card h2 {
   margin: 0;
   padding: 0 1rem;
 }
+
 .card .title {
   padding: 0.5rem;
   text-align: right;
@@ -46,12 +53,14 @@ body {
   font-weight: bold;
   font-size: 12px;
 }
+
 .card .desc {
   padding: 0.5rem 1rem;
   font-size: 12px;
   overflow: hidden;
-  height:  130px;
+  height: 130px;
 }
+
 .card .actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -63,15 +72,19 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr;
 }
+
 .title-total {
   padding: 2.5em 1.5em 1.5em 1.5em;
 }
+
 path {
   fill: white;
 }
+
 .img-portada {
   width: 100%;
 }
+
 .portada {
   width: 120%;
   height: 100%;
@@ -80,19 +93,59 @@ path {
   background-position: bottom center;
   background-size: cover;
 }
+
 .button-newCard {
   border: none;
   background: none;
   font-size: 24px;
   cursor: pointer;
-  transition:.5s;
-  &:hover{
-    color: #4CAF50  ;
+  transition: .5s;
+
+  &:hover {
+    color: #4CAF50;
     transform: rotate(22deg)
   }
 }
+
 .col-md-2-custom {
   flex: 0 0 24.6666666667%;
   max-width: 24.6666666667%;
 }
+
+.custom-header-modal {
+  background: gainsboro;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
 // End Design For Card Authors
+
+@media only screen and (max-width: 700px) {
+
+  .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .col-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .col-sm-6{
+    width: 0;
+    display: unset;
+  }
+
+}
+
+@media only screen and (min-width: 701px){
+  .modal-dialog-scrollable {
+    max-width: 800px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

@@ -5,6 +5,7 @@ import {UserService} from '../_services/user.service';
 import {RoleService} from '../_services/role.service';
 import {User} from '../model/User';
 import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
+import {AlertsService} from "../_services/alerts.service";
 
 
 @Component({
@@ -22,7 +23,7 @@ export class UserComponent implements OnInit {
 
   constructor(private userService: UserService,
               private roleService: RoleService,
-              private toast: ToastService) {
+              private alertsService: AlertsService) {
   }
 
   ngOnInit(): void {
@@ -77,7 +78,7 @@ export class UserComponent implements OnInit {
 
         this.ngOnInit();
         modalDirective.toggle();
-        this.alertShowSuccess();
+        this.alertsService.alertShowSuccess();
 
         this.isResetPasswordFailed = false;
 
@@ -97,16 +98,14 @@ export class UserComponent implements OnInit {
 
     this.userService.editUserById(id, this.users[index]).subscribe(response => {
         this.ngOnInit();
+        this.alertsService.alertShowSuccess();
       },
       err => {
         console.log(err);
-        // this.errorMessage = err.error.message;
-        // this.isResetPasswordFailed = true;
       });
 
     this.listRoleSelected = [];
   }
-
 
   deleteUser(user: User, idTable: number) {
     if (window.confirm('Are you sure you want to delete this user ?')) {
@@ -121,22 +120,12 @@ export class UserComponent implements OnInit {
         });
 
       this.users.splice(idTable, 1);
-      this.alertShowWarning();
+      this.alertsService.alertShowWarning();
     }
   }
 
   selectedObject(role: Role) {
     this.listRoleSelected.push(role);
-  }
-
-  alertShowSuccess() {
-    const options = {extendedTimeOut: 4500};
-    this.toast.success('Action performed successfully', '', options);
-  }
-
-  alertShowWarning() {
-    const options = {extendedTimeOut: 4500};
-    this.toast.warning('Delete was successful', '', options);
   }
 
 }

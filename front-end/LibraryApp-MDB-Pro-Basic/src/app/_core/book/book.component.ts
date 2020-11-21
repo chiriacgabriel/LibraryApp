@@ -2,14 +2,17 @@ import {Component, OnInit} from '@angular/core';
 import {BookImageUrlService} from '../../_services/book-image-url.service';
 import {BookCategoryTypeService} from '../../_services/book-category-type.service';
 import {BookService} from '../../_services/book.service';
-import {ModalDirective} from 'ng-uikit-pro-standard';
-import {FormControl, FormGroup} from '@angular/forms';
+import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthorService} from "../../_services/author.service";
 import {isEmpty} from "rxjs/operators";
 import { Author } from 'src/app/model/Author';
 import {Role} from "../../model/Role";
 import {dashCaseToCamelCase} from "@angular/compiler/src/util";
 import {BookCategory} from "../../model/BookCategory";
+import {BookImageUrl} from "../../model/BookImageUrl";
+import {AlertsService} from "../../_services/alerts.service";
+import { Book } from 'src/app/model/Book';
 
 @Component({
   selector: 'app-book',
@@ -25,14 +28,18 @@ export class BookComponent implements OnInit {
   books = [];
   authors = [];
   addBookForm: FormGroup;
+  editBookForm: FormGroup;
 
   isFictional = false;
   isNonfictional = false;
 
+  preSelectedTitle = ''
+
   constructor(private bookImageUrlService: BookImageUrlService,
               private bookCategoryTypeService: BookCategoryTypeService,
               private bookService: BookService,
-              private authorService: AuthorService) {
+              private authorService: AuthorService,
+              private alertsService: AlertsService) {
   }
 
   ngOnInit(): void {
@@ -48,12 +55,27 @@ export class BookComponent implements OnInit {
   formBook(){
     this.addBookForm = new FormGroup({
       title: new FormControl(''),
-      author: new FormControl(''),
-      stock: new FormControl(''),
-      bookImageUrl: new FormControl(this.bookImages),
-      bookCategory: new FormControl(this.bookCategories),
-      fictional: new FormControl(this.fictionals),
-      nonfictional: new FormControl(this.nonfictionals)
+      author: new FormControl(),
+      stock: new FormControl('',Validators.required),
+      bookImageUrl: new FormControl(),
+      bookCategory: new FormControl(),
+      fictional: new FormControl(),
+      nonfictional: new FormControl()
+    });
+  }
+
+  editForm(book: Book, modalDirective: ModalDirective){
+    modalDirective.toggle();
+
+    this.editBookForm = new FormGroup({
+      id: new FormControl(book.id),
+      title: new FormControl(book.title),
+      author: new FormControl(book.author),
+      stock: new FormControl(book.stock),
+      bookImageUrl: new FormControl(book.bookImageUrl.title),
+      bookCategory: new FormControl(book.bookCategory),
+      fictional: new FormControl(book.fictional),
+      nonfictional: new FormControl(book.nonfictional)
     });
   }
 
@@ -109,14 +131,31 @@ export class BookComponent implements OnInit {
   }
 
   addBook(modalDirective: ModalDirective){
-    this.addBookForm.value.author.id
     this.bookService.addBook(this.addBookForm.value).subscribe(response => {
       this.ngOnInit();
+      this.alertsService.alertShowSuccess();
+      modalDirective.toggle();
     },
       error => {
       console.log(error);
       });
+  }
+
+  updateBook(modalDirective: ModalDirective): void{
     modalDirective.toggle();
+
+  }
+
+  deleteBook(book: Book){
+    if (window.confirm("Are you sure you want to delete " + String(book.title) + " ?")){
+      this.bookService.deleteBookById(Number(book.id)).subscribe(response => {
+        this.ngOnInit();
+        this.alertsService.alertShowWarning();
+      },
+        error => {
+        console.log(error);
+        });
+    }
   }
 
   isFictionalSelected(bookCategory: BookCategory){
@@ -130,4 +169,8 @@ export class BookComponent implements OnInit {
       this.isNonfictional = true;
     }
   }
+  getPreSelectedTitle(bookImageUrl: BookImageUrl){
+    this.preSelectedTitle = bookImageUrl.title;
+  }
+
 }

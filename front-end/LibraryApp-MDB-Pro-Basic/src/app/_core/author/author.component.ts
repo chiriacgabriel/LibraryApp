@@ -5,6 +5,8 @@ import {AuthorImageUrlService} from '../../_services/author-image-url.service';
 import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
 import {Author} from '../../model/Author';
 import {Router} from '@angular/router';
+import {AlertsService} from "../../_services/alerts.service";
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-author',
@@ -21,7 +23,7 @@ export class AuthorComponent implements OnInit {
 
   constructor(private authorService: AuthorService,
               private authorImageUrl: AuthorImageUrlService,
-              private toast: ToastService,
+              private alertsService: AlertsService,
               private router: Router) {
   }
 
@@ -88,7 +90,7 @@ export class AuthorComponent implements OnInit {
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
         this.ngOnInit();
-        this.alertShowSuccess();
+        this.alertsService.alertShowSuccess();
         modalDirective.toggle();
       },
       error => {
@@ -97,44 +99,44 @@ export class AuthorComponent implements OnInit {
   }
 
   updateAuthor(modalDirective: ModalDirective): void {
-    modalDirective.toggle();
     const index = this.authors.findIndex(author => author.id == this.editAuthorForm.value.id);
     this.authors[index] = this.editAuthorForm.value;
     const id = this.authors[index].id;
 
     this.authorService.editAuthorById(id, this.authors[index]).subscribe(response => {
-      this.ngOnInit();
+      // this.ngOnInit();
+      this.alertsService.alertShowSuccess();
+      modalDirective.toggle();
     }, error => {
       console.log(error);
     });
   }
 
   deleteAuthor(author: Author) {
-    if (window.confirm('Are you sure you want to delete this Author ?')) {
-      const index = this.authors.findIndex(obj => obj.id = author.id);
-      const id = this.authors[index].id;
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this registration!',
+      icon: 'warning',
+      buttons: ['Cancel', 'Ok'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.authorService.deleteAuthorById(author.id).subscribe(response => {
+            this.ngOnInit();
+          }, error => {
+            console.log(error);
+          });
+          swal('Your registration/file has been deleted!', {
+            icon: 'success',
+          });
+        }
+      });
 
-      this.authorService.deleteAuthorById(id).subscribe(response => {
-          this.ngOnInit();
-        },
-        error => {
-          console.log(error);
-        });
-      this.alertShowWarning();
-    }
   }
 
   sendToAuthorInfo(author: Author) {
     this.router.navigateByUrl('dashboard/author/' + author.id);
   }
 
-  alertShowSuccess(){
-    const options = {extendedTimeOut: 4500};
-    this.toast.success('Action performed successfully', '', options);
-  }
-
-  alertShowWarning(){
-    const options = {extendedTimeOut: 4500};
-    this.toast.warning('Delete was successful', '', options);
-  }
 }

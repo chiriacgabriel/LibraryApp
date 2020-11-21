@@ -1,6 +1,7 @@
 package com.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.library.model.enums.EnumNonfictional;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

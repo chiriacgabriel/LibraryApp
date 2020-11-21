@@ -24,15 +24,16 @@
 <!-- Modal Add new Author -->
 <div #addAuthorFrame="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel"
      class="modal fade top"
-     id="frameModalTop"
+     id="addAuthor"
      mdbModal
      role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-notify modal-warning" role="document">
+  <div class="modal-dialog-scrollable" role="document">
     <!--Content-->
     <div class="modal-content">
       <!--Header-->
-      <div class="modal-header text-center">
-        <h4 class="modal-title white-text w-100 font-weight-bold py-2">Add Author</h4>
+      <div class="modal-header text-center custom-header-modal">
+        <img src="./assets/images/authorAddIcon.png" class="mx-auto">
+
         <button (click)="addAuthorFrame.hide()" aria-label="Close" class="close"
                 data-dismiss="modal"
                 type="button">
@@ -47,7 +48,7 @@
             <div class="col-4">
               <div class="form-group">
                 <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                <label class="col-sm-4 col-form-label" for="name">Name</label>
+                <label class="col-sm-6 col-form-label" for="name">Name</label>
                 <input class="form-control" formControlName="name" id="name" type="text">
 
               </div>
@@ -56,7 +57,7 @@
             <div class="col-4">
               <div class="form-group">
                 <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                <label class="col-sm-5 col-form-label" for="lastName">Last name</label>
+                <label class="col-sm-6 col-form-label" for="lastName">Last name</label>
                 <input class="form-control" formControlName="lastName" id="lastName"
                        type="text">
               </div>
@@ -64,8 +65,8 @@
 
             <div class="col-4">
               <div class="form-group">
-                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                <label class="col-sm-4 col-form-label" for="type">Type</label>
+                <mdb-icon class="prefix grey-text" fas icon="signature"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="type">Type</label>
                 <input class="form-control" formControlName="type" id="type"
                        placeholder="Ex: Poet, Romancer, Novelist..." type="text">
               </div>
@@ -77,8 +78,8 @@
             <div class="row">
               <div class="col-6">
                 <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="dateOfBirth">Year of Birth</label>
+                  <mdb-icon class="prefix grey-text" far icon="far fa-calendar-alt"></mdb-icon>
+                  <label class="col-sm-6 col-form-label" for="dateOfBirth">Year of Birth</label>
                   <input class="form-control" formControlName="dateBirth" id="dateOfBirth"
                          maxlength="4"
                          mdbInput type="text">
@@ -86,8 +87,8 @@
               </div>
               <div class="col-6">
                 <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                  <label class="col-sm-5 col-form-label" for="deathDate">Year of Death</label>
+                  <mdb-icon class="prefix grey-text" far icon="far fa-calendar-alt"></mdb-icon>
+                  <label class="col-sm-6 col-form-label" for="deathDate">Year of Death</label>
                   <input class="form-control" formControlName="deathDate" id="deathDate"
                          maxlength="4" type="text">
                 </div>
@@ -98,8 +99,8 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                <label class="col-sm-2 col-form-label" for="nationality">Nationality</label>
+                <mdb-icon class="prefix grey-text" fas icon="flag"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="nationality">Nationality</label>
                 <input class="form-control" formControlName="nationality" id="nationality"
                        type="text">
               </div>
@@ -116,15 +117,15 @@
             </div>
 
             <div class="form-group col-12">
-              <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-              <label class="col-sm-2 col-form-label" for="description">Description</label>
+              <mdb-icon class="prefix grey-text" far icon="far fa-comment-alt"></mdb-icon>
+              <label class="col-sm-6 col-form-label" for="description">Description</label>
               <textarea class="form-control" formControlName="description" id="description"
                         type="text"></textarea>
             </div>
           </div>
 
           <div class="justify-content-center" style="display: flex">
-            <button color="warning" mdbBtn mdbWavesEffect
+            <button mdbBtn mdbWavesEffect style="background: brown; color: white"
                     rounded="true" type="submit">Save
             </button>
           </div>
@@ -141,13 +142,13 @@
      id="frameEditAuthor"
      mdbModal
      role="dialog" tabindex="-1">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog-scrollable" role="document">
     <!--Content-->
     <div class="modal-content">
       <ng-container *ngIf="editAuthorForm">
         <!--Header-->
-        <div class="modal-header text-center">
-          <h3 class="modal-title w-100 font-weight-bold">Update Author</h3>
+        <div class="modal-header text-center custom-header-modal">
+          <img src="./assets/images/authorAddIcon.png" class="mx-auto">
           <button (click)="frameEditAuthor.hide()" aria-label="Close" class="close"
                   data-dismiss="modal"
                   type="button">
@@ -162,7 +163,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="nameEdit">Name</label>
+                  <label class="col-sm-6 col-form-label" for="nameEdit">Name</label>
                   <input class="form-control" formControlName="name" id="nameEdit" type="text" mdbCharCounter mdbInput>
                 </div>
               </div>
@@ -170,7 +171,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                  <label class="col-sm-5 col-form-label" for="lastNameEdit">Last name</label>
+                  <label class="col-sm-6 col-form-label" for="lastNameEdit">Last name</label>
                   <input class="form-control" formControlName="lastName" id="lastNameEdit"
                          type="text" mdbCharCounter mdbInput>
                 </div>
@@ -179,7 +180,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" fas icon="signature"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="typeEdit">Type</label>
+                  <label class="col-sm-6 col-form-label" for="typeEdit">Type</label>
                   <input class="form-control" formControlName="type" id="typeEdit"
                          placeholder="Ex: Poet, Romancer, Novelist..." type="text" mdbCharCounter mdbInput>
                 </div>
@@ -190,7 +191,7 @@
               <div class="col-6">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" far icon="far fa-calendar-alt"></mdb-icon>
-                  <label class="col-sm-4 col-form-label" for="dateOfBirthEdit">Years</label>
+                  <label class="col-sm-6 col-form-label" for="dateOfBirthEdit">Years</label>
                   <input class="form-control" formControlName="dateOfBirth" id="dateOfBirthEdit"
                          maxlength="11" length="11"
                          mdbInput type="text" mdbCharCounter>
@@ -201,8 +202,8 @@
             <div class="row">
               <div class="col-6">
                 <div class="form-group">
-                  <mdb-icon class="prefix grey-text" fas icon="fas fa-flag"></mdb-icon>
-                  <label class="col-sm-2 col-form-label" for="nationalityEdit">Nationality</label>
+                  <mdb-icon class="prefix grey-text" fas icon="flag"></mdb-icon>
+                  <label class="col-sm-6 col-form-label" for="nationalityEdit">Nationality</label>
                   <input class="form-control" formControlName="nationality" id="nationalityEdit"
                          type="text" mdbCharCounter mdbInput>
                 </div>
@@ -221,15 +222,15 @@
 
               <div class="form-group col-12">
                 <mdb-icon class="prefix grey-text" far icon="far fa-comment-alt"></mdb-icon>
-                <label class="col-sm-2 col-form-label" for="descriptionEdit">Description</label>
+                <label class="col-sm-6 col-form-label" for="descriptionEdit">Description</label>
                 <textarea class="form-control" formControlName="description" id="descriptionEdit"
                           type="text" length="2000" mdbCharCounter></textarea>
               </div>
             </div>
 
             <div class="justify-content-center" style="display: flex">
-              <button color="amber" outline="true" mdbBtn mdbWavesEffect
-                      rounded="true" type="submit" (click)="alertShowSuccess()">Save
+              <button mdbBtn mdbWavesEffect style="background: brown; color: white"
+                      rounded="true" type="submit">Save
               </button>
             </div>
           </form>
