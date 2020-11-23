@@ -25,7 +25,7 @@
 
 <!-- End navbar -->
 
-<!--Section: Magazine v.2-->
+<!--Content Author Info-->
 <section class="magazine-section my-5">
 
   <!-- Section heading -->
@@ -52,16 +52,17 @@
 
         <!-- Data -->
         <div class="news-data d-flex justify-content-between">
-          <a href="#!" class="deep-orange-text">
-            <h4 class="font-weight-bold">
-              {{author.type}}</h4>
-          </a>
+
+            <h5 class="font-weight-bold">
+              <mdb-icon fas icon="user-edit" class="pr-2"></mdb-icon>{{author.type}}</h5>
+
           <p class="font-weight-bold dark-grey-text">
-            <mdb-icon far icon="clock" class="pr-2"></mdb-icon>{{author.nationality}}</p>
+            <mdb-icon far icon="flag" class="pr-2"></mdb-icon>{{author.nationality}}</p>
         </div>
 
         <!-- Excerpt -->
-        <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4">{{author.description}}</p>
+        <p class="dark-grey-text mb-lg-0 mb-md-5 mb-4"
+           style="text-align: justify; text-justify: inter-word">{{author.description}}</p>
 
       </div>
       <!-- Featured news -->
@@ -70,49 +71,28 @@
     <!-- Grid column -->
 
     <!-- Grid column -->
-    <div class="col-lg-6 col-md-12">
-
-      <!-- Small news -->
+    <div class="col-lg-6">
       <div class="single-news mb-4">
-
-        <!-- Grid row -->
         <div class="row">
+          <div class="col-md-5" *ngFor="let book of author.bookSet">
 
-          <!-- Grid column -->
-          <div class="col-md-4" *ngFor="let book of author.bookSet">
-
-            <!--Image-->
-            <div class="view overlay rounded z-depth-1 mb-4">
+            <!--Book ImageUrl-->
+            <div class="view overlay rounded z-depth-1 mb-4" style="width: 250px; height: 350px">
               <img class="img-fluid" src="{{book.bookImageUrl.imageUrl}}" alt="Sample image">
               <a>
                 <div class="mask rgba-white-slight waves-light" mdbWavesEffect></div>
               </a>
             </div>
+            <!--END Book ImageUrl-->
 
             <p class="font-weight-bold dark-grey-text">{{book.title}}</p>
-            <div class="d-flex justify-content-between">
-              <div class="col-11 text-truncate pl-0 mb-3">
-                <a href="#!" class="dark-grey-text">{{book.stock}}</a>
-              </div>
-              <a>
-                <i class="fas fa-angle-double-right"></i>
-              </a>
-            </div>
+            <p class="dark-grey-text">Stock: {{book.stock}}</p>
 
           </div>
-          <!-- Grid column -->
-
         </div>
-        <!-- Grid row -->
-
       </div>
-      <!-- Small news -->
-
     </div>
-    <!--Grid column-->
-
+    <!-- Grid Column -->
   </div>
-  <!-- Grid row -->
-
 </section>
-<!--Section: Magazine v.2-->
+<!--END Content Author Info-->

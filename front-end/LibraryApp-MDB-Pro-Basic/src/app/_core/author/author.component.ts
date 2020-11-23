@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthorService} from '../../_services/author.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AuthorImageUrlService} from '../../_services/author-image-url.service';
-import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
+import {ModalDirective} from 'ng-uikit-pro-standard';
 import {Author} from '../../model/Author';
 import {Router} from '@angular/router';
 import {AlertsService} from "../../_services/alerts.service";
@@ -20,6 +20,8 @@ export class AuthorComponent implements OnInit {
   addAuthorForm: FormGroup;
   editAuthorForm: FormGroup;
   dateForm: FormGroup;
+  errorMessageAddAuthor = '';
+  isAuthorAlreadyExist = false;
 
   constructor(private authorService: AuthorService,
               private authorImageUrl: AuthorImageUrlService,
@@ -71,17 +73,18 @@ export class AuthorComponent implements OnInit {
   editFormAuthor(author: Author, modalDirective: ModalDirective) {
     modalDirective.toggle();
 
-    this.editAuthorForm = new FormGroup({
-      id: new FormControl(author.id),
-      name: new FormControl(author.name),
-      lastName: new FormControl(author.lastName),
-      dateOfBirth: new FormControl(author.dateOfBirth),
-      nationality: new FormControl(author.nationality),
-      description: new FormControl(author.description),
-      type: new FormControl(author.type),
-      bookList: new FormControl(author.bookSet),
-      authorImageUrl: new FormControl(author.authorImageUrl)
-    });
+      this.editAuthorForm = new FormGroup({
+        id: new FormControl(author.id),
+        name: new FormControl(author.name),
+        lastName: new FormControl(author.lastName),
+        dateOfBirth: new FormControl(author.dateOfBirth),
+        nationality: new FormControl(author.nationality),
+        description: new FormControl(author.description),
+        type: new FormControl(author.type),
+        bookList: new FormControl(author.bookSet),
+        authorImageUrl: new FormControl(author.authorImageUrl)
+      });
+
   }
 
   addAuthor(modalDirective: ModalDirective) {
@@ -90,11 +93,13 @@ export class AuthorComponent implements OnInit {
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
         this.ngOnInit();
+        this.isAuthorAlreadyExist = false;
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
       },
-      error => {
-        console.log(error);
+      err => {
+        this.errorMessageAddAuthor = err.error.message;
+        this.isAuthorAlreadyExist = true;
       });
   }
 
@@ -107,12 +112,15 @@ export class AuthorComponent implements OnInit {
       // this.ngOnInit();
       this.alertsService.alertShowSuccess();
       modalDirective.toggle();
-    }, error => {
-      console.log(error);
+      this.isAuthorAlreadyExist = false;
+    }, err => {
+      this.errorMessageAddAuthor = err.error.message;
+      this.isAuthorAlreadyExist = true;
     });
   }
 
   deleteAuthor(author: Author) {
+
     swal({
       title: 'Are you sure?',
       text: 'Once deleted, you will not be able to recover this registration!',

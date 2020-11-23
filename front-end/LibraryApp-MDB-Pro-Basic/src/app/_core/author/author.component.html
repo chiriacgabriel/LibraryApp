@@ -43,7 +43,9 @@
       <!--Body-->
       <div class="modal-body">
 
-        <form (ngSubmit)="addAuthor(addAuthorFrame)" [formGroup]="addAuthorForm">
+        <form #addAuthorExist = "ngForm"
+              (ngSubmit)="addAuthorExist.form.valid && addAuthor(addAuthorFrame)"
+              [formGroup]="addAuthorForm">
           <div class="row">
             <div class="col-4">
               <div class="form-group">
@@ -124,6 +126,10 @@
             </div>
           </div>
 
+          <div *ngIf="addAuthorExist.submitted && isAuthorAlreadyExist" class="alert alert-warning">
+            {{errorMessageAddAuthor}}
+          </div>
+
           <div class="justify-content-center" style="display: flex">
             <button mdbBtn mdbWavesEffect style="background: brown; color: white"
                     rounded="true" type="submit">Save
@@ -158,7 +164,9 @@
         <!--Body-->
         <div class="modal-body">
 
-          <form (ngSubmit)="updateAuthor(frameEditAuthor)" [formGroup]="editAuthorForm">
+          <form #editAuthorExist = "ngForm" (ngSubmit)="editAuthorExist.form.valid &&
+          updateAuthor(frameEditAuthor)"
+                [formGroup]="editAuthorForm">
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
@@ -226,6 +234,10 @@
                 <textarea class="form-control" formControlName="description" id="descriptionEdit"
                           type="text" length="2000" mdbCharCounter></textarea>
               </div>
+            </div>
+
+            <div *ngIf="editAuthorExist.submitted && isAuthorAlreadyExist" class="alert alert-warning">
+              {{errorMessageAddAuthor}}
             </div>
 
             <div class="justify-content-center" style="display: flex">
