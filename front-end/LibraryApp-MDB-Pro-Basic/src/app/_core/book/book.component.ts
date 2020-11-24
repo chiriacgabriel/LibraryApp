@@ -9,6 +9,7 @@ import {BookCategory} from "../../model/BookCategory";
 import {BookImageUrl} from "../../model/BookImageUrl";
 import {AlertsService} from "../../_services/alerts.service";
 import {Book} from 'src/app/model/Book';
+import swal from "sweetalert";
 
 @Component({
   selector: 'app-book',
@@ -51,25 +52,20 @@ export class BookComponent implements OnInit {
   formBook() {
     this.addBookForm = new FormGroup({
       title: new FormControl(''),
-      author: new FormControl(),
+      author: new FormControl(''),
       stock: new FormControl('', Validators.required),
-      bookImageUrl: new FormControl(),
-      bookCategory: new FormControl(),
+      bookImageUrl: new FormControl(''),
+      bookCategory: new FormControl(''),
       fictional: new FormControl(),
       nonfictional: new FormControl()
     });
   }
 
   editFormBook(book: Book, modalDirective: ModalDirective) {
-    modalDirective.toggle();
 
-    const bookImagesSelected = this.bookImages.find(i => i.id == book.bookImageUrl.id);
+    const bookImageSelected = this.bookImages.find(i => i.id == book.bookImageUrl.id);
     const bookCategorySelected = this.bookCategories.find(i => i.id == book.bookCategory.id);
-    const authorsSelected = this.authors.find(i => i.id == book.author.id);
-
-    this.editBookForm.get('author').setValue(authorsSelected);
-    this.editBookForm.get('bookImageUrl').setValue(bookImagesSelected);
-    this.editBookForm.get('bookCategory').setValue(bookCategorySelected);
+    const authorSelected = this.authors.find(i => i.id == book.author.id);
 
     this.editBookForm = new FormGroup({
       id: new FormControl(book.id),
@@ -81,6 +77,27 @@ export class BookComponent implements OnInit {
       fictional: new FormControl(book.fictional),
       nonfictional: new FormControl(book.nonfictional)
     });
+
+    this.editBookForm.get('author').setValue(authorSelected);
+    this.editBookForm.get('bookImageUrl').setValue(bookImageSelected);
+    this.editBookForm.get('bookCategory').setValue(bookCategorySelected);
+
+    if (book.fictional != null) {
+      const fictionalSelected = this.fictionals.find(i => i.id == book.fictional.id);
+      this.editBookForm.get('fictional').setValue(fictionalSelected);
+      this.isFictional = true;
+      this.isNonfictional = false;
+
+    }
+
+    if (book.nonfictional != null) {
+      const nonfictionalSelected = this.nonfictionals.find(i => i.id == book.nonfictional.id);
+      this.editBookForm.get('nonfictional').setValue(nonfictionalSelected);
+      this.isNonfictional = true;
+      this.isFictional = false;
+    }
+
+    modalDirective.toggle();
   }
 
   getAllBookImages() {
@@ -140,6 +157,8 @@ export class BookComponent implements OnInit {
         this.ngOnInit();
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
+        this.isNonfictional = false;
+        this.isFictional = false;
       },
       error => {
         console.log(error);
@@ -152,6 +171,7 @@ export class BookComponent implements OnInit {
     const id = this.books[index].id;
 
     this.bookService.editBookById(id, this.books[index]).subscribe(response => {
+        this.ngOnInit();
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
 
@@ -162,15 +182,26 @@ export class BookComponent implements OnInit {
   }
 
   deleteBook(book: Book) {
-    if (window.confirm("Are you sure you want to delete " + String(book.title) + " ?")) {
-      this.bookService.deleteBookById(Number(book.id)).subscribe(response => {
-          this.ngOnInit();
-          this.alertsService.alertShowWarning();
-        },
-        error => {
-          console.log(error);
-        });
-    }
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this registration!',
+      icon: 'warning',
+      buttons: ['Cancel', 'Ok'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.bookService.deleteBookById(Number(book.id)).subscribe(response => {
+              this.ngOnInit();
+            },
+            error => {
+              console.log(error);
+            });
+          swal('Your registration/file has been deleted!', {
+            icon: 'success',
+          });
+        }
+      });
   }
 
   isFictionalSelected(bookCategory: BookCategory) {

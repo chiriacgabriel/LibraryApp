@@ -52,6 +52,7 @@ public class BookRestController {
     //Create
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
+        book.getTitle().trim();
         return ResponseEntity.ok(bookRepository.save(book));
     }
 
@@ -69,13 +70,27 @@ public class BookRestController {
 
         Book dbBook = optionalBook.get();
 
-        dbBook.setTitle(book.getTitle());
+        dbBook.setTitle(book.getTitle().trim());
         dbBook.setStock(book.getStock());
         dbBook.setAuthor(book.getAuthor());
         dbBook.setBookImageUrl(book.getBookImageUrl());
         dbBook.setBookCategory(book.getBookCategory());
-        dbBook.setFictional(book.getFictional());
-        dbBook.setNonfictional(book.getNonfictional());
+
+        if (dbBook.getFictional() != null && book.getNonfictional() != null){
+            dbBook.setFictional(null);
+            dbBook.setNonfictional(book.getNonfictional());
+        }else if (dbBook.getNonfictional() != null && book.getFictional() != null){
+            dbBook.setFictional(book.getFictional());
+            dbBook.setNonfictional(null);
+        }
+
+        if (dbBook.getFictional() != null && book.getFictional() != null){
+            dbBook.setFictional(book.getFictional());
+        }
+
+        if (dbBook.getNonfictional() != null && book.getNonfictional() != null){
+            dbBook.setNonfictional(book.getNonfictional());
+        }
 
         return ResponseEntity.ok(bookRepository.save(dbBook));
 

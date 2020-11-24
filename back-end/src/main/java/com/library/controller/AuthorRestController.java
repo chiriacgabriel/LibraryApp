@@ -58,6 +58,11 @@ public class AuthorRestController {
                 authorRepository.findByNameAndLastName(author.getName().trim(),
                         author.getLastName().trim());
 
+        if (author.getDescription().trim().length() > 2000){
+            return ResponseEntity.badRequest().body(new MessageResponse(
+                    "A maximum of 2000 characters is allowed"));
+        }
+
         if (dbAuthor.isPresent()){
             return ResponseEntity.badRequest().body(new MessageResponse(
                     "Author " + author.getName() + " " + author.getLastName() +
@@ -78,27 +83,48 @@ public class AuthorRestController {
                         author.getLastName().trim());
 
 
-
         if (!optionalAuthor.isPresent()) {
             return ResponseEntity.notFound()
                                  .build();
         }
 
-        if (dbAuthorCheckDuplicate.isPresent()){
+        if (author.getDescription().trim().length() > 2000){
             return ResponseEntity.badRequest().body(new MessageResponse(
-                    "Author " + author.getName() + " " + author.getLastName() +
-                            " already exists !"));
+                    "A maximum of 2000 characters are allowed"));
         }
 
         Author dbAuthor = optionalAuthor.get();
 
-        dbAuthor.setName(author.getName().trim());
-        dbAuthor.setLastName(author.getLastName().trim());
-        dbAuthor.setDateOfBirth(author.getDateOfBirth());
-        dbAuthor.setNationality(author.getNationality().trim());
-        dbAuthor.setType(author.getType().trim());
-        dbAuthor.setAuthorImageUrl(author.getAuthorImageUrl());
-        dbAuthor.setDescription(author.getDescription().trim());
+        if (!dbAuthor.getName().equals(author.getName()) || !dbAuthor.getLastName().equals(author.getLastName())){
+            if (dbAuthorCheckDuplicate.isPresent()) {
+                return ResponseEntity.badRequest()
+                                     .body(new MessageResponse(
+                                             "Author " + author.getName() + " " + author.getLastName() +
+                                                     " already exists !"));
+            }
+            dbAuthor.setName(author.getName().trim());
+            dbAuthor.setLastName(author.getLastName().trim());
+        }
+
+        if (!dbAuthor.getDateOfBirth().equals(author.getDateOfBirth())){
+            dbAuthor.setDateOfBirth(author.getDateOfBirth());
+        }
+
+        if (!dbAuthor.getNationality().equals(author.getNationality())){
+            dbAuthor.setNationality(author.getNationality().trim());
+        }
+
+        if (!dbAuthor.getType().equals(author.getType())){
+            dbAuthor.setType(author.getType().trim());
+        }
+
+        if (!dbAuthor.getAuthorImageUrl().equals(author.getAuthorImageUrl())){
+            dbAuthor.setAuthorImageUrl(author.getAuthorImageUrl());
+        }
+
+        if (!dbAuthor.getDescription().equals(author.getDescription())){
+            dbAuthor.setDescription(author.getDescription().trim());
+        }
 
         return ResponseEntity.ok(authorRepository.save(dbAuthor));
     }

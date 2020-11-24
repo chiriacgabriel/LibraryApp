@@ -6,7 +6,7 @@
     <mdb-icon class="fas-author" fas icon="address-book"></mdb-icon>
   </navlinks>
   <navlinks class="navbar-container">
-    <span class="clearfix d-none d-sm-inline-block span-author">Books</span>
+    <span class="clearfix d-none d-sm-inline-block span-book">Books</span>
   </navlinks>
   <navlinks>
     <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
@@ -28,12 +28,14 @@
      id="bookFrame"
      mdbModal
      role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-notify modal-warning" role="document">
+  <div class="modal-dialog-scrollable" role="document">
     <!--Content-->
     <div class="modal-content">
       <!--Header-->
-      <div class="modal-header text-center">
-        <h4 class="modal-title white-text w-100 font-weight-bold py-2">Add Book</h4>
+      <div class="modal-header text-center custom-header-modal">
+
+        <img src="./assets/images/addBook.png" class="mx-auto">
+
         <button (click)="bookFrame.hide()" aria-label="Close" class="close"
                 data-dismiss="modal"
                 type="button">
@@ -47,8 +49,7 @@
           <div class="row">
             <div class="col-4">
               <div class="form-group">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                <label class="col-sm-4 col-form-label" for="title">Title</label>
+                <label class="col-sm-6 col-form-label" for="title">Title</label>
                 <input [(ngModel)]="preSelectedTitle" class="form-control" disabled
                        formControlName="title"
                        id="title" type="text">
@@ -58,10 +59,9 @@
 
             <div class="col-4">
               <div class="form-group">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                <label class="col-sm-5 col-form-label" for="author">Author</label>
+                <label class="col-sm-6 col-form-label" for="author">Author</label>
                 <select class="form-control" formControlName="author" id="author">
-                  <option disabled hidden selected value="">Select author</option>
+                  <option disabled hidden selected value="">Select author...</option>
                   <option *ngFor="let author of authors" [ngValue]="author">
                     {{author.name}} {{author.lastName}}
                   </option>
@@ -71,8 +71,7 @@
 
             <div class="col-4">
               <div class="form-group">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
-                <label class="col-sm-4 col-form-label" for="stock">Stock</label>
+                <label class="col-sm-6 col-form-label" for="stock">Stock</label>
                 <input class="form-control" formControlName="stock" id="stock" min=0
                        oninput="validity.valid||(value='')" type="number">
               </div>
@@ -82,10 +81,9 @@
           <div class="row">
             <div class="col-4">
               <div class="form-group">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
-                <label class="col-sm-10 col-form-label" for="bookImageUrl">Book Image</label>
+                <label class="col-sm-6 col-form-label" for="bookImageUrl">Book Image</label>
                 <select class="form-control" formControlName="bookImageUrl" id="bookImageUrl">
-                  <option disabled hidden selected value="">Select image</option>
+                  <option disabled selected value="">Select image...</option>
                   <option (click)="getPreSelectedTitle(bookImage)"
                           *ngFor="let bookImage of bookImages"
                           [ngValue]="bookImage">
@@ -97,10 +95,9 @@
 
             <div class="col-4">
               <div class="form-group">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                <label class="col-sm-5 col-form-label" for="bookCategory">Category</label>
+                <label class="col-sm-6 col-form-label" for="bookCategory">Category</label>
                 <select class="form-control" formControlName="bookCategory" id="bookCategory">
-                  <option disabled hidden selected value="">Select Category</option>
+                  <option disabled hidden selected value="">Select Category...</option>
                   <option (click)="isFictionalSelected(category)"
                           *ngFor="let category of bookCategories"
                           [ngValue]="category">
@@ -112,12 +109,11 @@
 
             <div class="col-4">
               <div class="form-group">
-                <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
 
                 <div *ngIf="isFictional">
-                  <label class="col-sm-5 col-form-label" for="fictional">Type</label>
+                  <label class="col-sm-6 col-form-label" for="fictional">Type</label>
                   <select class="form-control" formControlName="fictional" id="fictional">
-                    <option disabled hidden selected value="">Select Type</option>
+                    <option disabled hidden selected value="">Select Type...</option>
                     <option *ngFor="let fictional of fictionals" [ngValue]="fictional">
                       {{fictional.nameOfFictional}}
                     </option>
@@ -125,9 +121,9 @@
                 </div>
 
                 <div *ngIf="isNonfictional">
-                  <label class="col-sm-5 col-form-label" for="fictional">Type</label>
+                  <label class="col-sm-6 col-form-label" for="fictional">Type</label>
                   <select class="form-control" formControlName="nonfictional" id="nonfictional">
-                    <option disabled hidden selected value="">Select Type</option>
+                    <option disabled hidden selected value="">Select Type...</option>
                     <option *ngFor="let nonfictional of nonfictionals" [ngValue]="nonfictional">
                       {{nonfictional.nameOfNonfictional}}
                     </option>
@@ -139,8 +135,8 @@
           </div>
 
           <div class="justify-content-center" style="display: flex">
-            <button color="warning" mdbBtn mdbWavesEffect
-                    rounded="true" type="submit">Save
+            <button mdbBtn mdbWavesEffect style="background: brown; color: white"
+                    rounded="true" type="submit">Add
             </button>
           </div>
         </form>
@@ -156,12 +152,14 @@
      id="editBookFrame"
      mdbModal
      role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-notify modal-warning" role="document">
+  <div class="modal-dialog-scrollable" role="document">
     <!--Content-->
     <div class="modal-content">
       <!--Header-->
-      <div class="modal-header text-center">
-        <h4 class="modal-title white-text w-100 font-weight-bold py-2">Edit Book</h4>
+      <div class="modal-header text-center custom-header-modal">
+
+        <img src="./assets/images/edit-book.png" class="mx-auto">
+
         <button (click)="editBookFrame.hide()" aria-label="Close" class="close"
                 data-dismiss="modal"
                 type="button">
@@ -176,7 +174,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                  <label class="col-sm-4 col-form-label" for="editTitle">Title</label>
+                  <label class="col-sm-6 col-form-label" for="editTitle">Title</label>
                   <input class="form-control" formControlName="title"
                          id="editTitle" type="text">
 
@@ -186,9 +184,8 @@
               <div class="col-4">
                 <div class="form-group">
                   <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                  <label class="col-sm-5 col-form-label" for="editAuthor">Author</label>
-                  <select class="form-control" formControlName="author" id="editAuthor"
-                          [(ngModel)]="defaultValue">
+                  <label class="col-sm-6 col-form-label" for="editAuthor">Author</label>
+                  <select class="form-control" formControlName="author" id="editAuthor">
                     <option *ngFor="let author of authors" [ngValue]="author">
                       {{author.name}} {{author.lastName}}
                     </option>
@@ -199,7 +196,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
-                  <label class="col-sm-4 col-form-label" for="editStock">Stock</label>
+                  <label class="col-sm-6 col-form-label" for="editStock">Stock</label>
                   <input class="form-control" formControlName="stock" id="editStock"
                          oninput="validity.valid||(value='')" type="number">
                 </div>
@@ -210,10 +207,9 @@
               <div class="col-4">
                 <div class="form-group">
                   <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
-                  <label class="col-sm-10 col-form-label" for="editBookImageUrl">Book Image</label>
+                  <label class="col-sm-6 col-form-label" for="editBookImageUrl">Book Image</label>
                   <select class="form-control" formControlName="bookImageUrl" id="editBookImageUrl">
-                    <option *ngFor="let bookImage of bookImages"
-                            [ngValue]="bookImage">
+                    <option *ngFor="let bookImage of bookImages" [ngValue]="bookImage">
                       {{bookImage.title}}
                     </option>
                   </select>
@@ -223,7 +219,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-                  <label class="col-sm-5 col-form-label" for="editBookCategory">Category</label>
+                  <label class="col-sm-6 col-form-label" for="editBookCategory">Category</label>
                   <select class="form-control" formControlName="bookCategory" id="editBookCategory">
                     <option disabled hidden selected value="">Select Category</option>
                     <option (click)="isFictionalSelected(category)"
@@ -240,7 +236,7 @@
                   <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
 
                   <div *ngIf="isFictional">
-                    <label class="col-sm-5 col-form-label" for="editFictional">Type</label>
+                    <label class="col-sm-6 col-form-label" for="editFictional">Type</label>
                     <select class="form-control" formControlName="fictional" id="editFictional">
                       <option disabled hidden selected value="">Select Type</option>
                       <option *ngFor="let fictional of fictionals" [ngValue]="fictional">
@@ -250,7 +246,7 @@
                   </div>
 
                   <div *ngIf="isNonfictional">
-                    <label class="col-sm-5 col-form-label" for="editNonfictional">Type</label>
+                    <label class="col-sm-6 col-form-label" for="editNonfictional">Type</label>
                     <select class="form-control" formControlName="nonfictional"
                             id="editNonfictional">
                       <option disabled hidden selected value="">Select Type</option>
@@ -265,8 +261,8 @@
             </div>
 
             <div class="justify-content-center" style="display: flex">
-              <button color="warning" mdbBtn mdbWavesEffect
-                      rounded="true" type="submit">Save
+              <button mdbBtn mdbWavesEffect style="background: brown; color: white"
+                      rounded="true" type="submit">Update
               </button>
             </div>
           </form>
@@ -279,34 +275,39 @@
 
 
 <!--Content-->
-<div class="row" style="margin-top: 50px">
-  <div *ngFor="let book of books" class="col-md-2-custom">
 
-    <div class="container-custom" style="background-image: url({{book.bookImageUrl.imageUrl}})">
-      <div class="overlay">
-        <div class="items"></div>
-        <div class="items head">
-          <p>{{book.author.name}} {{book.author.lastName}}</p>
-          <hr>
-        </div>
-        <div class="items price">
-          <p *ngIf="book.fictional != null" class="new">{{book.fictional.nameOfFictional}}</p>
-          <p *ngIf="book.nonfictional != null"
-             class="new">{{book.nonfictional.nameOfNonfictional}}</p>
-        </div>
+<div class="row my-5">
+  <div *ngFor="let book of books" class="col-md-3">
+    <div class="card mb-4">
+      <div class="view">
+        <img alt="Card image cap" class="card-img-top" src="{{book.bookImageUrl.imageUrl}}">
+      </div>
+      <!-- card Body -->
+      <div class="card-body p-3">
+        <h5 class="card-title font-weight-bold fuchsia-rose-text mb-0" style="font-size: 15px">{{book.author.name}} {{book.author.lastName}} : {{book.title}}</h5>
+        <p *ngIf="book.fictional != null" class="aqua-sky-text mb-0">{{book.bookCategory.nameOfBookCategory}} : {{book.fictional.nameOfFictional}}</p>
+        <p *ngIf="book.nonfictional != null" class="aqua-sky-text mb-0">{{book.bookCategory.nameOfBookCategory}} : {{book.nonfictional.nameOfNonfictional}}</p>
+        <p class="font-weight-bold mb-0" style="font-size: 20px"><img class="card-img-top" src="./assets/images/in-stock.png" alt="Card image cap" style="width: 35px; height: 30px">{{book.stock}}</p>
+      </div>
+      <!-- End Body-->
+
+      <!-- Card footer -->
+      <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+        <ul class="list-unstyled list-inline font-small">
+          <li class="list-inline-item pr-2 white-text"><i class="far fa-clock pr-1"></i>05/10/2015</li>
+          <li class="list-inline-item pr-2"><a href="#" class="white-text"><i
+            class="far fa-comments pr-1"></i>12</a></li>
 
         <button (click)="editFormBook(book,editBookFrame)"
                 class="button-newCard" style="color: #ffbb33;"><i
           class="fas fa-user-edit"></i></button>
-
-        <div class="items cart">
-          <button (click)="deleteBook(book)" class="float-right" size="sm">
-            <i class="far fa-trash-alt"></i>
-          </button>
-          <span>{{book.bookCategory.nameOfBookCategory}}</span>
-        </div>
+        <button (click)="deleteBook(book)" class="button-newCard"
+                style="color: #ff4444;"><i class="far fa-trash-alt"></i></button>
+        </ul>
       </div>
+      <!-- End footer -->
     </div>
   </div>
 </div>
+
 <!--End Content-->
