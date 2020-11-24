@@ -31,8 +31,6 @@ export class BookComponent implements OnInit {
 
   preSelectedTitle = ''
 
-  defaultValue =[];
-
   constructor(private bookImageUrlService: BookImageUrlService,
               private bookCategoryTypeService: BookCategoryTypeService,
               private bookService: BookService,
@@ -65,17 +63,13 @@ export class BookComponent implements OnInit {
   editFormBook(book: Book, modalDirective: ModalDirective) {
     modalDirective.toggle();
 
-    // const bookImagesSelected = this.bookImages.find(i => i.id == book.bookImageUrl.id);
-    // const bookCategorySelected = this.bookCategories.find(i => i.id == book.bookCategory.id);
-    // const authorsSelected = this.authors.find(i => i.id == book.author.id);
+    const bookImagesSelected = this.bookImages.find(i => i.id == book.bookImageUrl.id);
+    const bookCategorySelected = this.bookCategories.find(i => i.id == book.bookCategory.id);
+    const authorsSelected = this.authors.find(i => i.id == book.author.id);
 
-    // this.editBookForm.get('author').setValue(authorsSelected);
-    // this.editBookForm.get('bookImageUrl').setValue(bookImagesSelected);
-    // this.editBookForm.get('bookCategory').setValue(bookCategorySelected);
-
-    this.defaultValue = this.authors[Number(book.author.id)]
-
-    console.log(this.defaultValue)
+    this.editBookForm.get('author').setValue(authorsSelected);
+    this.editBookForm.get('bookImageUrl').setValue(bookImagesSelected);
+    this.editBookForm.get('bookCategory').setValue(bookCategorySelected);
 
     this.editBookForm = new FormGroup({
       id: new FormControl(book.id),
@@ -87,7 +81,6 @@ export class BookComponent implements OnInit {
       fictional: new FormControl(book.fictional),
       nonfictional: new FormControl(book.nonfictional)
     });
-
   }
 
   getAllBookImages() {
@@ -166,7 +159,6 @@ export class BookComponent implements OnInit {
       err => {
         console.log(err);
       })
-
   }
 
   deleteBook(book: Book) {

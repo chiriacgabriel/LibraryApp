@@ -187,7 +187,7 @@
                 <div class="form-group">
                   <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
                   <label class="col-sm-5 col-form-label" for="editAuthor">Author</label>
-                  <select class="form-control" formGroupName="author" id="editAuthor"
+                  <select class="form-control" formControlName="author" id="editAuthor"
                           [(ngModel)]="defaultValue">
                     <option *ngFor="let author of authors" [ngValue]="author">
                       {{author.name}} {{author.lastName}}
