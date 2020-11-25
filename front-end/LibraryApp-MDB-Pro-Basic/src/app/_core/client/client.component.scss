@@ -1,0 +1,61 @@
+.span-client {
+  margin-left: 10px;
+  font-family: 'Font Awesome 5 Pro', 'Font Awesome 5 Free';
+  font-size: 25px;
+}
+
+.span-card-body{
+  font-weight: bold;
+  color: black;
+  font-family: Arial;
+}
+
+p{
+  text-align: left;
+  color: #4b515d;
+}
+
+i{
+  padding: 2px;
+}
+
+mdb-card-body{
+  background: whitesmoke;
+}
+
+.custom-header-modal {
+  background: gainsboro;
+}
+
+.card{
+  margin-bottom: 25px;
+}
+
+
+mdb-card-footer{
+  background: #45526e;
+  text-align: right;
+  max-height: 45px;
+}
+
+.button-newCard {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition: .5s;
+
+  &:hover {
+    color: #4CAF50;
+    transform: rotate(22deg)
+  }
+}
+
+.modal-dialog-scrollable {
+  max-width: 800px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+

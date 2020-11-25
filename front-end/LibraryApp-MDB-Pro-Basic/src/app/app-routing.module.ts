@@ -13,6 +13,7 @@ import {BookComponent} from './_core/book/book.component';
 import {MediaComponent} from './_core/media/media.component';
 import {AuthorDetailsComponent} from './_core/author/author-details/author-details.component';
 import {StatsCardComponent} from './dashboard/stats-card/stats-card.component';
+import {ClientComponent} from './_core/client/client.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -36,6 +37,9 @@ const routes: Routes = [
       },
       {
         path: 'media', component: MediaComponent
+      },
+      {
+        path: 'client', component: ClientComponent
       },
       {
         path: '', component: StatsCardComponent

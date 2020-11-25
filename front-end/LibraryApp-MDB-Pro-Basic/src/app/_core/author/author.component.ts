@@ -109,7 +109,7 @@ export class AuthorComponent implements OnInit {
     const id = this.authors[index].id;
 
     this.authorService.editAuthorById(id, this.authors[index]).subscribe(response => {
-      // this.ngOnInit();
+      this.ngOnInit();
       this.alertsService.alertShowSuccess();
       modalDirective.toggle();
       this.isAuthorAlreadyExist = false;
@@ -130,7 +130,7 @@ export class AuthorComponent implements OnInit {
     })
       .then((willDelete) => {
         if (willDelete) {
-          this.authorService.deleteAuthorById(author.id).subscribe(response => {
+          this.authorService.deleteAuthorById(Number(author.id)).subscribe(response => {
             this.ngOnInit();
           }, error => {
             console.log(error);

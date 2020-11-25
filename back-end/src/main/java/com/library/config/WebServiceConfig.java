@@ -81,6 +81,8 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .antMatchers("/api/book-category/**")
             .permitAll()
+            .antMatchers("/api/clients/**")
+            .permitAll()
             .anyRequest()
             .authenticated();
 

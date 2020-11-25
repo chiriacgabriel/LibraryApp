@@ -1,0 +1,153 @@
+<!-- Navbar Client-->
+<mdb-navbar
+  SideClass="navbar fixed-top-author navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav grey lighten-5 navbar-dark"
+  [containerInside]="false">
+  <navlinks class="navbar-container">
+    <mdb-icon class="fas-author" fas icon="user-friends"></mdb-icon>
+  </navlinks>
+  <navlinks class="navbar-container">
+    <span class="clearfix d-none d-sm-inline-block span-client">Clients</span>
+  </navlinks>
+  <navlinks>
+    <ul class="nav navbar-nav nav-flex-icons ml-auto ie-double-nav">
+      <li class="nav-item">
+        <button (click)="clientFrame.toggle()" color="primary" mdbBtn mdbWavesEffect rounded="true"
+                size="md"
+                type="button">Add Client
+        </button>
+      </li>
+    </ul>
+  </navlinks>
+</mdb-navbar>
+<!-- End navbar -->
+
+<!-- Modal Edit Book -->
+<div #clientFrame="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel"
+     class="modal fade top"
+     id="frameModalClient"
+     mdbModal
+     role="dialog" tabindex="-1">
+  <div class="modal-dialog-scrollable" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header text-center custom-header-modal">
+
+        <img class="mx-auto" src="./assets/images/edit-book.png">
+
+        <button (click)="clientFrame.hide()" aria-label="Close" class="close"
+                data-dismiss="modal"
+                type="button">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <form (ngSubmit)="addClient(clientFrame)" [formGroup]="addClientForm">
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="user-alt"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="name">Name</label>
+                <input class="form-control" formControlName="name"
+                       id="name" type="text">
+
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="user-alt"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="lastName">Last Name</label>
+                <input class="form-control" formControlName="lastName"
+                       id="lastName" type="text">
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="email">Email</label>
+                <input class="form-control" formControlName="email" id="email"
+                       type="email">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="phone-alt"></mdb-icon>
+                <label class="col-sm-8 col-form-label" for="phoneNumber">Phone Number</label>
+                <input class="form-control" formControlName="phoneNumber"
+                       id="phoneNumber" type="text">
+              </div>
+            </div>
+          </div>
+
+          <div class="justify-content-center" style="display: flex">
+            <button mdbBtn mdbWavesEffect rounded="true"
+                    style="background: brown; color: white" type="submit">Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End modal -->
+
+
+<!-- Content -->
+<div class="row my-5">
+  <div *ngFor="let client of clients" class="col-lg-3 col-md-3">
+    <!--Card-->
+    <mdb-card cascade="true">
+
+      <!--Card image-->
+      <div class="view view-cascade card-header" style="background: gainsboro">
+        <h2 style="color: black; font-weight: 400">{{client.name}}</h2>
+      </div>
+      <!--/Card image-->
+
+      <mdb-card-body cascade="true" class="text-center">
+        <!--Card content-->
+
+        <p>
+          <span class="span-card-body"><i class="fas fa-user"></i> Full name: </span>
+          {{client.name}} {{client.lastName}}
+        </p>
+
+        <p>
+          <span class="span-card-body"><i class="fas fa-envelope"></i> Email: </span>
+          {{client.email}}
+        </p>
+
+        <p>
+          <span class="span-card-body"><i class="fas fa-phone-alt"></i> Phone Number: </span>
+          {{client.phoneNumber}}
+        </p>
+
+        <p>
+          <span class="span-card-body"><i class="fas fa-calendar-alt"></i> Reservations: </span>
+          TODO...
+        </p>
+
+      </mdb-card-body>
+      <!--/.Card content-->
+
+      <mdb-card-footer>
+        <ul class="list-unstyled list-inline font-small">
+          <button class="button-newCard"
+                  style="color: #2bbbad;"><i class="fas fa-comment"></i></button>
+          <button class="button-newCard"
+                  style="color: #ffbb33;"><i class="fas fa-user-edit"></i></button>
+          <button (click)="deleteClient(client)" class="button-newCard"
+                  style="color: #ff4444;"><i class="far fa-trash-alt"></i></button>
+        </ul>
+      </mdb-card-footer>
+    </mdb-card>
+    <!--/.Card-->
+  </div>
+</div>
+<!-- End Content -->
