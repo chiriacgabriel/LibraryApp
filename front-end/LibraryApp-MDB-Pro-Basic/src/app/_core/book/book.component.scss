@@ -1,60 +1,55 @@
+//content book
 .span-book {
   margin-left: 10px;
   font-family: 'Font Awesome 5 Pro', 'Font Awesome 5 Free';
   font-size: 25px;
 }
-
-.view {
-  height: 450px;
-}
-
-// Button modifications
 .button-newCard {
   border: none;
   background: none;
   font-size: 18px;
   cursor: pointer;
   transition: .5s;
-
   &:hover {
     color: #4CAF50;
     transform: rotate(22deg)
   }
 }
-
-// Footer Color
 .mdb-color {
   background-color: #45526e !important;
 }
-
-// Style Add Book modal
+//****************************************End Content book*****************************************************//
+//style add book modal
 .custom-header-modal {
   background: gainsboro;
 }
-
 //DISABLE ARROWS FOR INPUT TYPE NUMBER
-
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
-// END DISABLE
-
-
-@media only screen and (max-height: 1500px) {
-  .view{
-    height: 380px;
+//**************************************End style book modal**************************************************//
+//**************************************Media Only Screen**************************************************//
+/* ----------- 650px - 950px ----------- */
+@media screen and (min-width: 768px) and (max-width: 950px) {
+  .view {
+    max-height: 350px;
+  }
+  .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }
-
-@media only screen and(min-width: 549px) {
+@media only screen and (min-width: 701px) {
+  .view {
+    max-height: 410px;
+  }
   .modal-dialog-scrollable {
     max-width: 800px;
     display: flex;
@@ -62,19 +57,10 @@ input[type=number] {
     margin-right: auto;
   }
 }
-
-@media only screen and (min-width: 550px)
-and(max-width: 780px) {
-  .modal-dialog-scrollable {
-    max-width: 800px;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
+@media only screen and (max-width: 700px) {
+  .view {
+    max-height: 410px;
   }
-}
-
-@media only screen and (max-width: 781px) {
-
   .col-6 {
     flex: 0 0 100%;
     max-width: 100%;
@@ -83,10 +69,37 @@ and(max-width: 780px) {
     flex: 0 0 100%;
     max-width: 100%;
   }
-
-  .col-sm-6{
+  .col-sm-6 {
     width: 0;
     display: unset;
   }
+}
+/* ----------- 1200px - 1800px ----------- */
+@media screen and (min-width: 1201px) and (max-width: 1800px) {
+  .view {
+    max-height: 420px;
+  }
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 33.3%;
+  }
+  .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 33.3%;
+  }
+}
+/* ----------- 1800px + ----------- */
+@media screen and (min-width: 1801px) {
+  .view {
+    max-height: 425px;
+  }
 
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 25%;
+  }
+  .col-md-3 {
+    flex: 0 0 100%;
+    max-width: 25%;
+  }
 }
