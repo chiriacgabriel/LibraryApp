@@ -49,6 +49,7 @@
           <div class="row">
             <div class="col-4">
               <div class="form-group">
+                <mdb-icon fas icon="pen-alt" class="prefix grey-text"></mdb-icon>
                 <label class="col-sm-6 col-form-label" for="title">Title</label>
                 <input [(ngModel)]="preSelectedTitle" class="form-control" disabled
                        formControlName="title"
@@ -59,6 +60,7 @@
 
             <div class="col-4">
               <div class="form-group">
+                <mdb-icon fas icon="user-alt" class="prefix grey-text"></mdb-icon>
                 <label class="col-sm-6 col-form-label" for="author">Author</label>
                 <select class="form-control" formControlName="author" id="author">
                   <option disabled hidden selected value="">Select author...</option>
@@ -71,6 +73,7 @@
 
             <div class="col-4">
               <div class="form-group">
+                <mdb-icon fas icon="check" class="prefix grey-text"></mdb-icon>
                 <label class="col-sm-6 col-form-label" for="stock">Stock</label>
                 <input class="form-control" formControlName="stock" id="stock" min=0
                        oninput="validity.valid||(value='')" type="number">
@@ -81,6 +84,7 @@
           <div class="row">
             <div class="col-4">
               <div class="form-group">
+                <mdb-icon fas icon="file-image" class="prefix grey-text"></mdb-icon>
                 <label class="col-sm-6 col-form-label" for="bookImageUrl">Book Image</label>
                 <select class="form-control" formControlName="bookImageUrl" id="bookImageUrl">
                   <option disabled selected value="">Select image...</option>
@@ -95,6 +99,7 @@
 
             <div class="col-4">
               <div class="form-group">
+                <mdb-icon fas icon="caret-square-right" class="prefix grey-text"></mdb-icon>
                 <label class="col-sm-6 col-form-label" for="bookCategory">Category</label>
                 <select class="form-control" formControlName="bookCategory" id="bookCategory">
                   <option disabled hidden selected value="">Select Category...</option>
@@ -111,6 +116,7 @@
               <div class="form-group">
 
                 <div *ngIf="isFictional">
+                  <mdb-icon fas icon="clipboard-list" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="fictional">Type</label>
                   <select class="form-control" formControlName="fictional" id="fictional">
                     <option disabled hidden selected value="">Select Type...</option>
@@ -121,6 +127,7 @@
                 </div>
 
                 <div *ngIf="isNonfictional">
+                  <mdb-icon fas icon="clipboard-list" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="fictional">Type</label>
                   <select class="form-control" formControlName="nonfictional" id="nonfictional">
                     <option disabled hidden selected value="">Select Type...</option>
@@ -173,7 +180,7 @@
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
-                  <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
+                  <mdb-icon fas icon="pen-alt" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="editTitle">Title</label>
                   <input class="form-control" formControlName="title"
                          id="editTitle" type="text">
@@ -183,7 +190,7 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
+                  <mdb-icon fas icon="user-alt" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="editAuthor">Author</label>
                   <select class="form-control" formControlName="author" id="editAuthor">
                     <option *ngFor="let author of authors" [ngValue]="author">
@@ -195,7 +202,7 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
+                  <mdb-icon fas icon="check" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="editStock">Stock</label>
                   <input class="form-control" formControlName="stock" id="editStock"
                          oninput="validity.valid||(value='')" type="number">
@@ -206,7 +213,7 @@
             <div class="row">
               <div class="col-4">
                 <div class="form-group">
-                  <!--                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>-->
+                  <mdb-icon fas icon="file-image" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="editBookImageUrl">Book Image</label>
                   <select class="form-control" formControlName="bookImageUrl" id="editBookImageUrl">
                     <option *ngFor="let bookImage of bookImages" [ngValue]="bookImage">
@@ -218,7 +225,7 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
+                  <mdb-icon fas icon="caret-square-right" class="prefix grey-text"></mdb-icon>
                   <label class="col-sm-6 col-form-label" for="editBookCategory">Category</label>
                   <select class="form-control" formControlName="bookCategory" id="editBookCategory">
                     <option disabled hidden selected value="">Select Category</option>
@@ -233,9 +240,8 @@
 
               <div class="col-4">
                 <div class="form-group">
-                  <!--                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>-->
-
                   <div *ngIf="isFictional">
+                    <mdb-icon fas icon="clipboard-list" class="prefix grey-text"></mdb-icon>
                     <label class="col-sm-6 col-form-label" for="editFictional">Type</label>
                     <select class="form-control" formControlName="fictional" id="editFictional">
                       <option disabled hidden selected value="">Select Type</option>
@@ -246,6 +252,7 @@
                   </div>
 
                   <div *ngIf="isNonfictional">
+                    <mdb-icon fas icon="clipboard-list" class="prefix grey-text"></mdb-icon>
                     <label class="col-sm-6 col-form-label" for="editNonfictional">Type</label>
                     <select class="form-control" formControlName="nonfictional"
                             id="editNonfictional">
