@@ -14,6 +14,7 @@ import {MediaComponent} from './_core/media/media.component';
 import {AuthorDetailsComponent} from './_core/author/author-details/author-details.component';
 import {StatsCardComponent} from './dashboard/stats-card/stats-card.component';
 import {ClientComponent} from './_core/client/client.component';
+import {ReservationComponent} from './_core/reservation/reservation.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -25,6 +26,9 @@ const routes: Routes = [
     children: [
       {
         path: 'user', component: UserComponent
+      },
+      {
+        path: 'reservation', component: ReservationComponent
       },
       {
         path: 'author', component: AuthorComponent,

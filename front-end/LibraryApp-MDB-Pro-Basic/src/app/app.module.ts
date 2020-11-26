@@ -28,6 +28,7 @@ import { MediaComponent } from './_core/media/media.component';
 import { AuthorDetailsComponent } from './_core/author/author-details/author-details.component';
 import { StatsCardComponent } from './dashboard/stats-card/stats-card.component';
 import { ClientComponent } from './_core/client/client.component';
+import { ReservationComponent } from './_core/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ClientComponent } from './_core/client/client.component';
     AuthorDetailsComponent,
     StatsCardComponent,
     ClientComponent,
+    ReservationComponent,
 
 
   ],

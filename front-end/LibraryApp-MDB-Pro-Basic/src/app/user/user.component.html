@@ -71,13 +71,13 @@
 <div #editFrame="mdbModal" aria-hidden="false" aria-labelledby="myModalLabel" class="modal fade top" id="frameModalTop"
      mdbModal
      role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-notify modal-warning" role="document">
+  <div class="modal-dialog-scrollable" role="document">
     <!--Content-->
     <div class="modal-content">
       <!--Header-->
       <ng-container *ngIf="userForm">
-        <div class="modal-header text-center">
-          <h4 class="modal-title white-text w-100 font-weight-bold py-2">Edit Profile</h4>
+        <div class="modal-header text-center custom-header-modal">
+          <img src="./assets/images/edit-user-profile.png" class="mx-auto">
           <button (click)="editFrame.hide()" aria-label="Close" class="close" data-dismiss="modal"
                   type="button">
             <span aria-hidden="true" class="white-text">&times;</span>
@@ -120,7 +120,7 @@
             </div>
 
             <div class="justify-content-center" style="display: flex">
-              <button mdbBtn type="submit" color="warning"
+              <button mdbBtn type="submit" style="background: brown; color: white"
                       rounded="true" mdbWavesEffect>Save
               </button>
             </div>

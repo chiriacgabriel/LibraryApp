@@ -36,7 +36,7 @@ input[type=number] {
 }
 //**************************************End style book modal**************************************************//
 //**************************************Media Only Screen**************************************************//
-/* ----------- 650px - 950px ----------- */
+/* ----------- 768px - 950px ----------- */
 @media screen and (min-width: 768px) and (max-width: 950px) {
   .view {
     max-height: 350px;
@@ -45,17 +45,13 @@ input[type=number] {
     flex: 0 0 100%;
     max-width: 100%;
   }
+
 }
 @media only screen and (min-width: 701px) {
   .view {
     max-height: 410px;
   }
-  .modal-dialog-scrollable {
-    max-width: 800px;
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
 }
 @media only screen and (max-width: 700px) {
   .view {
@@ -72,6 +68,13 @@ input[type=number] {
   .col-sm-6 {
     width: 0;
     display: unset;
+  }
+
+  .modal-dialog-scrollable {
+    max-width: 85%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

@@ -33,7 +33,7 @@
       <!--Header-->
       <div class="modal-header text-center custom-header-modal">
 
-        <img class="mx-auto" src="./assets/images/edit-book.png">
+        <img class="mx-auto" src="./assets/images/add-client.png">
 
         <button (click)="clientFrame.hide()" aria-label="Close" class="close"
                 data-dismiss="modal"
@@ -97,6 +97,68 @@
 </div>
 <!-- End modal -->
 
+<!-- Modal Edit Client -->
+<div mdbModal #editClientFrame="mdbModal" class="modal fade top" id="editFrameModalClient" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog-scrollable" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <ng-container *ngIf="editClientForm">
+        <!--Header-->
+        <div class="modal-header text-center custom-header-modal">
+          <img src="./assets/images/edit-client.png" class="mx-auto">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editClientFrame.hide()">
+            <span aria-hidden="true" class="white-text">&times;</span>
+          </button>
+        </div>
+        <!--Body-->
+        <div class="modal-body">
+          <form [formGroup]="editClientForm" (ngSubmit)="updateClient(editClientFrame)">
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon fas icon="user-alt" class="prefix grey-text"></mdb-icon>
+                  <label for="editName" class="col-sm-6 col-form-label">Name</label>
+                  <input type="text" class="form-control" id="editName"
+                         formControlName="name">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon fas icon="user-alt" class="prefix grey-text"></mdb-icon>
+                  <label for="editLastName" class="col-sm-6 col-form-label">Last Name</label>
+                  <input type="text" class="form-control" id="editLastName"
+                         formControlName="lastName">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon>
+                  <label for="editEmail" class="col-sm-6 col-form-label">Email</label>
+                  <input type="text" class="form-control" id="editEmail"
+                         formControlName="email">
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <mdb-icon fas icon="phone-alt" class="prefix grey-text"></mdb-icon>
+                  <label for="editPhoneNumber" class="col-sm-8 col-form-label">Phone Number</label>
+                  <input type="text" class="form-control" id="editPhoneNumber"
+                         formControlName="phoneNumber">
+                </div>
+              </div>
+            </div>
+            <div class="justify-content-center" style="display: flex">
+              <button mdbBtn type="submit" style="background: brown; color: white" rounded="true" mdbWavesEffect>Save</button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<!-- End Modal Edit Client -->
+
 
 <!-- Content -->
 <div class="row my-5">
@@ -140,7 +202,7 @@
         <ul class="list-unstyled list-inline font-small">
           <button class="button-newCard"
                   style="color: #2bbbad;"><i class="fas fa-comment"></i></button>
-          <button class="button-newCard"
+          <button (click)="editFormClient(editClientFrame, client)" class="button-newCard"
                   style="color: #ffbb33;"><i class="fas fa-user-edit"></i></button>
           <button (click)="deleteClient(client)" class="button-newCard"
                   style="color: #ff4444;"><i class="far fa-trash-alt"></i></button>
