@@ -7,7 +7,7 @@ export class Reservation {
   bookList: Book[];
   userList: User[];
   clientList: Client[];
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 
 }
