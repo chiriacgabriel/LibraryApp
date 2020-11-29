@@ -1,7 +1,7 @@
 package com.library.services;
 
 import com.library.dto.AuthorDto;
-import com.library.exception.AuthorNotPresent;
+import com.library.exception.AuthorNotPresentException;
 import com.library.mapper.AuthorMapper;
 import com.library.model.Author;
 import com.library.repository.AuthorRepository;
@@ -51,7 +51,7 @@ public class AuthorService {
     public void update(AuthorDto authorDto, int id) {
         Optional<Author> optionalAuthor = authorRepository.findById(id);
         if (!optionalAuthor.isPresent()){
-            throw new AuthorNotPresent();
+            throw new AuthorNotPresentException();
         }
 
         Author dbAuthor = optionalAuthor.get();

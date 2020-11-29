@@ -6,11 +6,12 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-@Entity
-@Table(name = "author_image_url")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@EqualsAndHashCode
+@Table(name = "author_image_url")
 public class AuthorImageUrl {
 
     @Id

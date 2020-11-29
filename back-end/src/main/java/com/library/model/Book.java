@@ -2,17 +2,18 @@ package com.library.model;
 
 import com.fasterxml.jackson.annotation.*;
 import com.library.model.enums.EnumFictional;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "book")
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Book {
 

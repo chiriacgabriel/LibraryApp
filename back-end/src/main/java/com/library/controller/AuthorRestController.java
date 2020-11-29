@@ -71,7 +71,6 @@ public class AuthorRestController {
         }
 
         authorService.addAuthor(authorDto);
-
         return ResponseEntity.ok().build();
 
     }

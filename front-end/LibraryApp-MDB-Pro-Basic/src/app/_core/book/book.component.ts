@@ -27,6 +27,9 @@ export class BookComponent implements OnInit {
   addBookForm: FormGroup;
   editBookForm: FormGroup;
 
+  errorMessage = '';
+  isErrorSelected = false;
+
   isFictional = false;
   isNonfictional = false;
 
@@ -153,15 +156,26 @@ export class BookComponent implements OnInit {
   }
 
   addBook(modalDirective: ModalDirective) {
+
+    if (this.addBookForm.value.author == ''){
+      this.addBookForm.get('author').setValue(null);
+    }
+
+    if (this.addBookForm.value.bookCategory == ''){
+      this.addBookForm.get('bookCategory').setValue(null);
+    }
+
     this.bookService.addBook(this.addBookForm.value).subscribe(response => {
         this.ngOnInit();
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
         this.isNonfictional = false;
         this.isFictional = false;
+        this.isErrorSelected = false;
       },
       error => {
-        console.log(error);
+        this.errorMessage = error.error.message;
+        this.isErrorSelected = true;
       });
   }
 

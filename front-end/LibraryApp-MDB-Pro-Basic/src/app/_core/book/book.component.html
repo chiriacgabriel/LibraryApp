@@ -45,7 +45,9 @@
       <!--Body-->
       <div class="modal-body">
 
-        <form (ngSubmit)="addBook(bookFrame)" [formGroup]="addBookForm">
+        <form #addBookValidate = "ngForm"
+              (ngSubmit)="addBookValidate.submitted && addBook(bookFrame)"
+              [formGroup]="addBookForm">
           <div class="row">
             <div class="col-4">
               <div class="form-group">
@@ -65,7 +67,7 @@
                 <select class="form-control" formControlName="author" id="author">
                   <option disabled hidden selected value="">Select author...</option>
                   <option *ngFor="let author of authors" [ngValue]="author">
-                    {{author.name}} {{author.lastName}}
+                    {{author.firstName}} {{author.lastName}}
                   </option>
                 </select>
               </div>
@@ -141,6 +143,10 @@
             </div>
           </div>
 
+          <div *ngIf="addBookValidate.submitted && isErrorSelected" class="alert alert-warning">
+            {{errorMessage}}
+          </div>
+
           <div class="justify-content-center" style="display: flex">
             <button mdbBtn mdbWavesEffect style="background: brown; color: white"
                     rounded="true" type="submit">Add
@@ -194,7 +200,7 @@
                   <label class="col-sm-6 col-form-label" for="editAuthor">Author</label>
                   <select class="form-control" formControlName="author" id="editAuthor">
                     <option *ngFor="let author of authors" [ngValue]="author">
-                      {{author.name}} {{author.lastName}}
+                      {{author.firstName}} {{author.lastName}}
                     </option>
                   </select>
                 </div>
@@ -291,7 +297,8 @@
       </div>
       <!-- card Body -->
       <div class="card-body p-3">
-        <h5 class="card-title font-weight-bold fuchsia-rose-text mb-0" style="font-size: 15px">{{book.author.name}} {{book.author.lastName}}</h5>
+        <h5 class="card-title font-weight-bold fuchsia-rose-text mb-0"
+            style="font-size: 15px">{{book.author.firstName}} {{book.author.lastName}}</h5>
         <h5 class="card-title font-weight-bold fuchsia-rose-text mb-0" style="font-size: 15px">{{book.title}}</h5>
         <p *ngIf="book.fictional != null" class="aqua-sky-text mb-0">{{book.bookCategory.nameOfBookCategory}} : {{book.fictional.nameOfFictional}}</p>
         <p *ngIf="book.nonfictional != null" class="aqua-sky-text mb-0">{{book.bookCategory.nameOfBookCategory}} : {{book.nonfictional.nameOfNonfictional}}</p>
