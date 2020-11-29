@@ -3,7 +3,7 @@ import {AuthorImageUrl} from './AuthorImageUrl';
 
 export class Author{
   id: number;
-  name: string;
+  firstName: string;
   lastName: string;
   dateOfBirth: string;
   nationality: string;

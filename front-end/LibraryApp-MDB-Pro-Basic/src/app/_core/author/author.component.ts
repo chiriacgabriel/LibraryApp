@@ -60,7 +60,7 @@ export class AuthorComponent implements OnInit {
 
   formAuthor() {
     this.addAuthorForm = new FormGroup({
-      name: new FormControl(''),
+      firstName: new FormControl(''),
       lastName: new FormControl(''),
       dateOfBirth: new FormControl(''),
       nationality: new FormControl(''),
@@ -75,7 +75,7 @@ export class AuthorComponent implements OnInit {
 
       this.editAuthorForm = new FormGroup({
         id: new FormControl(author.id),
-        name: new FormControl(author.name),
+        firstName: new FormControl(author.firstName),
         lastName: new FormControl(author.lastName),
         dateOfBirth: new FormControl(author.dateOfBirth),
         nationality: new FormControl(author.nationality),
@@ -90,6 +90,10 @@ export class AuthorComponent implements OnInit {
   addAuthor(modalDirective: ModalDirective) {
     // tslint:disable-next-line:max-line-length
     this.addAuthorForm.controls.dateOfBirth.setValue(this.dateForm.controls.dateBirth.value + ' - ' + this.dateForm.controls.deathDate.value);
+
+    if (this.addAuthorForm.value.authorImageUrl == ''){
+      this.addAuthorForm.get('authorImageUrl').setValue(null);
+    }
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
         this.ngOnInit();

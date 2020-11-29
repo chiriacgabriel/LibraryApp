@@ -50,8 +50,8 @@
             <div class="col-4">
               <div class="form-group">
                 <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                <label class="col-sm-6 col-form-label" for="name">Name</label>
-                <input class="form-control" formControlName="name" id="name" type="text">
+                <label class="col-sm-6 col-form-label" for="firstName">First Name</label>
+                <input class="form-control" formControlName="firstName" id="firstName" type="text">
 
               </div>
             </div>
@@ -171,8 +171,9 @@
               <div class="col-4">
                 <div class="form-group">
                   <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                  <label class="col-sm-6 col-form-label" for="nameEdit">Name</label>
-                  <input class="form-control" formControlName="name" id="nameEdit" type="text" mdbCharCounter mdbInput>
+                  <label class="col-sm-6 col-form-label" for="firstNameEdit">First Name</label>
+                  <input class="form-control" formControlName="firstName" id="firstNameEdit"
+                         type="text" mdbCharCounter mdbInput>
                 </div>
               </div>
 
@@ -261,7 +262,7 @@
       </div>
       <div class="title-total">
         <div class="title">{{author.type}}</div>
-        <h2>{{author.name}} {{author.lastName}}</h2>
+        <h2>{{author.firstName}} {{author.lastName}}</h2>
         <div class="desc">{{author.description}}
         </div>
         <div class="actions">

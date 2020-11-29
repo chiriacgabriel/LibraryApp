@@ -22,7 +22,7 @@ export class AuthorService {
 
   addAuthor(author: Author): Observable<Author> {
     return this.http.post<Author>(API_URL, {
-      name: author.name,
+      firstName: author.firstName,
       lastName: author.lastName,
       dateOfBirth: author.dateOfBirth,
       nationality: author.nationality,
@@ -34,7 +34,7 @@ export class AuthorService {
 
   editAuthorById(id: number, author): Observable<Author> {
     return this.http.put<Author>(API_URL + id, {
-      name: author.name,
+      firstName: author.firstName,
       lastName: author.lastName,
       dateOfBirth: author.dateOfBirth,
       nationality: author.nationality,

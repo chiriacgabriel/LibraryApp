@@ -1,10 +1,7 @@
 package com.library.model;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,8 +11,11 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "author")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
 
     @Id
@@ -23,7 +23,7 @@ public class Author {
     private int id;
 
     @Column(name = "name")
-    private String name;
+    private String firstName;
 
     @Column(name = "lastName")
     private String lastName;

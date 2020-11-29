@@ -29,6 +29,7 @@ import { AuthorDetailsComponent } from './_core/author/author-details/author-det
 import { StatsCardComponent } from './dashboard/stats-card/stats-card.component';
 import { ClientComponent } from './_core/client/client.component';
 import { ReservationComponent } from './_core/reservation/reservation.component';
+import {ScheduleModule} from "@syncfusion/ej2-angular-schedule";
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ReservationComponent } from './_core/reservation/reservation.component'
       // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key
       apiKey: 'Your_api_key'
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    ScheduleModule,
   ],
   entryComponents: [LoginComponent, RegisterComponent],
   providers: [

@@ -1,8 +1,6 @@
 package com.library.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +9,8 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @Entity
 @Table(name = "author_image_url")
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthorImageUrl {
 
     @Id
