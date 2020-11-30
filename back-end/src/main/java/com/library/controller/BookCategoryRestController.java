@@ -1,16 +1,15 @@
 package com.library.controller;
 
 
-import com.library.model.BookCategory;
-import com.library.model.Fictional;
-import com.library.repository.BookCategoryRepository;
-import com.library.repository.FictionalRepository;
-import com.library.repository.NonfictionalRepository;
+import com.library.dto.BookCategoryDto;
+import com.library.services.BookCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Comparator;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -18,26 +17,16 @@ import java.util.List;
 @RequestMapping(value = "/api/book-category", produces = "application/json")
 public class BookCategoryRestController {
 
-    private BookCategoryRepository bookCategoryRepository;
+    private BookCategoryService bookCategoryService;
 
     @Autowired
-    public BookCategoryRestController(BookCategoryRepository bookCategoryRepository) {
-        this.bookCategoryRepository = bookCategoryRepository;
+    public BookCategoryRestController(BookCategoryService bookCategoryService) {
+        this.bookCategoryService = bookCategoryService;
     }
 
     @GetMapping
-    public ResponseEntity<List<BookCategory>> getAllBookCategories() {
-        List<BookCategory> sortedBookCategory =
-                bookCategoryRepository.findAll();
-        sortedBookCategory.sort(Comparator.comparing(BookCategory::getNameOfBookCategory));
-        return ResponseEntity.ok(sortedBookCategory);
+    public ResponseEntity<List<BookCategoryDto>> getAllBookCategories() {
+        return ResponseEntity.ok(bookCategoryService.getAllBookCategories());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BookCategory> getAllBookCategoriesById(@PathVariable int id) {
-        return bookCategoryRepository.findById(id)
-                                     .map(ResponseEntity::ok)
-                                     .orElse(ResponseEntity.notFound()
-                                                           .build());
-    }
 }

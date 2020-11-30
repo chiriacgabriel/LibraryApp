@@ -1,21 +1,14 @@
-package com.library.model;
+package com.library.dto;
 
 import lombok.*;
 
-import javax.persistence.*;
-
-@Getter
 @Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@Entity
-@Table(name = "clients")
-public class Client {
+public class ClientDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String firstName;

@@ -30,9 +30,9 @@ public class AuthorImageUrlService {
     }
 
     public void addImageUrl(AuthorImageUrlDto authorImageUrlDto) {
-        authorImageUrlDto.getTitle().trim();
         AuthorImageUrl authorImageUrl =
                 authorImageUrlMapper.map(authorImageUrlDto);
+        authorImageUrl.setTitle(authorImageUrlDto.getTitle().trim());
         authorImageUrlRepository.save(authorImageUrl);
     }
 

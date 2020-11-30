@@ -33,10 +33,7 @@ public class AuthorService {
 
     public Optional<AuthorDto> findById(int id) {
         Optional<Author> optionalAuthor = authorRepository.findById(id);
-        if (!optionalAuthor.isPresent()){
-            return Optional.empty();
-        }
-        return Optional.of(authorMapper.map(optionalAuthor.get()));
+        return optionalAuthor.map(author -> authorMapper.map(author));
     }
 
     public void deleteById(int id) {
@@ -45,6 +42,8 @@ public class AuthorService {
 
     public void addAuthor(AuthorDto authorDto){
         Author author = authorMapper.map(authorDto);
+        author.setFirstName(authorDto.getFirstName().trim());
+        author.setLastName(authorDto.getLastName().trim());
         authorRepository.save(author);
     }
 

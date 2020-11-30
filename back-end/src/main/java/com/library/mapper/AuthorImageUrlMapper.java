@@ -9,20 +9,18 @@ public class AuthorImageUrlMapper {
 
     public AuthorImageUrl map(AuthorImageUrlDto authorImageUrlDto) {
 
-        AuthorImageUrl authorImageUrl = AuthorImageUrl.builder()
-                                                      .title(authorImageUrlDto.getTitle())
-                                                      .imageUrl(authorImageUrlDto.getImageUrl())
-                                                      .build();
-        return authorImageUrl;
+        return AuthorImageUrl.builder()
+                             .title(authorImageUrlDto.getTitle())
+                             .imageUrl(authorImageUrlDto.getImageUrl())
+                             .build();
     }
 
     public AuthorImageUrlDto map(AuthorImageUrl authorImageUrl) {
 
-        AuthorImageUrlDto authorImageUrlDto = AuthorImageUrlDto.builder()
-                                                               .id(authorImageUrl.getId())
-                                                               .title(authorImageUrl.getTitle())
-                                                               .imageUrl(authorImageUrl.getImageUrl())
-                                                               .build();
-        return authorImageUrlDto;
+        return AuthorImageUrlDto.builder()
+                                .id(authorImageUrl.getId())
+                                .title(authorImageUrl.getTitle())
+                                .imageUrl(authorImageUrl.getImageUrl())
+                                .build();
     }
 }

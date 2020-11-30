@@ -1,9 +1,13 @@
 package com.library.controller;
 
+import com.library.dto.BookImageUrlDto;
+import com.library.exception.BookImageException;
 import com.library.model.BookImageUrl;
 import com.library.payload.response.MessageResponse;
 import com.library.repository.BookImageUrlRepository;
 import com.library.repository.BookRepository;
+import com.library.services.BookImageUrlService;
+import com.library.validator.BookImageUrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,36 +20,40 @@ import java.util.List;
 @RequestMapping(value = "/api/book-image", produces = "application/json")
 public class BookImageUrlRestController {
 
-    private BookImageUrlRepository bookImageUrlRepository;
+    private BookImageUrlService bookImageUrlService;
+    private BookImageUrlValidator bookImageUrlValidator;
 
     @Autowired
-    public BookImageUrlRestController(BookImageUrlRepository bookImageUrlRepository) {
-        this.bookImageUrlRepository = bookImageUrlRepository;
+    public BookImageUrlRestController(BookImageUrlService bookImageUrlService, BookImageUrlValidator bookImageUrlValidator) {
+        this.bookImageUrlService = bookImageUrlService;
+        this.bookImageUrlValidator = bookImageUrlValidator;
     }
 
     @GetMapping
-    public ResponseEntity<List<BookImageUrl>> getAllBookImage(){
-        return ResponseEntity.ok(bookImageUrlRepository.findAll());
+    public ResponseEntity<List<BookImageUrlDto>> getAllBookImages(){
+        return ResponseEntity.ok(bookImageUrlService.getAllBookImages());
     }
 
     @PostMapping
-    public ResponseEntity<?> createBookImage(@Valid @RequestBody BookImageUrl bookImageUrl){
-        String trimTitle = bookImageUrl.getTitle().trim();
-        bookImageUrl.setTitle(trimTitle);
+    public ResponseEntity<?> createBookImage(@Valid @RequestBody BookImageUrlDto bookImageUrlDto){
 
-        if (bookImageUrlRepository.existsByTitle(bookImageUrl.getTitle())){
+        try{
+            bookImageUrlValidator.validate(bookImageUrlDto);
+        }catch (BookImageException e){
             return ResponseEntity.badRequest().body(new MessageResponse(
-                    "Title already exists"));
+                    "Title " + bookImageUrlDto.getTitle() + " already " +
+                            "exists!"));
         }
 
-        return ResponseEntity.ok(bookImageUrlRepository.save(bookImageUrl));
-    }
+        bookImageUrlService.addBookImageUrl(bookImageUrlDto);
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<BookImageUrl> deteleBookImageById(@PathVariable int id){
-        bookImageUrlRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BookImageUrlDto> deleteBookImageById(@PathVariable int id){
+        bookImageUrlService.deleteBookImageById(id);
+        return ResponseEntity.ok().build();
+    }
 
 }

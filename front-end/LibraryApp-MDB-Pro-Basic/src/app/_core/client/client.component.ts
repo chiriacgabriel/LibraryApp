@@ -32,7 +32,7 @@ export class ClientComponent implements OnInit {
 
   formClient() {
     this.addClientForm = new FormGroup({
-      name: new FormControl(''),
+      firstName: new FormControl(''),
       lastName: new FormControl(''),
       email: new FormControl(''),
       phoneNumber: new FormControl('')
@@ -44,7 +44,7 @@ export class ClientComponent implements OnInit {
 
     this.editClientForm = new FormGroup({
       id: new FormControl(client.id),
-      name: new FormControl(client.name),
+      firstName: new FormControl(client.firstName),
       lastName: new FormControl(client.lastName),
       email: new FormControl(client.email),
       phoneNumber: new FormControl(client.phoneNumber)

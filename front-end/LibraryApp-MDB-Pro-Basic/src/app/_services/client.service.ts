@@ -22,7 +22,7 @@ export class ClientService {
 
   addClient(client: Client): Observable<Client>{
     return this.http.post<Client>(API_URL,{
-      name: client.name,
+      firstName: client.firstName,
       lastName: client.lastName,
       email: client.email,
       phoneNumber: client.phoneNumber
@@ -31,7 +31,7 @@ export class ClientService {
 
   editClientById(id: number, client: Client): Observable<Client>{
     return this.http.put<Client>(API_URL + id,{
-      name: client.name,
+      firstName: client.firstName,
       lastName: client.lastName,
       email: client.email,
       phoneNumber: client.phoneNumber

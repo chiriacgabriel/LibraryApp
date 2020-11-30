@@ -42,6 +42,7 @@ public class BookService {
 
     public void addBook(BookDto bookDto) {
         Book book = bookMapper.map(bookDto);
+        book.setTitle(book.getTitle().trim());
         bookRepository.save(book);
     }
 

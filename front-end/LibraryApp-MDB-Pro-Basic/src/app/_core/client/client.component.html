@@ -48,9 +48,9 @@
             <div class="col-4">
               <div class="form-group">
                 <mdb-icon class="prefix grey-text" fas icon="user-alt"></mdb-icon>
-                <label class="col-sm-6 col-form-label" for="name">Name</label>
-                <input class="form-control" formControlName="name"
-                       id="name" type="text">
+                <label class="col-sm-6 col-form-label" for="firstName">First Name</label>
+                <input class="form-control" formControlName="firstName"
+                       id="firstName" type="text">
 
               </div>
             </div>
@@ -118,9 +118,9 @@
               <div class="col-4">
                 <div class="form-group">
                   <mdb-icon fas icon="user-alt" class="prefix grey-text"></mdb-icon>
-                  <label for="editName" class="col-sm-6 col-form-label">Name</label>
-                  <input type="text" class="form-control" id="editName"
-                         formControlName="name">
+                  <label for="editFirstName" class="col-sm-6 col-form-label">First Name</label>
+                  <input type="text" class="form-control" id="editFirstName"
+                         formControlName="firstName">
                 </div>
               </div>
               <div class="col-4">
@@ -168,7 +168,7 @@
 
       <!--Card image-->
       <div class="view view-cascade card-header" style="background: gainsboro">
-        <h2 style="color: black; font-weight: 400">{{client.name}}</h2>
+        <h2 style="color: black; font-weight: 400">{{client.firstName}}</h2>
       </div>
       <!--/Card image-->
 
@@ -177,7 +177,7 @@
 
         <p>
           <span class="span-card-body"><i class="fas fa-user"></i> Full name: </span>
-          {{client.name}} {{client.lastName}}
+          {{client.firstName}} {{client.lastName}}
         </p>
 
         <p>
