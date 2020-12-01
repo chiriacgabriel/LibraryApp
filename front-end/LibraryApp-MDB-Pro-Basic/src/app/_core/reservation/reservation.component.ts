@@ -1,14 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {
-  addDays,
-  addHours,
-  endOfDay,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  startOfDay,
-  subDays,
-} from 'date-fns';
+import {endOfDay, isSameDay, isSameMonth, parseISO, startOfDay, } from 'date-fns';
 import {Subject} from 'rxjs';
 import {
   CalendarEvent,
@@ -16,6 +7,8 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import {ModalDirective} from 'ng-uikit-pro-standard';
+import {FormControl, FormGroup} from '@angular/forms';
 
 const colors: any = {
   red: {
@@ -40,6 +33,8 @@ const colors: any = {
 })
 export class ReservationComponent implements OnInit {
 
+  reservationForm: FormGroup;
+
   @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -54,13 +49,13 @@ export class ReservationComponent implements OnInit {
   };
 
   actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
+    // {
+    //   label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+    //   a11yLabel: 'Edit',
+    //   onClick: ({event}: { event: CalendarEvent }): void => {
+    //     this.handleEvent('Edited', event);
+    //   },
+    // },
     {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
@@ -74,52 +69,27 @@ export class ReservationComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
+    // {
+    //   start: subDays(startOfDay(new Date()), 1),
+    //   end: addDays(new Date(), 1),
+    //   title: 'A 3 day event',
+    //   color: colors.red,
+    //   actions: this.actions,
+    //   allDay: true,
+    //   resizable: {
+    //     beforeStart: true,
+    //     afterEnd: true,
+    //   },
+    //   draggable: true,
+    // },
   ];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen = true;
 
   constructor() {
   }
 
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }, modalDirective: ModalDirective): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -130,6 +100,10 @@ export class ReservationComponent implements OnInit {
         this.activeDayIsOpen = true;
       }
       this.viewDate = date;
+    }
+
+    if (events.length === 0) {
+      modalDirective.toggle();
     }
   }
 
@@ -156,13 +130,13 @@ export class ReservationComponent implements OnInit {
     // this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
+  addEvent(modalDirective: ModalDirective): void {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
+        title: this.reservationForm.value.clientList,
+        start: startOfDay(parseISO(this.reservationForm.value.startDate)),
+        end: endOfDay(parseISO(this.reservationForm.value.endDate)),
         color: colors.red,
         draggable: true,
         resizable: {
@@ -171,6 +145,8 @@ export class ReservationComponent implements OnInit {
         },
       },
     ];
+    modalDirective.toggle();
+    console.log(this.events);
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -186,6 +162,16 @@ export class ReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.formReservation();
+  }
 
+  formReservation() {
+    this.reservationForm = new FormGroup({
+      bookList: new FormControl(''),
+      userList: new FormControl(''),
+      clientList: new FormControl(''),
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
+    });
   }
 }
