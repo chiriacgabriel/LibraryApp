@@ -1,7 +1,9 @@
 package com.library.controller;
 
+import com.library.dto.ReservationDto;
 import com.library.model.Reservation;
 import com.library.repository.ReservationRepository;
+import com.library.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,22 +16,21 @@ import java.util.Optional;
 @RequestMapping(value = "/api/reservations", produces = "application/json")
 public class ReservationRestController {
 
-    private ReservationRepository reservationRepository;
+    private ReservationService reservationService;
 
-    @Autowired
-    public ReservationRestController(ReservationRepository reservationRepository) {
-        this.reservationRepository = reservationRepository;
+    public ReservationRestController(ReservationService reservationService){
+        this.reservationService = reservationService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Reservation>> getAllReservations() {
-        return ResponseEntity.ok(reservationRepository.findAll());
+    public ResponseEntity<List<ReservationDto>> getAllReservations() {
+        return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
     //Read
     @GetMapping("/{id}")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable int id) {
-        return reservationRepository.findById(id)
+    public ResponseEntity<ReservationDto> getReservationById(@PathVariable int id) {
+        return reservationService.findReservationById(id)
                                     .map(ResponseEntity::ok)
                                     .orElse(ResponseEntity.notFound()
                                                           .build());
@@ -37,37 +38,26 @@ public class ReservationRestController {
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<Reservation> deleteReservationById(@PathVariable int id) {
-        reservationRepository.deleteById(id);
+    public ResponseEntity<ReservationDto> deleteReservationById(@PathVariable int id) {
+        reservationService.deleteReservationById(id);
         return ResponseEntity.ok()
                              .build();
     }
 
     //Create
     @PostMapping
-    public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation){
-        return ResponseEntity.ok(reservationRepository.save(reservation));
+    public ResponseEntity<ReservationDto> createReservation(@RequestBody ReservationDto reservationDto){
+        reservationService.addReservation(reservationDto);
+        return ResponseEntity.ok().build();
     }
 
     //Update
     @PutMapping("/{id}")
-    public ResponseEntity<Reservation> updateReservationById(@PathVariable int id,
-                                                             @RequestBody Reservation reservation){
-        Optional<Reservation> optionalReservation =
-                reservationRepository.findById(id);
+    public ResponseEntity<?> updateReservationById(@PathVariable int id,
+                                                             @RequestBody ReservationDto reservationDto){
 
-        if (!optionalReservation.isPresent()){
-            return ResponseEntity.notFound().build();
-        }
+        reservationService.updateReservation(id, reservationDto);
 
-        Reservation dbReservation = optionalReservation.get();
-
-        dbReservation.setBookList(reservation.getBookList());
-        dbReservation.setUserList(reservation.getUserList());
-        dbReservation.setClientList(reservation.getClientList());
-        dbReservation.setStartDate(reservation.getStartDate());
-        dbReservation.setEndDate(reservation.getEndDate());
-
-        return ResponseEntity.ok(reservationRepository.save(dbReservation));
+        return ResponseEntity.ok().build();
     }
 }

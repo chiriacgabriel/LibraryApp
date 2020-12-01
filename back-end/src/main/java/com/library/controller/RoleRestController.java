@@ -1,7 +1,9 @@
 package com.library.controller;
 
+import com.library.dto.RoleDto;
 import com.library.model.Role;
 import com.library.repository.RoleRepository;
+import com.library.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,15 +17,17 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/users/roles", produces = "application/json")
 public class RoleRestController {
-    private RoleRepository roleRepository;
+
+
+    private RoleService roleService;
 
     @Autowired
-    public RoleRestController(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public RoleRestController(RoleService roleService) {
+        this.roleService = roleService;
     }
-    
+
     @GetMapping
-    public ResponseEntity<List<Role>> getAllRoles(){
-        return ResponseEntity.ok(roleRepository.findAll());
+    public ResponseEntity<List<RoleDto>> getAllRoles(){
+        return ResponseEntity.ok(roleService.getAllRoles());
     }
 }
