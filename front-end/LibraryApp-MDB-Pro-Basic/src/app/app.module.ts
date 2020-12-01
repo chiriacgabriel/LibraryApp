@@ -30,6 +30,8 @@ import { StatsCardComponent } from './dashboard/stats-card/stats-card.component'
 import { ClientComponent } from './_core/client/client.component';
 import { ReservationComponent } from './_core/reservation/reservation.component';
 import {ScheduleModule} from "@syncfusion/ej2-angular-schedule";
+import { ReservationHeaderComponent } from './_core/reservation/reservation-header/reservation-header.component';
+import { ReservationUtilsComponent } from './_core/reservation/reservation-utils/reservation-utils.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import {ScheduleModule} from "@syncfusion/ej2-angular-schedule";
     StatsCardComponent,
     ClientComponent,
     ReservationComponent,
+    ReservationHeaderComponent,
+    ReservationUtilsComponent,
 
 
   ],

@@ -1,12 +1,14 @@
 package com.library.controller;
 
-import com.library.model.Fictional;
-import com.library.repository.FictionalRepository;
+import com.library.dto.FictionalDto;
+import com.library.services.FictionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Comparator;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -14,26 +16,16 @@ import java.util.List;
 @RequestMapping(value = "/api/fictional", produces = "application/json")
 public class FictionalRestController {
 
-    private FictionalRepository fictionalRepository;
+    private FictionalService fictionalService;
 
     @Autowired
-    public FictionalRestController(FictionalRepository fictionalRepository) {
-        this.fictionalRepository = fictionalRepository;
+    public FictionalRestController(FictionalService fictionalService) {
+        this.fictionalService = fictionalService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Fictional>> getAllFictional() {
-        List<Fictional> sortedList = fictionalRepository.findAll();
-        sortedList.sort(Comparator.comparing(Fictional::getNameOfFictional));
-        return ResponseEntity.ok(sortedList);
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<Fictional> getFictionalById(@PathVariable int id) {
-        return fictionalRepository.findById(id)
-                                  .map(ResponseEntity::ok)
-                                  .orElse(ResponseEntity.notFound()
-                                                        .build());
+    public ResponseEntity<List<FictionalDto>> getAllFictionals() {
+        return ResponseEntity.ok(fictionalService.getAllFictionals());
     }
 
 

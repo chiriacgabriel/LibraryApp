@@ -2,9 +2,7 @@ package com.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.library.model.enums.EnumFictional;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +10,9 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 @Entity
 @Table(name = "fictional")

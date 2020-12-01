@@ -1,7 +1,9 @@
 package com.library.controller;
 
+import com.library.dto.NonfictionalDto;
 import com.library.model.Nonfictional;
 import com.library.repository.NonfictionalRepository;
+import com.library.services.NonfictionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,26 +15,17 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/nonfictional", produces = "application/json")
 public class NonfictionalRestController {
-    private NonfictionalRepository nonfictionalRepository;
+
+    private NonfictionalService nonfictionalService;
 
     @Autowired
-    public NonfictionalRestController(NonfictionalRepository nonfictionalRepository) {
-        this.nonfictionalRepository = nonfictionalRepository;
+    public NonfictionalRestController(NonfictionalService nonfictionalService) {
+        this.nonfictionalService = nonfictionalService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Nonfictional>> getAllNonfictional() {
-        List<Nonfictional> sortedNonfictional =
-                nonfictionalRepository.findAll();
-        sortedNonfictional.sort(Comparator.comparing(Nonfictional::getNameOfNonfictional));
-        return ResponseEntity.ok(sortedNonfictional);
+    public ResponseEntity<List<NonfictionalDto>> getAllNonfictional() {
+        return ResponseEntity.ok(nonfictionalService.getAllNonfictional());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Nonfictional> getNonfictionalById(@PathVariable int id) {
-        return nonfictionalRepository.findById(id)
-                                     .map(ResponseEntity::ok)
-                                     .orElse(ResponseEntity.notFound()
-                                                           .build());
-    }
 }
