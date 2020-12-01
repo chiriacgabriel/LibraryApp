@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-reservation-header',
@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reservation-header.component.scss']
 })
 export class ReservationHeaderComponent implements OnInit {
+
+  @Input() view: string;
+  @Input() viewDate: Date;
+  @Input() locale = 'en';
+  @Output() viewChange: EventEmitter<string> = new EventEmitter();
+  @Output() viewDateChange: EventEmitter<Date> = new EventEmitter();
 
   constructor() { }
 

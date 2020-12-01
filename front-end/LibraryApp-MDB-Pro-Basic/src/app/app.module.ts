@@ -6,13 +6,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {AgmCoreModule} from '@agm/core';
 import {AppComponent} from './app.component';
 
-import {
-  MDBBootstrapModulesPro,
-  MDBSpinningPreloader,
-  NavbarModule,
-  StickyHeaderModule,
-  ToastModule
-} from 'ng-uikit-pro-standard';
+import {MDBBootstrapModulesPro, MDBSpinningPreloader, NavbarModule, StickyHeaderModule, ToastModule} from 'ng-uikit-pro-standard';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {ProfileComponent} from './profile/profile.component';
@@ -29,9 +23,11 @@ import { AuthorDetailsComponent } from './_core/author/author-details/author-det
 import { StatsCardComponent } from './dashboard/stats-card/stats-card.component';
 import { ClientComponent } from './_core/client/client.component';
 import { ReservationComponent } from './_core/reservation/reservation.component';
-import {ScheduleModule} from "@syncfusion/ej2-angular-schedule";
 import { ReservationHeaderComponent } from './_core/reservation/reservation-header/reservation-header.component';
-import { ReservationUtilsComponent } from './_core/reservation/reservation-utils/reservation-utils.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import {CommonModule} from '@angular/common';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   declarations: [
@@ -51,7 +47,6 @@ import { ReservationUtilsComponent } from './_core/reservation/reservation-utils
     ClientComponent,
     ReservationComponent,
     ReservationHeaderComponent,
-    ReservationUtilsComponent,
 
 
   ],
@@ -70,7 +65,12 @@ import { ReservationUtilsComponent } from './_core/reservation/reservation-utils
       apiKey: 'Your_api_key'
     }),
     AppRoutingModule,
-    ScheduleModule,
+    CommonModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   entryComponents: [LoginComponent, RegisterComponent],
   providers: [
