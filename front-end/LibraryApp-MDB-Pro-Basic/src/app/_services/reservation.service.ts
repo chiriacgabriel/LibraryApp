@@ -27,20 +27,22 @@ export class ReservationService {
   addReservation(reservation: Reservation): Observable<Reservation> {
     return this.http.post<Reservation>(API_URL, {
       bookList: reservation.bookList,
-      userList: reservation.userList,
-      clientList: reservation.clientList,
+      user: reservation.user,
+      client: reservation.client,
       startDate: reservation.startDate,
-      endDate: reservation.endDate
+      endDate: reservation.endDate,
+      reservationState: reservation.reservationState
     }, httpOptions);
   }
 
   editReservationById(id: number, reservation: Reservation): Observable<Reservation> {
     return this.http.put<Reservation>(API_URL + id, {
       bookList: reservation.bookList,
-      userList: reservation.userList,
-      clientList: reservation.clientList,
+      user: reservation.user,
+      client: reservation.client,
       startDate: reservation.startDate,
-      endDate: reservation.endDate
+      endDate: reservation.endDate,
+      reservationState: reservation.reservationState
     }, httpOptions);
   }
 

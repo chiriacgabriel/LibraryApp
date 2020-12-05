@@ -1,23 +1,20 @@
 package com.library.dto;
 
 import com.library.model.Reservation;
+import com.library.model.enums.EnumReservationState;
 import lombok.*;
 
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientDto {
+public class ReservationStateDto {
 
     private int id;
-
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String email;
+    private EnumReservationState enumReservationState;
+    private String nameOfState;
     private List<Reservation> reservationList;
-
 }

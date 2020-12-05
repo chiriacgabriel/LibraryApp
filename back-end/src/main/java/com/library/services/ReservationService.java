@@ -58,10 +58,11 @@ public class ReservationService {
         Reservation dbReservation = optionalReservation.get();
 
         dbReservation.setBookList(reservationDto.getBookList());
-        dbReservation.setUserList(reservationDto.getUserList());
-        dbReservation.setClientList(reservationDto.getClientList());
+        dbReservation.setUser(reservationDto.getUser());
+        dbReservation.setClient(reservationDto.getClient());
         dbReservation.setStartDate(reservationDto.getStartDate());
         dbReservation.setEndDate(reservationDto.getEndDate());
+        dbReservation.setReservationState(reservationDto.getReservationState());
 
         reservationRepository.save(dbReservation);
     }

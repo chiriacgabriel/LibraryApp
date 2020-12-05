@@ -1,5 +1,6 @@
 package com.library.model;
 
+import com.library.model.enums.EnumReservationState;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,20 +28,16 @@ public class Reservation {
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> bookList = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "reservation_user",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> userList = new ArrayList<>();
+    @ManyToOne
+    private User user;
 
-    @ManyToMany
-    @JoinTable(name = "reservation_client",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<Client> clientList = new ArrayList<>();
+    @ManyToOne
+    private Client client;
 
     private LocalDate startDate;
+
     private LocalDate endDate;
 
-
+    @ManyToOne
+    private ReservationState reservationState;
 }

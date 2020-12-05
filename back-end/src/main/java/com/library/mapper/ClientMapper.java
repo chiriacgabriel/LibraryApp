@@ -7,22 +7,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientMapper {
 
-    public Client map(ClientDto clientDto){
+    public Client map(ClientDto clientDto) {
         return Client.builder()
-                .firstName(clientDto.getFirstName())
-                .lastName(clientDto.getLastName())
-                .phoneNumber(clientDto.getPhoneNumber())
-                .email(clientDto.getEmail())
-                .build();
+                     .firstName(clientDto.getFirstName())
+                     .lastName(clientDto.getLastName())
+                     .phoneNumber(clientDto.getPhoneNumber())
+                     .email(clientDto.getEmail())
+                     .reservationList(clientDto.getReservationList())
+                     .build();
     }
 
-    public ClientDto map(Client client){
+    public ClientDto map(Client client) {
         return ClientDto.builder()
-                .id(client.getId())
-                .firstName(client.getFirstName())
-                .lastName(client.getLastName())
-                .phoneNumber(client.getPhoneNumber())
-                .email(client.getEmail())
-                .build();
+                        .id(client.getId())
+                        .firstName(client.getFirstName())
+                        .lastName(client.getLastName())
+                        .phoneNumber(client.getPhoneNumber())
+                        .email(client.getEmail())
+                        .reservationList(client.getReservationList())
+                        .build();
     }
 }

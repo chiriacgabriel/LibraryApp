@@ -29,11 +29,11 @@ import {AuthorDetailsComponent} from './_core/author/author-details/author-detai
 import {StatsCardComponent} from './dashboard/stats-card/stats-card.component';
 import {ClientComponent} from './_core/client/client.component';
 import {ReservationComponent} from './_core/reservation/reservation.component';
-import {ReservationHeaderComponent} from './_core/reservation/reservation-header/reservation-header.component';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {CommonModule} from '@angular/common';
 import {FlatpickrModule} from 'angularx-flatpickr';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -52,8 +52,6 @@ import {FlatpickrModule} from 'angularx-flatpickr';
     StatsCardComponent,
     ClientComponent,
     ReservationComponent,
-    ReservationHeaderComponent,
-
 
   ],
   imports: [
@@ -65,6 +63,7 @@ import {FlatpickrModule} from 'angularx-flatpickr';
     StickyHeaderModule,
     NavbarModule,
     ToastModule.forRoot(),
+    ToastrModule.forRoot(),
     MDBBootstrapModulesPro.forRoot(),
     AgmCoreModule.forRoot({
       // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en#key

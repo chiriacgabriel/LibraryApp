@@ -2,152 +2,233 @@
   <div class="col-md-4">
     <div class="btn-group">
       <div
+        (viewDateChange)="closeOpenMonthViewDay()"
+        [(viewDate)]="viewDate"
+        [view]="view"
         class="btn btn-primary"
         mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
       >
         Previous
       </div>
       <div
+        [(viewDate)]="viewDate"
         class="btn btn-outline-secondary"
         mwlCalendarToday
-        [(viewDate)]="viewDate"
       >
         Today
       </div>
       <div
+        (viewDateChange)="closeOpenMonthViewDay()"
+        [(viewDate)]="viewDate"
+        [view]="view"
         class="btn btn-primary"
         mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()"
       >
         Next
       </div>
     </div>
   </div>
   <div class="col-md-4">
-<!--    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>-->
+    <!--    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>-->
   </div>
   <div class="col-md-4">
     <div class="btn-group">
       <div
-        class="btn btn-primary"
         (click)="setView(CalendarView.Month)"
         [class.active]="view === CalendarView.Month"
+        class="btn btn-primary"
       >
         Month
       </div>
       <div
-        class="btn btn-primary"
         (click)="setView(CalendarView.Week)"
         [class.active]="view === CalendarView.Week"
+        class="btn btn-primary"
       >
         Week
       </div>
-<!--      <div-->
-<!--        class="btn btn-primary"-->
-<!--        (click)="setView(CalendarView.Day)"-->
-<!--        [class.active]="view === CalendarView.Day"-->
-<!--      >-->
-<!--        Day-->
-<!--      </div>-->
+      <!--      <div-->
+      <!--        class="btn btn-primary"-->
+      <!--        (click)="setView(CalendarView.Day)"-->
+      <!--        [class.active]="view === CalendarView.Day"-->
+      <!--      >-->
+      <!--        Day-->
+      <!--      </div>-->
     </div>
   </div>
 </div>
-<br />
+<br/>
 <div [ngSwitch]="view">
   <mwl-calendar-month-view
-    *ngSwitchCase="CalendarView.Month"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    [activeDayIsOpen]="activeDayIsOpen"
-    (dayClicked)="dayClicked($event.day, frameBook)"
+    (dayClicked)="dayClicked($event.day, reservationFrame)"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
+    *ngSwitchCase="CalendarView.Month"
+    [activeDayIsOpen]="activeDayIsOpen"
+    [events]="events"
+    [refresh]="refresh"
+    [viewDate]="viewDate"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
-    *ngSwitchCase="CalendarView.Week"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
+    *ngSwitchCase="CalendarView.Week"
+    [events]="events"
+    [refresh]="refresh"
+    [viewDate]="viewDate"
   >
   </mwl-calendar-week-view>
-<!--  <mwl-calendar-day-view-->
-<!--    *ngSwitchCase="CalendarView.Day"-->
-<!--    [viewDate]="viewDate"-->
-<!--    [events]="events"-->
-<!--    [refresh]="refresh"-->
-<!--    (eventClicked)="handleEvent('Clicked', $event.event)"-->
-<!--    (eventTimesChanged)="eventTimesChanged($event)"-->
-<!--  >-->
-<!--  </mwl-calendar-day-view>-->
+  <!--  <mwl-calendar-day-view-->
+  <!--    *ngSwitchCase="CalendarView.Day"-->
+  <!--    [viewDate]="viewDate"-->
+  <!--    [events]="events"-->
+  <!--    [refresh]="refresh"-->
+  <!--    (eventClicked)="handleEvent('Clicked', $event.event)"-->
+  <!--    (eventTimesChanged)="eventTimesChanged($event)"-->
+  <!--  >-->
+  <!--  </mwl-calendar-day-view>-->
 </div>
 
 <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
 
-
-<!--MODALS FOR Book Media-->
-<div #frameBook="mdbModal" aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade top"
-     id="frameModalBook"
-     mdbModal
-     role="dialog" tabindex="-1">
-  <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
-    <!--Content-->
+<div #reservationFrame="mdbModal" aria-hidden="true" aria-labelledby="myBasicModalLabel"
+     class="modal fade right" mdbModal
+     role="dialog"
+     tabindex="-1">
+  <div class="modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
-      <!--Body-->
-      <ng-container *ngIf="reservationForm">
+      <div class="modal-header">
+        <button (click)="reservationFrame.hide()" aria-label="Close" class="close pull-right"
+                type="button">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Reservation</h4>
+      </div>
+      <div class="modal-body">
+
         <form [formGroup]="reservationForm"
-        (ngSubmit)="addEvent(frameBook)">
-          <div class="modal-body mb-1">
-
-            <div class="md-form ml-0 mr-0">
-              <input class="form-control form-control-sm ml-0" formControlName="bookList"
-                     id="bookList" mdbInput mdbValidate type="text">
-              <label class="ml-0" for="bookList">Book List</label>
+              (ngSubmit)="addReservation(reservationFrame)">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Start Date:</th>
+              <th>End Date:</th>
+              <th>Employee</th>
+              <th>State</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <input type="date" class="form-control" value="{{viewDate | date}}"
+                       formControlName="startDate">
+              </td>
+              <td>
+                <input class="form-control" type="date" formControlName="endDate">
+              </td>
+              <td>
+                {{currentUser.email}}
+              </td>
+              <td>
+                <mdb-select-2 formControlName="reservationState">
+                  <mdb-select-option *ngFor="let state of reservationStateList"
+                                     [value]="state" >
+                    {{state.nameOfState}}
+                  </mdb-select-option>
+                </mdb-select-2>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-2">
+              <div class="md-form">
+                <mdb-card-text>
+                  Client:
+                </mdb-card-text>
+              </div>
             </div>
-
-            <div class="md-form ml-0 mr-0">
-              <input class="form-control form-control-sm ml-0" formControlName="userList"
-                     id="userList" mdbInput mdbValidate type="text">
-              <label class="ml-0" for="userList">User List</label>
+            <div class="col-sm-7">
+              <div class="md-form">
+                <mdb-select-2 formControlName="client" placeholder="Select Client">
+                  <mdb-select-filter (ngModelChange)="searchClient.next($event)"
+                                     [ngModel]="searchClient | async"
+                                     formControlName="client">
+                  </mdb-select-filter>
+                  <mdb-select-option *ngFor="let client of filteredOptionsClient | async"
+                                     [value]="client">
+                    {{client.firstName}} {{client.lastName}}
+                  </mdb-select-option>
+                </mdb-select-2>
+              </div>
             </div>
-
-            <div class="md-form ml-0 mr-0">
-              <input class="form-control form-control-sm ml-0" formControlName="clientList"
-                     id="clientList" mdbInput mdbValidate type="text">
-              <label class="ml-0" for="clientList">Client List</label>
-            </div>
-
-            <div class="md-form ml-0 mr-0">
-              <input class="form-control form-control-sm ml-0" formControlName="startDate"
-                     id="startDate" mdbInput mdbValidate type="date">
-              <label class="ml-0" for="startDate">Start date</label>
-            </div>
-
-            <div class="md-form ml-0 mr-0">
-              <input class="form-control form-control-sm ml-0" formControlName="endDate"
-                     id="endDate" mdbInput mdbValidate type="date">
-              <label class="ml-0" for="endDate">End date</label>
-            </div>
-
-            <div class="text-center mt-4">
-              <button class="my-0" color="default" mdbBtn
-                      rounded="true" size="sm"
-                      type="submit">Confirm
-              </button>
+            <div class="col-md-3 mr-auto">
+              <div class="md-form">
+                <button color="default" mdbBtn mdbWavesEffect size="md" type="button">Add Client
+                  <mdb-icon class="ml-1" fas icon="plus"></mdb-icon>
+                </button>
+              </div>
             </div>
           </div>
+          <form [formGroup]="bookForm">
+            <div class="row">
+              <table class="table table-hover" id="sampleTable">
+                <thead>
+                <tr>
+                  <th>Book</th>
+                  <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <td>
+                  <button (click)="onAddRow()" *ngIf="bookForm.get('bookTableRows')" color="default"
+                          mdbBtn mdbWavesEffect
+                          size="md" type="button">Add Book
+                    <mdb-icon class="ml-1" fas icon="plus"></mdb-icon>
+                  </button>
+                </td>
+                <tr *ngFor="let row of bookTableRows.controls; let index = index;"
+                    formArrayName="bookTableRows">
+                  <td class="col-md-6">
+                    <mdb-select-2 [formControl]="row.get('bookList')" placeholder="Select book">
+
+                      <!--                    <mdb-select-filter></mdb-select-filter>-->
+
+                      <mdb-select-option *ngFor="let book of bookList"
+                                         [value]="book">{{book.title}}</mdb-select-option>
+                    </mdb-select-2>
+                  </td>
+                  <td class="col-md-6">
+                    <button (click)="onRemoveRow(index)" color="danger" mdbBtn mdbWavesEffect
+                            size="sm"
+                            type="button">
+                      <i class="far fa-trash-alt fa-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                </tbody>
+              </table>
+
+            </div>
+          </form>
+          <div class="modal-footer text-left">
+            <button class="relative waves-light" color="primary"
+                    mdbBtn mdbWavesEffect type="submit" (click)="addEvent(reservationFrame)">Save
+              <i class="far fa-save fa-lg ml-1"></i>
+            </button>
+            <button (click)="reservationFrame.hide()" aria-label="Close" class="relative waves-light"
+                    color="light" mdbBtn
+                    mdbWavesEffect type="button">Cancel
+              <i class="fas fa-times fa-lg ml-1"></i></button>
+          </div>
         </form>
-      </ng-container>
+
+        <!--        <pre>{{bookTableRows.value | json}}</pre>-->
+
+      </div>
     </div>
-    <!--/.Content-->
   </div>
 </div>
 <!--END MODAL-->

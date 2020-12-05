@@ -2,6 +2,7 @@ package com.library.dto;
 
 import com.library.model.Book;
 import com.library.model.Client;
+import com.library.model.ReservationState;
 import com.library.model.User;
 import lombok.*;
 
@@ -19,10 +20,14 @@ public class ReservationDto {
 
     private List<Book> bookList;
 
-    private List<User> userList;
+    private User user;
 
-    private List<Client> clientList;
+    private Client client;
 
     private LocalDate startDate;
+
     private LocalDate endDate;
+
+    private ReservationState reservationState;
+
 }

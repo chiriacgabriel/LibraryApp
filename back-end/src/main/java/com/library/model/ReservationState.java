@@ -1,6 +1,7 @@
 package com.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.library.model.enums.EnumReservationState;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,22 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "reservation_state")
+public class ReservationState {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String firstName;
+    @Enumerated(value = EnumType.STRING)
+    private EnumReservationState enumReservationState;
 
-    private String lastName;
+    private String nameOfState;
 
-    private String phoneNumber;
-
-    private String email;
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reservationState", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Reservation> reservationList;
 }
