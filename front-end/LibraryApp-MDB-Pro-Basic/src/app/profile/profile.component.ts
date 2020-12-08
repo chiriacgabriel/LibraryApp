@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from '../_services/token-storage.service';
-import {MDBModalRef} from 'ng-uikit-pro-standard';
+
 
 @Component({
   selector: 'app-profile',
@@ -9,13 +8,19 @@ import {MDBModalRef} from 'ng-uikit-pro-standard';
 })
 export class ProfileComponent implements OnInit {
 
-  currentUser: any;
+  file: File;
 
-  constructor(private token: TokenStorageService,
-              public modalRef: MDBModalRef) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.currentUser = this.token.getUser();
+
   }
 
+  onFileAdd(file: File) {
+    this.file = file;
+  }
+
+  onFileRemove() {
+    this.file = null;
+  }
 }

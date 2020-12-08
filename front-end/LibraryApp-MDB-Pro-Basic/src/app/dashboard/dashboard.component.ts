@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from '../_services/token-storage.service';
-import {MDBModalRef, MDBModalService} from 'ng-uikit-pro-standard';
-import {ProfileComponent} from '../profile/profile.component';
-import {AuthorService} from '../_services/author.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,10 +16,8 @@ export class DashboardComponent implements OnInit {
   email: string;
   currentUser: any;
 
-  modalRefProfile: MDBModalRef;
 
   constructor(private tokenStorageService: TokenStorageService,
-              private modalService: MDBModalService,
               private router: Router) {
   }
 
@@ -48,9 +43,4 @@ export class DashboardComponent implements OnInit {
     this.tokenStorageService.signOut();
     this.router.navigateByUrl('/home');
   }
-
-  openModalProfile() {
-    this.modalRefProfile = this.modalService.show(ProfileComponent);
-  }
-
 }

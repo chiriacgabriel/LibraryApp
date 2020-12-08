@@ -1,25 +1,90 @@
-<div class="container" *ngIf="currentUser; else loggedOut">
-    <header class="jumbotron">
-        <h3>
-            <strong>{{ currentUser.email }}</strong>
-        </h3>
-    </header>
-    <p>
-        <strong>Name:</strong>
-        {{currentUser.name}}
-    </p>
-    <p>
-        <strong>Last Name:</strong>
-        {{currentUser.lastName}}
-    </p>
-    <strong>Roles:</strong>
-    <ul>
-        <li *ngFor="let role of currentUser.roles">
-            {{ role }}
-        </li>
-    </ul>
+<div class="row">
+  <div class="col-6 col-md-4">
+    <!--Card-->
+    <mdb-card cascade="true" narrower="true">
+
+      <!--Card image-->
+      <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+        <mdb-file-upload #uploader (fileRemoved)="onFileRemove()" (fileAdded)="onFileAdd($event)"
+                         [defaultFile]="'https://mdbootstrap.com/img/Photos/Others/images/89.jpg'"></mdb-file-upload>
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      <!--/Card image-->
+
+      <mdb-card-body cascade="true" class="text-center">
+        <!--Card content-->
+        <h5 class="pink-text">
+          <mdb-icon fas icon="utensils"></mdb-icon>
+          Culinary
+        </h5>
+        <!--Title-->
+        <h4 class="card-title">Cheat day inspirations</h4>
+        <!--Text-->
+
+        <mdb-card-text>
+          Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque
+          laudantium, totam rem
+          aperiam.
+        </mdb-card-text>
+
+        <a class="waves-light" color="unique" mdbBtn mdbWavesEffect>Button</a>
+
+      </mdb-card-body>
+      <!--/.Card content-->
+
+    </mdb-card>
+    <!--/.Card-->
+  </div>
+
+
+  <div class="col col-md-8">
+    <!--Card-->
+    <mdb-card cascade="true" narrower="true">
+
+      <!--Card image-->
+      <div class="view view-cascade gradient-card-header blue-gradient card-header-custom-height">
+        <h2 class="card-header-title">Edit your profile:</h2>
+      </div>
+      <!--/Card image-->
+
+      <mdb-card-body>
+
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+              <label class="col-sm-6 col-form-label" for="firstName">First Name</label>
+              <input class="form-control" formControlName="firstName" id="firstName" type="text">
+
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+              <label class="col-sm-6 col-form-label" for="lastName">Last name</label>
+              <input class="form-control" formControlName="lastName" id="lastName"
+                     type="text">
+            </div>
+          </div>
+
+          <div class="col-4">
+            <div class="form-group">
+              <mdb-icon class="prefix grey-text" fas icon="signature"></mdb-icon>
+              <label class="col-sm-6 col-form-label" for="type">Type</label>
+              <input class="form-control" formControlName="type" id="type"
+                     placeholder="Ex: Poet, Romancer, Novelist..." type="text">
+            </div>
+          </div>
+
+        </div>
+      </mdb-card-body>
+    </mdb-card>
+    <!--/.Card-->
+  </div>
+
+
 </div>
 
-<ng-template #loggedOut>
-    Please login.
-</ng-template>
