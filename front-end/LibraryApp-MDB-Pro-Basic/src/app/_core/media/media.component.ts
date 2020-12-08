@@ -6,6 +6,7 @@ import {AuthorImageUrl} from '../../model/AuthorImageUrl';
 import {BookImageUrlService} from '../../_services/book-image-url.service';
 import {BookImageUrl} from "../../model/BookImageUrl";
 import {AlertsService} from "../../_services/alerts.service";
+import {ReloadPageService} from "../../_services/reload-page.service";
 
 @Component({
   selector: 'app-media',
@@ -26,7 +27,8 @@ export class MediaComponent implements OnInit {
 
   constructor(private authorImageUrlService: AuthorImageUrlService,
               private bookImageUrlService: BookImageUrlService,
-              private alertsService: AlertsService) {
+              private alertsService: AlertsService,
+              private reloadPageService: ReloadPageService) {
   }
 
   ngOnInit(): void {
@@ -35,7 +37,6 @@ export class MediaComponent implements OnInit {
 
     this.bookForm();
     this.getAllBookImages();
-
   }
 
   authorForm() {
@@ -61,10 +62,10 @@ export class MediaComponent implements OnInit {
 
   addAuthorImage(modalDirective: ModalDirective) {
     this.authorImageUrlService.createImageUrl(this.authorImageForm.value).subscribe(response => {
-        this.ngOnInit();
         modalDirective.toggle();
         this.alertsService.alertShowSuccess();
         this.isAuthorTitlePresent = false;
+        this.reloadPageService.reload();
       },
       err => {
         this.errorMessageAuthor = err.error.message;
@@ -75,8 +76,8 @@ export class MediaComponent implements OnInit {
   deleteAuthorImageById(authorImageUrl: AuthorImageUrl) {
     if (window.confirm('Are you sure you want to delete this image ?')) {
       this.authorImageUrlService.deleteImageById(authorImageUrl.id).subscribe(response => {
-          this.ngOnInit();
           this.alertsService.alertShowWarning();
+          this.reloadPageService.reload();
         },
         error => {
           console.log(error);
@@ -103,10 +104,10 @@ export class MediaComponent implements OnInit {
 
   addBookImage(modalDirective: ModalDirective){
     this.bookImageUrlService.addBookImageUrl(this.bookImageForm.value).subscribe(response => {
-      this.ngOnInit();
       modalDirective.toggle();
       this.alertsService.alertShowSuccess();
       this.isBookTitlePresent = false;
+      this.reloadPageService.reload();
     },
       err =>{
       this.errorMessageBook = err.error.message;
@@ -117,12 +118,11 @@ export class MediaComponent implements OnInit {
   deleteBookImageById(bookImageUrl: BookImageUrl){
     if (window.confirm('Are you sure you want to delete this image ?')){
       this.bookImageUrlService.deleteBookImageById(bookImageUrl.id).subscribe(response => {
-        this.ngOnInit();
         this.alertsService.alertShowWarning()
+        this.reloadPageService.reload();
       }, error => {
         console.log(error);
       });
     }
   }
-
 }

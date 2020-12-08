@@ -9,12 +9,14 @@ import com.library.services.AuthorService;
 import com.library.validator.AuthorDtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@PreAuthorize("hasAnyRole('USER','ADMIN')")
 @RequestMapping(value = "/api/authors", produces = "application/json")
 public class AuthorRestController {
 

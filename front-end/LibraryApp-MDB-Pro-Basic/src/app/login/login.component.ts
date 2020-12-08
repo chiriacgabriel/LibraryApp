@@ -3,6 +3,7 @@ import {AuthService} from '../_services/auth.service';
 import {TokenStorageService} from '../_services/token-storage.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MDBModalRef} from 'ng-uikit-pro-standard';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
 
     constructor(private authService: AuthService,
                 private tokenStorage: TokenStorageService,
-                public modalRef: MDBModalRef) {
+                public modalRef: MDBModalRef,
+                private router: Router) {
     }
 
     ngOnInit(): void {
@@ -56,7 +58,7 @@ export class LoginComponent implements OnInit {
     }
 
     reloadPage(): void {
-        window.location.assign('/dashboard');
+        this.router.navigateByUrl('/dashboard').then(this.modalRef.hide);
     }
 
     get modalFormElegantEmail() {

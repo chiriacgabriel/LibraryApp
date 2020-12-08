@@ -16,7 +16,7 @@ export class ReservationService {
   constructor(private http: HttpClient) {
   }
 
-  getAllReservations(): Observable<Reservation> {
+  getAllReservation(): Observable<Reservation> {
     return this.http.get<Reservation>(API_URL);
   }
 

@@ -10,6 +10,7 @@ import {BookImageUrl} from "../../model/BookImageUrl";
 import {AlertsService} from "../../_services/alerts.service";
 import {Book} from 'src/app/model/Book';
 import swal from "sweetalert";
+import {ReloadPageService} from "../../_services/reload-page.service";
 
 @Component({
   selector: 'app-book',
@@ -39,7 +40,8 @@ export class BookComponent implements OnInit {
               private bookCategoryTypeService: BookCategoryTypeService,
               private bookService: BookService,
               private authorService: AuthorService,
-              private alertsService: AlertsService) {
+              private alertsService: AlertsService,
+              private reloadPageService: ReloadPageService) {
   }
 
   ngOnInit(): void {
@@ -166,7 +168,7 @@ export class BookComponent implements OnInit {
     }
 
     this.bookService.addBook(this.addBookForm.value).subscribe(response => {
-        this.ngOnInit();
+        this.reloadPageService.reload();
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
         this.isNonfictional = false;
@@ -185,7 +187,7 @@ export class BookComponent implements OnInit {
     const id = this.books[index].id;
 
     this.bookService.editBookById(id, this.books[index]).subscribe(response => {
-        this.ngOnInit();
+        this.reloadPageService.reload()
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
 
@@ -206,7 +208,7 @@ export class BookComponent implements OnInit {
       .then((willDelete) => {
         if (willDelete) {
           this.bookService.deleteBookById(Number(book.id)).subscribe(response => {
-              this.ngOnInit();
+              this.reloadPageService.reload();
             },
             error => {
               console.log(error);

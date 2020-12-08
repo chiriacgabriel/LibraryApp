@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthorService} from '../../_services/author.service';
 import {UserService} from '../../_services/user.service';
-import {BookService} from "../../_services/book.service";
+import {BookService} from '../../_services/book.service';
+import {ReservationService} from '../../_services/reservation.service';
 
 @Component({
   selector: 'app-stats-card',
@@ -12,16 +13,19 @@ export class StatsCardComponent implements OnInit {
   authors = [];
   users = [];
   books = [];
+  reservations = [];
 
   constructor(private authorService: AuthorService,
               private userService: UserService,
-              private bookService: BookService) {
+              private bookService: BookService,
+              private reservationService: ReservationService) {
   }
 
   ngOnInit(): void {
     this.getAuthorsForStatCard();
     this.getUsersForStatCard();
     this.getBookForStatCard();
+    this.getReservationsForStatCard();
   }
 
   getAuthorsForStatCard() {
@@ -50,5 +54,13 @@ export class StatsCardComponent implements OnInit {
       error => {
         this.books = JSON.parse(error.message).message;
       });
+  }
+
+  getReservationsForStatCard() {
+    this.reservationService.getAllReservation().subscribe((data: any) => {
+      this.reservations = data;
+    }, error => {
+      this.reservations = JSON.parse(error.message).message;
+    });
   }
 }

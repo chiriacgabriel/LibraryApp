@@ -65,30 +65,20 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/api/auth/**")
             .permitAll()
-            .antMatchers("/api/users/**")
-            .permitAll()
-            .antMatchers("/api/author-image/**")
-            .permitAll()
-            .antMatchers("/api/book-image/**")
-            .permitAll()
-            .antMatchers("/api/authors/**")
-            .permitAll()
-            .antMatchers("/api/books/**")
-            .permitAll()
-            .antMatchers("/api/fictional/**")
-            .permitAll()
-            .antMatchers("/api/nonfictional/**")
-            .permitAll()
-            .antMatchers("/api/book-category/**")
-            .permitAll()
-            .antMatchers("/api/clients/**")
-            .permitAll()
-            .antMatchers("/api/reservations/**")
-            .permitAll()
-            .antMatchers("/api/state/**")
-            .permitAll()
             .anyRequest()
-            .authenticated();
+            .authenticated()
+            .antMatchers("/api/users/**",
+                    "/api/author-image/**",
+                    "/api/book-image/**",
+                    "/api/authors/**",
+                    "/api/books/**",
+                    "/api/fictional/**",
+                    "/api/nonfictional/**",
+                    "/api/book-category/**",
+                    "/api/clients/**",
+                    "/api/reservations/**",
+                    "/api/state/**")
+            .permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);

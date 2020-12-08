@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, NgZone, OnInit} from '@angular/core';
 import {endOfDay, isSameDay, isSameMonth, parseISO, startOfDay,} from 'date-fns';
 import {Observable, Subject} from 'rxjs';
 import {
@@ -15,11 +15,12 @@ import {map, startWith} from 'rxjs/operators';
 import {Client} from "../../model/Client";
 import {TokenStorageService} from "../../_services/token-storage.service";
 import {User} from "../../model/User";
-import {ToastrModule} from "ngx-toastr";
 import {ReservationStateService} from "../../_services/reservation-state.service";
 import {UserService} from "../../_services/user.service";
 import {ReservationService} from "../../_services/reservation.service";
 import {AlertsService} from "../../_services/alerts.service";
+import {Router} from "@angular/router";
+import {ReloadPageService} from "../../_services/reload-page.service";
 
 const colors: any = {
   red: {
@@ -43,43 +44,32 @@ const colors: any = {
   styleUrls: ['./reservation.component.scss'],
 })
 export class ReservationComponent implements OnInit {
-
-  @ViewChild('modalContent', {static: true}) modalContent: TemplateRef<any>;
-
+  view: CalendarView = CalendarView.Month;
+  CalendarView = CalendarView;
+  viewDate: Date = new Date();
   reservationForm: FormGroup;
-
   bookList = [];
-  selectedBook = [];
+  stockBook: number;
   bookForm: FormGroup;
   bookTableRows: FormArray;
-
-
+  selectedBook = [];
+  userList = [];
+  currentUser: User;
   clientList = [];
   filteredOptionsClient: Observable<Client[]>;
   searchClient = new Subject();
-
-  currentUser: User;
-  userList = [];
-
   reservationStateList = [];
-
-
-  view: CalendarView = CalendarView.Month;
-
-  CalendarView = CalendarView;
-
-  viewDate: Date = new Date();
-
+  reservationList = [];
   actions: CalendarEventAction[] = [
-    // {
-    //   label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-    //   a11yLabel: 'Edit',
-    //   onClick: ({event}: { event: CalendarEvent }): void => {
-    //     this.handleEvent('Edited', event);
-    //   },
-    // },
     {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      label: '<i class="fas fa-fw fa-pencil-alt text-warning"></i>',
+      a11yLabel: 'Edit',
+      onClick: ({event}: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      },
+    },
+    {
+      label: '<i class="far fa-trash-alt text-danger"></i>',
       a11yLabel: 'Delete',
       onClick: ({event}: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
@@ -87,55 +77,39 @@ export class ReservationComponent implements OnInit {
       },
     },
   ];
-
   refresh: Subject<any> = new Subject();
-
-  events: CalendarEvent[] = [
-    // {
-    //   start: subDays(startOfDay(new Date()), 1),
-    //   end: addDays(new Date(), 1),
-    //   title: 'A 3 day event',
-    //   color: colors.red,
-    //   actions: this.actions,
-    //   allDay: true,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
-    // },
-  ];
-
+  events: CalendarEvent[] = [];
   activeDayIsOpen = false;
 
   constructor(private bookService: BookService,
-              private clientService: ClientService,
               private userService: UserService,
+              private clientService: ClientService,
+              private tokenService: TokenStorageService,
               private formBuilder: FormBuilder,
               private reservationService: ReservationService,
+              private alertService: AlertsService,
               private reservationStateService: ReservationStateService,
-              private token: TokenStorageService,
-              private alertService: AlertsService) {
-
+              private reloadPageService: ReloadPageService) {
     this.bookForm = this.formBuilder.group({
       items: [null, Validators.required],
-      items_value: ['no', Validators.required]
     });
-
     this.bookTableRows = this.formBuilder.array([]);
 
   }
 
   ngOnInit(): void {
-    this.currentUser = this.token.getUser();
     this.formReservation();
     this.getAllBooks();
     this.getAllClients();
-    this.allStateReservations;
-    this.allUsers;
-
+    this.getAllReservationState();
+    this.getAllUser();
+    this.getAllReservations();
+    this.events;
+    this.currentUser = this.tokenService.getUser();
     this.bookForm.addControl('bookTableRows', this.bookTableRows);
+
   }
+
 
   onAddRow() {
     this.bookTableRows.push(this.createItemFormGroup());
@@ -147,12 +121,11 @@ export class ReservationComponent implements OnInit {
 
   createItemFormGroup(): FormGroup {
     return this.formBuilder.group({
-      bookList: new FormControl(''),
+      bookList: new FormControl('')
     });
   }
 
-
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }, modalDirective: ModalDirective): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }, modal: ModalDirective): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -164,9 +137,8 @@ export class ReservationComponent implements OnInit {
       }
       this.viewDate = date;
     }
-
     if (events.length === 0) {
-      modalDirective.toggle();
+      modal.toggle();
     }
   }
 
@@ -191,24 +163,6 @@ export class ReservationComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
   }
 
-  addEvent(modalDirective: ModalDirective): void {
-    this.events = [
-      ...this.events,
-      {
-        title: this.reservationForm.value.client.firstName + ' ' + this.reservationForm.value.client.lastName,
-        start: startOfDay(parseISO(this.reservationForm.value.startDate)),
-        end: endOfDay(parseISO(this.reservationForm.value.endDate)),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
-    modalDirective.toggle();
-  }
-
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
@@ -219,6 +173,28 @@ export class ReservationComponent implements OnInit {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  populateCalendarEvents(data) {
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].bookList.length; j++) {
+        this.events.push(
+          {
+            start: startOfDay(parseISO(data[i].startDate)),
+            end: endOfDay(parseISO(data[i].endDate)),
+            title: data[i].client.firstName + ' ' + data[i].client.lastName + '<br>' + 'Book: ' + data[i].bookList[j].title,
+            color: colors.yellow,
+            actions: this.actions,
+            resizable: {
+              beforeStart: false,
+              afterEnd: false,
+            },
+            draggable: false,
+          }
+        );
+      }
+    }
+    this.refresh.next();
   }
 
   formReservation() {
@@ -240,6 +216,14 @@ export class ReservationComponent implements OnInit {
     });
   }
 
+  getAllUser() {
+    return this.userService.getUsers().subscribe((data: any) => {
+      this.userList = data;
+    }, error => {
+      this.userList = JSON.parse(error.message).message;
+    })
+  }
+
   getAllClients() {
     this.clientService.getAllClients().subscribe((data: any) => {
       this.clientList = data;
@@ -249,44 +233,45 @@ export class ReservationComponent implements OnInit {
     });
   }
 
-  filterClient(value: string): Client[] {
-    const filterValue = value.toLowerCase();
-    return this.clientList.filter((client: any) => client.firstName.toLowerCase().includes(filterValue) || client.lastName.toLowerCase().includes(filterValue));
+  getAllReservations() {
+    this.reservationService.getAllReservation().subscribe((data: any) => {
+      this.reservationList = data;
+      this.populateCalendarEvents(data);
+    }, error => {
+      this.reservationList = JSON.parse(error.message).message;
+    });
   }
 
-  get allStateReservations(){
-    return this.reservationStateService.getAllStates().subscribe((data: any) => {
+  filterClient(value: string) {
+    const filterValue = value.toLowerCase();
+    return this.clientList.filter((client: any) => client.firstName.toLowerCase().includes(filterValue) ||
+      client.lastName.toLowerCase().includes(filterValue));
+  }
+
+  getAllReservationState() {
+    this.reservationStateService.getAllStates().subscribe((data: any) => {
       this.reservationStateList = data;
     }, error => {
       this.reservationStateList = JSON.parse(error.message).message;
-    });
-  }
-
-  get allUsers(){
-    return this.userService.getUsers().subscribe((data: any) => {
-      this.userList = data;
-    }, error => {
-      this.userList = JSON.parse(error.message).message;
-    });
+    })
   }
 
   addReservation(modalDirective: ModalDirective) {
-    for(let i = 0; i < this.bookTableRows.length; i++){
+    for (let i = 0; i < this.bookTableRows.length; i++) {
       this.selectedBook.push(this.bookForm.value.bookTableRows[i].bookList);
     }
-
-    this.userList.forEach(item => {
-      if (item.email === this.currentUser.email){
-        this.reservationForm.get('user').setValue(item);
+    for (let j = 0; j < this.userList.length; j++) {
+      if (this.userList[j].email == this.currentUser.email) {
+        this.reservationForm.get('user').setValue(this.userList[j]);
       }
-    });
-
+    }
     this.reservationService.addReservation(this.reservationForm.value).subscribe(response => {
-      this.ngOnInit();
       this.alertService.alertShowSuccess();
       modalDirective.toggle();
-    }, err => {
-      console.log(err.message);
+      this.reloadPageService.reload();
+    }, error => {
+      console.log(error.message);
     })
   }
+
 }

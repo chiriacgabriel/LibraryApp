@@ -5,6 +5,7 @@ import {AlertsService} from "../../_services/alerts.service";
 import {ModalDirective} from "ng-uikit-pro-standard";
 import {Client} from "../../model/Client";
 import swal from "sweetalert";
+import {ReloadPageService} from "../../_services/reload-page.service";
 
 @Component({
   selector: 'app-client',
@@ -21,13 +22,13 @@ export class ClientComponent implements OnInit {
 
 
   constructor(private clientService: ClientService,
-              private alertsService: AlertsService) {
+              private alertsService: AlertsService,
+              private reloadPageService: ReloadPageService) {
   }
 
   ngOnInit(): void {
     this.getClients();
     this.formClient();
-
   }
 
   formClient() {
@@ -62,10 +63,10 @@ export class ClientComponent implements OnInit {
 
   addClient(modalDirective: ModalDirective) {
     this.clientService.addClient(this.addClientForm.value).subscribe(response => {
-        this.ngOnInit();
         this.alertsService.alertShowSuccess();
         this.isClientAlreadyExists = false;
         modalDirective.toggle();
+        this.reloadPageService.reload();
       },
       err => {
         this.errorMessage = err.error.message;
@@ -79,9 +80,9 @@ export class ClientComponent implements OnInit {
     const id = this.clients[index].id;
 
     this.clientService.editClientById(id, this.clients[index]).subscribe(response => {
-        this.ngOnInit();
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
+        this.reloadPageService.reload();
         this.isClientAlreadyExists = false;
       },
       err => {
@@ -101,7 +102,7 @@ export class ClientComponent implements OnInit {
       .then((willDelete) => {
         if (willDelete) {
           this.clientService.deleteClientById(client.id).subscribe(response => {
-            this.ngOnInit();
+            this.reloadPageService.reload();
           }, error => {
             console.log(error);
           });
@@ -111,6 +112,4 @@ export class ClientComponent implements OnInit {
         }
       });
   }
-
-
 }

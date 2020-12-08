@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../_services/auth.service';
-import {MDBModalRef} from 'ng-uikit-pro-standard';
+import {MDBModalRef, MDBModalService} from 'ng-uikit-pro-standard';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LoginComponent} from "../login/login.component";
 
 @Component({
     selector: 'app-register',
@@ -18,7 +19,8 @@ export class RegisterComponent implements OnInit {
     validatingForm: FormGroup;
 
     constructor(private authService: AuthService,
-                public modalRefRegister: MDBModalRef) {
+                public modalRefRegister: MDBModalRef,
+                private modalService: MDBModalService) {
     }
 
     ngOnInit(): void {
@@ -35,6 +37,9 @@ export class RegisterComponent implements OnInit {
             data => {
                 this.isSuccessful = true;
                 this.isSignUpFailed = false;
+                this.modalRefRegister.hide();
+                this.modalService.show(LoginComponent);
+
             },
             err => {
                 this.errorMessage = err.error.message;

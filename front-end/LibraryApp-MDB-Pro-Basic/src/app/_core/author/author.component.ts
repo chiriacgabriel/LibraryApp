@@ -7,6 +7,7 @@ import {Author} from '../../model/Author';
 import {Router} from '@angular/router';
 import {AlertsService} from "../../_services/alerts.service";
 import swal from 'sweetalert';
+import {ReloadPageService} from "../../_services/reload-page.service";
 
 @Component({
   selector: 'app-author',
@@ -26,6 +27,7 @@ export class AuthorComponent implements OnInit {
   constructor(private authorService: AuthorService,
               private authorImageUrl: AuthorImageUrlService,
               private alertsService: AlertsService,
+              private reloadPageService: ReloadPageService,
               private router: Router) {
   }
 
@@ -96,10 +98,10 @@ export class AuthorComponent implements OnInit {
     }
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
-        this.ngOnInit();
         this.isAuthorAlreadyExist = false;
         this.alertsService.alertShowSuccess();
         modalDirective.toggle();
+        this.reloadPageService.reload();
       },
       err => {
         this.errorMessageAddAuthor = err.error.message;
@@ -113,10 +115,10 @@ export class AuthorComponent implements OnInit {
     const id = this.authors[index].id;
 
     this.authorService.editAuthorById(id, this.authors[index]).subscribe(response => {
-      this.ngOnInit();
       this.alertsService.alertShowSuccess();
-      modalDirective.toggle();
       this.isAuthorAlreadyExist = false;
+      modalDirective.toggle();
+      this.reloadPageService.reload();
     }, err => {
       this.errorMessageAddAuthor = err.error.message;
       this.isAuthorAlreadyExist = true;
@@ -135,7 +137,7 @@ export class AuthorComponent implements OnInit {
       .then((willDelete) => {
         if (willDelete) {
           this.authorService.deleteAuthorById(Number(author.id)).subscribe(response => {
-            this.ngOnInit();
+            this.reloadPageService.reload();
           }, error => {
             console.log(error);
           });
