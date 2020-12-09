@@ -1,90 +1,136 @@
-<div class="row">
-  <div class="col-6 col-md-4">
-    <!--Card-->
-    <mdb-card cascade="true" narrower="true">
+<div class="container">
+  <div class="row">
+    <div class="col-6 col-md-4">
+      <!--Card-->
+      <mdb-card cascade="true" narrower="true">
 
-      <!--Card image-->
-      <div class="view view-cascade overlay waves-light" mdbWavesEffect>
-        <mdb-file-upload #uploader (fileRemoved)="onFileRemove()" (fileAdded)="onFileAdd($event)"
-                         [defaultFile]="'https://mdbootstrap.com/img/Photos/Others/images/89.jpg'"></mdb-file-upload>
-        <a>
-          <div class="mask rgba-white-slight"></div>
-        </a>
-      </div>
-      <!--/Card image-->
+        <!--Card image-->
+        <div class="view view-cascade overlay waves-light" mdbWavesEffect>
 
-      <mdb-card-body cascade="true" class="text-center">
-        <!--Card content-->
-        <h5 class="pink-text">
-          <mdb-icon fas icon="utensils"></mdb-icon>
-          Culinary
-        </h5>
-        <!--Title-->
-        <h4 class="card-title">Cheat day inspirations</h4>
-        <!--Text-->
+          <span>Photo of user</span>
 
-        <mdb-card-text>
-          Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque
-          laudantium, totam rem
-          aperiam.
-        </mdb-card-text>
-
-        <a class="waves-light" color="unique" mdbBtn mdbWavesEffect>Button</a>
-
-      </mdb-card-body>
-      <!--/.Card content-->
-
-    </mdb-card>
-    <!--/.Card-->
-  </div>
-
-
-  <div class="col col-md-8">
-    <!--Card-->
-    <mdb-card cascade="true" narrower="true">
-
-      <!--Card image-->
-      <div class="view view-cascade gradient-card-header blue-gradient card-header-custom-height">
-        <h2 class="card-header-title">Edit your profile:</h2>
-      </div>
-      <!--/Card image-->
-
-      <mdb-card-body>
-
-        <div class="row">
-          <div class="col-4">
-            <div class="form-group">
-              <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-              <label class="col-sm-6 col-form-label" for="firstName">First Name</label>
-              <input class="form-control" formControlName="firstName" id="firstName" type="text">
-
-            </div>
-          </div>
-
-          <div class="col-4">
-            <div class="form-group">
-              <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-              <label class="col-sm-6 col-form-label" for="lastName">Last name</label>
-              <input class="form-control" formControlName="lastName" id="lastName"
-                     type="text">
-            </div>
-          </div>
-
-          <div class="col-4">
-            <div class="form-group">
-              <mdb-icon class="prefix grey-text" fas icon="signature"></mdb-icon>
-              <label class="col-sm-6 col-form-label" for="type">Type</label>
-              <input class="form-control" formControlName="type" id="type"
-                     placeholder="Ex: Poet, Romancer, Novelist..." type="text">
-            </div>
-          </div>
-
+          <a>
+            <div class="mask rgba-white-slight"></div>
+          </a>
         </div>
-      </mdb-card-body>
-    </mdb-card>
-    <!--/.Card-->
+        <!--/Card image-->
+
+        <mdb-card-body cascade="true" class="text-center">
+          <!--Card content-->
+          <h5 class="pink-text">
+            <mdb-icon fas icon="utensils"></mdb-icon>
+            Culinary
+          </h5>
+          <!--Title-->
+          <h4 class="card-title">Cheat day inspirations</h4>
+          <!--Text-->
+
+          <mdb-card-text>
+            Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque
+            laudantium, totam rem
+            aperiam.
+          </mdb-card-text>
+
+          <a class="waves-light" color="unique" mdbBtn mdbWavesEffect>Button</a>
+
+        </mdb-card-body>
+        <!--/.Card content-->
+
+      </mdb-card>
+      <!--/.Card-->
+    </div>
+
+
+    <div class="col col-md-8">
+      <!--Card-->
+      <mdb-card cascade="true" narrower="true">
+
+        <!--Card image-->
+        <div class="view view-cascade gradient-card-header blue-gradient card-header-custom-height">
+          <h2 class="card-header-title">Edit your profile:</h2>
+        </div>
+        <!--/Card image-->
+
+        <mdb-card-body>
+
+          <div class="row">
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="firstName">First Name</label>
+                <input class="form-control" id="firstName" type="text"
+                       [value]="currentUser.name">
+
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="lastName">Last name</label>
+                <input class="form-control" id="lastName" type="text" [value]="currentUser.lastName">
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="form-group">
+                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                <label class="col-sm-6 col-form-label" for="type">Email</label>
+                <input class="form-control" id="type" type="text"
+                       (focusout)="onFocusOutEvent($event)"
+                       [value]="currentUser.email">
+              </div>
+            </div>
+          </div>
+
+<!--      TABEL OF RESERVATIONS-->
+          <div class="row">
+            <div class="col-4">
+              <h3>List of Reservations:</h3>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12 mx-auto">
+                  <div class="md-form">
+                    <input
+                      type="text"
+                      [(ngModel)]="searchText"
+                      class="form-control"
+                      id="search"
+                      mdbInput
+                    />
+                    <label for="search">Search</label>
+                  </div>
+                </div>
+              </div>
+              <table mdbTable class="z-depth-1">
+                <thead>
+                <tr>
+                  <th
+                    *ngFor="let head of headElements; let i = index"
+                    scope="col"
+                  >
+                    {{head}}
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let el of elements; let i = index">
+                  <th scope="row">{{el.book}}</th>
+                  <td>{{el.client}}</td>
+                  <td>{{el.startDate}}</td>
+                  <td>{{el.endDate}}</td>
+                  <td>{{el.reservationState}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </mdb-card-body>
+      </mdb-card>
+      <!--/.Card-->
+    </div>
+
   </div>
-
-
 </div>
-

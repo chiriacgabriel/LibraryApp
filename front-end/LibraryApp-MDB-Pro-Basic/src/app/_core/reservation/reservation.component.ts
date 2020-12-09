@@ -104,12 +104,10 @@ export class ReservationComponent implements OnInit {
     this.getAllReservationState();
     this.getAllUser();
     this.getAllReservations();
-    this.events;
     this.currentUser = this.tokenService.getUser();
     this.bookForm.addControl('bookTableRows', this.bookTableRows);
 
   }
-
 
   onAddRow() {
     this.bookTableRows.push(this.createItemFormGroup());

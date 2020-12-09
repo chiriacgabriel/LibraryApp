@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.dto.ReservationDto;
 import com.library.model.Reservation;
+import com.library.model.User;
 import com.library.repository.ReservationRepository;
 import com.library.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class ReservationRestController {
     @GetMapping
     public ResponseEntity<List<ReservationDto>> getAllReservations() {
         return ResponseEntity.ok(reservationService.getAllReservations());
+    }
+
+    @RequestMapping(value = "/profile/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<List<ReservationDto>> getAllReservationsByUser(@PathVariable int userId) {
+        return ResponseEntity.ok(reservationService.getAllReservationsByUser(userId));
     }
 
     //Read

@@ -24,9 +24,6 @@ const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent,
     children: [
       {
-        path: 'profile', component: ProfileComponent
-      },
-      {
         path: 'user', component: UserComponent
       },
       {
@@ -37,6 +34,9 @@ const routes: Routes = [
       },
       {
         path: 'author/:id', component: AuthorDetailsComponent
+      },
+      {
+        path: 'profile/:id', component: ProfileComponent
       },
       {
         path: 'book', component: BookComponent

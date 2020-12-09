@@ -40,6 +40,7 @@ export class AuthorComponent implements OnInit {
       dateBirth: new FormControl(''),
       deathDate: new FormControl('')
     });
+
   }
 
   getAuthors() {

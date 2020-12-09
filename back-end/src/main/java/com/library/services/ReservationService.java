@@ -4,9 +4,10 @@ import com.library.dto.ReservationDto;
 import com.library.exception.ReservationNotPresentException;
 import com.library.mapper.ReservationMapper;
 import com.library.model.Reservation;
+import com.library.model.User;
 import com.library.repository.ReservationRepository;
+import com.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,18 +19,22 @@ public class ReservationService {
 
     private ReservationMapper reservationMapper;
     private ReservationRepository reservationRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public ReservationService(ReservationMapper reservationMapper, ReservationRepository reservationRepository) {
+    public ReservationService(ReservationMapper reservationMapper,
+                              ReservationRepository reservationRepository,
+                              UserRepository userRepository) {
         this.reservationMapper = reservationMapper;
         this.reservationRepository = reservationRepository;
+        this.userRepository = userRepository;
     }
 
     public List<ReservationDto> getAllReservations() {
         return reservationRepository.findAll()
-                .stream()
-                .map(reservation -> reservationMapper.map(reservation))
-                .collect(Collectors.toList());
+                                    .stream()
+                                    .map(reservation -> reservationMapper.map(reservation))
+                                    .collect(Collectors.toList());
     }
 
     public Optional<ReservationDto> findReservationById(int id) {
@@ -51,7 +56,7 @@ public class ReservationService {
         Optional<Reservation> optionalReservation =
                 reservationRepository.findById(id);
 
-        if (!optionalReservation.isPresent()){
+        if (!optionalReservation.isPresent()) {
             throw new ReservationNotPresentException();
         }
 
@@ -65,5 +70,19 @@ public class ReservationService {
         dbReservation.setReservationState(reservationDto.getReservationState());
 
         reservationRepository.save(dbReservation);
+    }
+
+
+    public List<ReservationDto> getAllReservationsByUser(int id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        if (!optionalUser.isPresent()) {
+            throw new IllegalArgumentException("User email is not found");
+        }
+
+        return reservationRepository.findAllByUser(optionalUser.get())
+                                    .stream()
+                                    .map(reservation -> reservationMapper.map(reservation))
+                                    .collect(Collectors.toList());
     }
 }

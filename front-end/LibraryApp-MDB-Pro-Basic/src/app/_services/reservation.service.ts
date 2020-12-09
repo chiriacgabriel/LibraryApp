@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Reservation} from '../model/Reservation';
 
 const API_URL = 'http://localhost:8080/api/reservations/';
+const API_URL_PROFILE = 'http://localhost:8080/api/reservations/profile/';
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
@@ -22,6 +23,10 @@ export class ReservationService {
 
   getReservationById(id: number): Observable<Reservation> {
     return this.http.get<Reservation>(API_URL + id);
+  }
+
+  getReservationsByUserId(userId: number) {
+    return this.http.get<Reservation>(API_URL_PROFILE + userId);
   }
 
   addReservation(reservation: Reservation): Observable<Reservation> {

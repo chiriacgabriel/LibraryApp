@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   showAdminBoard = false;
   showModeratorBoard = false;
   email: string;
+  id: number;
   currentUser: any;
 
 
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit {
       this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
 
       this.email = user.email;
+      this.id = user.id;
     }
 
     if (this.tokenStorageService.getToken() == null) {
@@ -42,5 +44,9 @@ export class DashboardComponent implements OnInit {
   logout(): void {
     this.tokenStorageService.signOut();
     this.router.navigateByUrl('/home');
+  }
+
+  sendToProfile(id: number){
+    this.router.navigateByUrl('dashboard/profile/' + id);
   }
 }

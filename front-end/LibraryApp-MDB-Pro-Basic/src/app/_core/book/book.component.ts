@@ -126,7 +126,6 @@ export class BookComponent implements OnInit {
   getAllBooks() {
     this.bookService.getAllBooks().subscribe((data: any) => {
       this.books = data;
-      console.log(this.books);
     }, error => {
       this.books = JSON.parse(error.message).message;
     });
