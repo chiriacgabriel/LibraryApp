@@ -8,13 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping(value = "/api/users", produces = "application/json")
 public class UserRestController {
 
@@ -38,9 +40,9 @@ public class UserRestController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id) {
         return userRepository.findById(id)
-                             .map(ResponseEntity::ok)
-                             .orElse(ResponseEntity.notFound()
-                                                   .build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound()
+                        .build());
     }
 
     //Delete
@@ -49,7 +51,7 @@ public class UserRestController {
         userRepository.deleteById(id);
 
         return ResponseEntity.ok()
-                             .build();
+                .build();
     }
 
     //Create
@@ -61,47 +63,45 @@ public class UserRestController {
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<?> editUser(@PathVariable int id,
-                                         @RequestBody User user) {
+                                      @RequestBody User user) {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             return ResponseEntity.notFound()
-                                 .build();
+                    .build();
         }
 
 
         User dbUser = optionalUser.get();
 
         if (!dbUser.getName()
-                   .equals(user.getName())) {
+                .equals(user.getName())) {
             dbUser.setName(user.getName());
         }
         if (!dbUser.getLastName()
-                   .equals(user.getLastName())) {
+                .equals(user.getLastName())) {
             dbUser.setLastName(user.getLastName());
         }
         if (!dbUser.getEmail()
-                   .equals(user.getEmail())) {
+                .equals(user.getEmail())) {
             dbUser.setEmail(user.getEmail());
         }
         if (user.getPassword() != null && !user.getPassword()
-                                               .isEmpty() && !dbUser.getPassword()
-                                                                    .equals(user.getPassword())) {
+                .isEmpty() && !dbUser.getPassword()
+                .equals(user.getPassword())) {
             if (user.getPassword()
                     .length() >= 6) {
                 dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            }else {
+            } else {
                 return ResponseEntity.badRequest().body(new MessageResponse(
                         "Password must be at least 6 characters long"));
             }
         }
 
         if (!user.getRoleSet()
-                 .isEmpty()) {
+                .isEmpty()) {
             dbUser.setRoleSet(user.getRoleSet());
         }
-
-
         return ResponseEntity.ok(userRepository.save(dbUser));
     }
 }

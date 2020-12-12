@@ -77,7 +77,8 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
                     "/api/book-category/**",
                     "/api/clients/**",
                     "/api/reservations/**",
-                    "/api/state/**")
+                    "/api/state/**",
+                    "api/profile-image/**")
             .permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(),

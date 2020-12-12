@@ -4,90 +4,80 @@
       <!--Card-->
       <mdb-card cascade="true" narrower="true">
 
-        <!--Card image-->
-        <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+            <div class="box">
 
-          <span>Photo of user</span>
+              <img [src]="imageUser" class="js--image-preview">
 
-          <a>
-            <div class="mask rgba-white-slight"></div>
-          </a>
-        </div>
-        <!--/Card image-->
 
-        <mdb-card-body cascade="true" class="text-center">
-          <!--Card content-->
-          <h5 class="pink-text">
-            <mdb-icon fas icon="utensils"></mdb-icon>
-            Culinary
-          </h5>
-          <!--Title-->
-          <h4 class="card-title">Cheat day inspirations</h4>
-          <!--Text-->
+              <div class="upload-options">
+                <label>
+                  <i class="fas fa-search-plus search-style"></i>
+                  <input  class="image-upload" type="file" accept="image/*" name="profilePhoto"
+                          (change)="selectFile($event)">
+                </label>
+              </div>
+            </div>
+            <!--/Card image-->
+            <mdb-card-body cascade="true" class="text-center">
 
-          <mdb-card-text>
-            Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque
-            laudantium, totam rem
-            aperiam.
-          </mdb-card-text>
+              <!--Title-->
+              <h5 class="card-title">{{currentUser.roles}}</h5>
+              <!--Text-->
 
-          <a class="waves-light" color="unique" mdbBtn mdbWavesEffect>Button</a>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                    <label class="col-sm-8" for="firstName">First Name</label>
+                    <input class="form-control" id="firstName" type="text" disabled
+                    [value]="currentUser.name">
 
-        </mdb-card-body>
-        <!--/.Card content-->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
+                    <label class="col-sm-8" for="lastName">Last name</label>
+                    <input class="form-control" id="lastName" type="text" disabled
+                    [value]="currentUser.lastName">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
+                    <label class="col-sm-8" for="type">Email</label>
+                    <input class="form-control" id="type" type="text" disabled
+                    [value]="currentUser.email">
+                  </div>
+                </div>
+              </div>
+
+              <button mdbBtn mdbWavesEffect style="background: brown; color: white"
+                      rounded="true" (click)="upload()">Update</button>
+
+            </mdb-card-body>
+            <!--/.Card content-->
 
       </mdb-card>
       <!--/.Card-->
     </div>
 
 
+    <!--CARD TABLE WITH RESERVATIONS-->
     <div class="col col-md-8">
-      <!--Card-->
       <mdb-card cascade="true" narrower="true">
 
-        <!--Card image-->
         <div class="view view-cascade gradient-card-header blue-gradient card-header-custom-height">
-          <h2 class="card-header-title">Edit your profile:</h2>
+          <h2 class="card-header-title">List of Reservations:</h2>
         </div>
-        <!--/Card image-->
 
         <mdb-card-body>
 
           <div class="row">
-            <div class="col-4">
-              <div class="form-group">
-                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                <label class="col-sm-6 col-form-label" for="firstName">First Name</label>
-                <input class="form-control" id="firstName" type="text"
-                       [value]="currentUser.name">
-
-              </div>
-            </div>
-
-            <div class="col-4">
-              <div class="form-group">
-                <mdb-icon class="prefix grey-text" fas icon="user"></mdb-icon>
-                <label class="col-sm-6 col-form-label" for="lastName">Last name</label>
-                <input class="form-control" id="lastName" type="text" [value]="currentUser.lastName">
-              </div>
-            </div>
-
-            <div class="col-4">
-              <div class="form-group">
-                <mdb-icon class="prefix grey-text" fas icon="envelope"></mdb-icon>
-                <label class="col-sm-6 col-form-label" for="type">Email</label>
-                <input class="form-control" id="type" type="text"
-                       (focusout)="onFocusOutEvent($event)"
-                       [value]="currentUser.email">
-              </div>
-            </div>
-          </div>
-
-<!--      TABEL OF RESERVATIONS-->
-          <div class="row">
-            <div class="col-4">
-              <h3>List of Reservations:</h3>
-            </div>
             <div class="container">
               <div class="row">
                 <div class="col-md-12 mx-auto">
@@ -108,8 +98,7 @@
                 <tr>
                   <th
                     *ngFor="let head of headElements; let i = index"
-                    scope="col"
-                  >
+                    scope="col">
                     {{head}}
                   </th>
                 </tr>
@@ -129,8 +118,8 @@
 
         </mdb-card-body>
       </mdb-card>
-      <!--/.Card-->
     </div>
-
   </div>
 </div>
+
+

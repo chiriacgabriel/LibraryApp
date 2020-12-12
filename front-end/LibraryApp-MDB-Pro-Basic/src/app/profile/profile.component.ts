@@ -1,9 +1,15 @@
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
-import {MdbTableDirective, ModalDirective} from 'ng-uikit-pro-standard';
+import {MdbTableDirective, ModalDirective, UploadFile} from 'ng-uikit-pro-standard';
 import {ReservationService} from '../_services/reservation.service';
 import {TokenStorageService} from '../_services/token-storage.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {User} from "../model/User";
+import {User} from '../model/User';
+import {ProfileService} from '../_services/profile.service';
+import {AlertsService} from '../_services/alerts.service';
+import {Observable} from 'rxjs';
+import {DomSanitizer} from '@angular/platform-browser';
+import {image} from '../model/ProfileImage';
+import {ReloadPageService} from '../_services/reload-page.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,6 +17,16 @@ import {User} from "../model/User";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+
+  constructor(private reservationService: ReservationService,
+              private token: TokenStorageService,
+              private profileService: ProfileService,
+              private alertService: AlertsService,
+              private sanitizer: DomSanitizer,
+              private reloadPageService: ReloadPageService) {
+
+  }
+
   @ViewChild(MdbTableDirective, {static: true}) mdbTable: MdbTableDirective;
 
   elements: any = [];
@@ -22,14 +38,13 @@ export class ProfileComponent implements OnInit {
 
   reservations = [];
 
-  userForm: FormGroup;
-
   currentUser: any;
 
-  constructor(private reservationService: ReservationService,
-              private token: TokenStorageService) {
 
-  }
+  selectedFiles: FileList;
+  currentFile: File;
+
+  imageUser: any;
 
   @HostListener('input') oninput() {
     this.searchItems();
@@ -42,6 +57,9 @@ export class ProfileComponent implements OnInit {
     this.previous = this.mdbTable.getDataSource();
 
     this.currentUser = this.token.getUser();
+
+    this.getImageProfile();
+
   }
 
   searchItems() {
@@ -57,7 +75,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getAllReservationsByUserId() {
-    return this.reservationService.getReservationsByUserId(this.token.getUser().id).subscribe((data: any) => {
+    this.reservationService.getReservationsByUserId(this.token.getUser().id).subscribe((data: any) => {
       this.reservations = data;
       this.populateTable(this.reservations);
     }, error => {
@@ -79,19 +97,27 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  editUser(user: User) {
-    this.userForm = new FormGroup({
-      id: new FormControl(user.id),
-      name: new FormControl(user.name),
-      lastName: new FormControl(user.lastName),
-      email: new FormControl(user.email),
-      password: new FormControl('', Validators.required),
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
 
+  upload() {
+    this.currentFile = this.selectedFiles.item(0);
+    this.profileService.uploadProfileImage(this.currentFile, this.token.getUser().id).subscribe(event => {
+
+      this.reloadPageService.reload();
+
+    }, error => {
+      console.log(error.message);
+    });
+    this.selectedFiles = undefined;
+  }
+
+  getImageProfile() {
+    this.profileService.getProfileImageByUserId(this.token.getUser().id).subscribe((data: any) => {
+      this.imageUser = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${data.image}`);
+    }, error => {
+      this.imageUser = JSON.parse(error.message).message;
     });
   }
-
-  onFocusOutEvent(event: Event){
-    console.log(event);
-  }
-
 }

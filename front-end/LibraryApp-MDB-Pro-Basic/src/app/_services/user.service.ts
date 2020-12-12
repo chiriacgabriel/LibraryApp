@@ -15,18 +15,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getPublicContent(): Observable<any> {
-    return this.http.get(API_URL + 'all', { responseType: 'text' });
-  }
-
-  getUserBoard(): Observable<any> {
-    return this.http.get(API_URL + 'user', { responseType: 'text' });
-  }
-
-  getModeratorBoard(): Observable<any> {
-    return this.http.get(API_URL + 'mod', { responseType: 'text' });
-  }
-
   getUsers(): Observable<any> {
     return this.http.get(API_URL);
   }
@@ -49,5 +37,10 @@ export class UserService {
     return this.http.delete(API_URL + id);
   }
 
+  uploadPhoto(id: number, user){
+    this.http.post(API_URL + id, {
+      profilePhoto: user.profilePhoto
+    }, httpOptions);
+  }
 
 }

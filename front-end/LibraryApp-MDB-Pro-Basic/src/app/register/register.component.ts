@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../_services/auth.service';
 import {MDBModalRef, MDBModalService} from 'ng-uikit-pro-standard';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LoginComponent} from "../login/login.component";
+import {LoginComponent} from '../login/login.component';
 
 @Component({
     selector: 'app-register',

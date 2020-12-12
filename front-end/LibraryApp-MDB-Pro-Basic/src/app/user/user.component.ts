@@ -5,7 +5,7 @@ import {UserService} from '../_services/user.service';
 import {RoleService} from '../_services/role.service';
 import {User} from '../model/User';
 import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
-import {AlertsService} from "../_services/alerts.service";
+import {AlertsService} from '../_services/alerts.service';
 
 
 @Component({
@@ -104,7 +104,7 @@ export class UserComponent implements OnInit {
         console.log(err);
       });
 
-    this.listRoleSelected = [];
+    this.listRoleSelected = undefined;
   }
 
   deleteUser(user: User, idTable: number) {
