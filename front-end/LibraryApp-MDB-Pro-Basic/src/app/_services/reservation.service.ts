@@ -25,8 +25,8 @@ export class ReservationService {
     return this.http.get<Reservation>(API_URL + id);
   }
 
-  getReservationsByUserId(userId: number) {
-    return this.http.get<Reservation>(API_URL_PROFILE + userId);
+  getReservationsByUserId(userId: number, params) {
+    return this.http.get<Reservation>(API_URL_PROFILE + userId, {params});
   }
 
   addReservation(reservation: Reservation): Observable<Reservation> {

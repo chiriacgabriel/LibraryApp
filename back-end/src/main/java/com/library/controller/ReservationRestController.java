@@ -6,6 +6,7 @@ import com.library.model.User;
 import com.library.repository.ReservationRepository;
 import com.library.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +30,10 @@ public class ReservationRestController {
     }
 
     @RequestMapping(value = "/profile/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<List<ReservationDto>> getAllReservationsByUser(@PathVariable int userId) {
-        return ResponseEntity.ok(reservationService.getAllReservationsByUser(userId));
+    public ResponseEntity<Page<ReservationDto>> getAllReservationsByUser(@PathVariable int userId,
+                                                                         @RequestParam(defaultValue = "0") int page,
+                                                                         @RequestParam(defaultValue = "8") int size) {
+        return ResponseEntity.ok(reservationService.getAllReservationsByUser(userId, page,size));
     }
 
     //Read

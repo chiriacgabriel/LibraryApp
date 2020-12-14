@@ -34,6 +34,7 @@ import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {CommonModule} from '@angular/common';
 import {FlatpickrModule} from 'angularx-flatpickr';
 import {ToastrModule} from 'ngx-toastr';
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {ToastrModule} from 'ngx-toastr';
     ReactiveFormsModule,
     StickyHeaderModule,
     NavbarModule,
+    NgxPaginationModule,
     ToastModule.forRoot(),
     ToastrModule.forRoot(),
     MDBBootstrapModulesPro.forRoot(),

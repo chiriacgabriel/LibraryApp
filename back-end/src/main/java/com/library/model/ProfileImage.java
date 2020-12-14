@@ -24,7 +24,7 @@ public class ProfileImage {
     @Lob
     private byte[] image;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "profile_image_helper",
             joinColumns = @JoinColumn(name = "profile_image_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))

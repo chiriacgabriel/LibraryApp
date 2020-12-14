@@ -104,7 +104,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let el of elements; let i = index">
+                <tr *ngFor="let el of elements | paginate: {
+                itemsPerPage: pageSize,
+                currentPage: page,
+                totalItems: count}; let i = index">
                   <th scope="row">{{el.book}}</th>
                   <td>{{el.client}}</td>
                   <td>{{el.startDate}}</td>
@@ -113,6 +116,14 @@
                 </tr>
                 </tbody>
               </table>
+
+              <pagination-controls
+                previousLabel="Prev"
+                nextLabel="Next"
+                responsive="true"
+                (pageChange)="handlePageChange($event)"
+              >
+              </pagination-controls>
             </div>
           </div>
 

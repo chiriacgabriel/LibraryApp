@@ -8,6 +8,10 @@ import com.library.model.User;
 import com.library.repository.ReservationRepository;
 import com.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +36,9 @@ public class ReservationService {
 
     public List<ReservationDto> getAllReservations() {
         return reservationRepository.findAll()
-                                    .stream()
-                                    .map(reservation -> reservationMapper.map(reservation))
-                                    .collect(Collectors.toList());
+                .stream()
+                .map(reservation -> reservationMapper.map(reservation))
+                .collect(Collectors.toList());
     }
 
     public Optional<ReservationDto> findReservationById(int id) {
@@ -73,16 +77,22 @@ public class ReservationService {
     }
 
 
-    public List<ReservationDto> getAllReservationsByUser(int id) {
+    public Page<ReservationDto> getAllReservationsByUser(int id, int page, int size) {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (!optionalUser.isPresent()) {
             throw new IllegalArgumentException("User email is not found");
         }
 
-        return reservationRepository.findAllByUser(optionalUser.get())
-                                    .stream()
-                                    .map(reservation -> reservationMapper.map(reservation))
-                                    .collect(Collectors.toList());
+        Pageable pageable = PageRequest.of(page, size);
+
+        List<ReservationDto> reservationDtoList = reservationRepository.findAllByUser(optionalUser.get(), pageable)
+                                                                        .stream()
+                                                                        .map(reservation -> reservationMapper.map(reservation))
+                                                                        .collect(Collectors.toList());
+
+        return new PageImpl<>(reservationDtoList,
+                                        pageable,
+                                        reservationRepository.findAllByUser(optionalUser.get()).size());
     }
 }

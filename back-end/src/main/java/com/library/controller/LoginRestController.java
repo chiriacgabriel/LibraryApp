@@ -1,6 +1,7 @@
 package com.library.controller;
 
 import com.library.config.security.jwt.JwtUtils;
+import com.library.model.ProfileImage;
 import com.library.model.Role;
 import com.library.model.User;
 import com.library.model.enums.EnumRole;
@@ -8,8 +9,10 @@ import com.library.payload.request.LoginRequest;
 import com.library.payload.request.SignupRequest;
 import com.library.payload.response.JwtResponse;
 import com.library.payload.response.MessageResponse;
+import com.library.repository.ProfileImageRepository;
 import com.library.repository.RoleRepository;
 import com.library.repository.UserRepository;
+import com.library.services.ProfileImageService;
 import com.library.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +22,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,20 +39,25 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class LoginRestController {
-    @Autowired
-    AuthenticationManager authenticationManager;
+
+    private AuthenticationManager authenticationManager;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private PasswordEncoder encoder;
+    private JwtUtils jwtUtils;
+    private ProfileImageRepository profileImageRepository;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtUtils jwtUtils;
+    public LoginRestController(AuthenticationManager authenticationManager, UserRepository userRepository,
+                               RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils,
+                               ProfileImageRepository profileImageRepository) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
+        this.profileImageRepository = profileImageRepository;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -114,6 +128,31 @@ public class LoginRestController {
         user.setRoleSet(roles);
         userRepository.save(user);
 
+        ProfileImage profileImage = new ProfileImage();
+
+        profileImage.setName("Default Photo");
+        profileImage.setType("image/jpg");
+        profileImage.setImage(getImage());
+        profileImage.setUser(user);
+
+        profileImageRepository.save(profileImage);
+
         return ResponseEntity.ok(new MessageResponse("User Registered successfully !"));
     }
+
+    private byte[] getImage(){
+        File file = new File("back-end/src/main/resources/images/profile_image.jpg");
+        if (file.exists()){
+            try{
+                BufferedImage bufferedImage = ImageIO.read(file);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
+                return byteArrayOutputStream.toByteArray();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }
