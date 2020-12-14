@@ -36,7 +36,8 @@ const routes: Routes = [
         path: 'author/:id', component: AuthorDetailsComponent
       },
       {
-        path: 'profile/:id', component: ProfileComponent
+        path: 'profile/:id', component: ProfileComponent,
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'book', component: BookComponent
@@ -59,7 +60,7 @@ const routes: Routes = [
   declarations: [],
   imports: [
     CommonModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})
   ],
   exports: [RouterModule]
 })

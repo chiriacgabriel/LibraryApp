@@ -1,15 +1,11 @@
 package com.library.controller;
 
-
 import com.library.dto.ProfileImageDto;
 import com.library.services.ProfileImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -23,14 +19,12 @@ public class ProfileImageRestController {
         this.profileImageService = profileImageService;
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ProfileImageDto> uploadProfileImage(@PathVariable int id,
                                                               @RequestParam("file") MultipartFile multipartFile) {
-        try {
-            profileImageService.store(multipartFile, id);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        profileImageService.update(multipartFile, id);
+
         return ResponseEntity.ok().build();
     }
 
@@ -40,5 +34,6 @@ public class ProfileImageRestController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
 
 }

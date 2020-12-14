@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MdbTableDirective} from 'ng-uikit-pro-standard';
 import {ReservationService} from '../_services/reservation.service';
 import {TokenStorageService} from '../_services/token-storage.service';
@@ -7,13 +7,14 @@ import {ProfileService} from '../_services/profile.service';
 import {AlertsService} from '../_services/alerts.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {ReloadPageService} from '../_services/reload-page.service';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   @ViewChild(MdbTableDirective, {static: true}) mdbTable: MdbTableDirective;
   elements: any = [];
@@ -26,17 +27,27 @@ export class ProfileComponent implements OnInit {
   selectedFiles: FileList;
   currentFile: File;
   imageUser: any;
+  imageId: number;
   page = 1;
   count: any;
   pageSize = 8;
+
+  profileImageSubscription: any;
+  navigationSubscription;
 
   constructor(private reservationService: ReservationService,
               private token: TokenStorageService,
               private profileService: ProfileService,
               private alertService: AlertsService,
               private sanitizer: DomSanitizer,
-              private reloadPageService: ReloadPageService) {
-
+              private reloadPageService: ReloadPageService,
+              private router: Router) {
+    // TO PREVENT MEMORY LEAK
+  this.navigationSubscription = this.router.events.subscribe((e: any) => {
+    if (e instanceof NavigationEnd){
+      this.getImageProfile();
+    }
+  });
   }
 
   @HostListener('input') oninput() {
@@ -53,6 +64,13 @@ export class ProfileComponent implements OnInit {
 
     this.getImageProfile();
 
+  }
+
+  // PART OF MEMORY LEAK
+  ngOnDestroy() {
+    if (this.profileImageSubscription){
+      this.profileImageSubscription.unsubscribe();
+    }
   }
 
   searchItems() {
@@ -122,14 +140,15 @@ export class ProfileComponent implements OnInit {
     this.selectedFiles = event.target.files;
   }
 
-  upload() {
+  update() {
     this.currentFile = this.selectedFiles.item(0);
-    this.profileService.uploadProfileImage(this.currentFile, this.token.getUser().id).subscribe(event => {
+    this.profileImageSubscription = this.profileService.updateProfileImage(this.currentFile, this.imageId).subscribe(event => {
 
+      // THIS WILL PRODUCE MEMORY LEAK IF UNSUBSCRIBED AND DESTROYED
       this.reloadPageService.reload();
 
     }, error => {
-      console.log(error.message);
+      this.profileService = JSON.parse(error.message).message;
     });
     this.selectedFiles = undefined;
   }
@@ -137,8 +156,10 @@ export class ProfileComponent implements OnInit {
   getImageProfile() {
     this.profileService.getProfileImageByUserId(this.token.getUser().id).subscribe((data: any) => {
       this.imageUser = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${data.image}`);
+      this.imageId = data.id;
     }, error => {
       this.imageUser = JSON.parse(error.message).message;
     });
   }
+
 }

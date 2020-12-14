@@ -112,7 +112,9 @@
         <li class="nav-item">
           <a class="nav-link waves-light" routerLink="profile" mdbWavesEffect
           (click)="sendToProfile(id)">
-            <mdb-icon fas icon="user"></mdb-icon>
+
+            <img class="avatar" [src]="profileImageAvatar">
+
             <span class="clearfix d-none d-sm-inline-block">{{email}}</span></a>
         </li>
       </ul>

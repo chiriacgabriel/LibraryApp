@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from '../_services/token-storage.service';
 import {Router} from '@angular/router';
+import {ProfileService} from '../_services/profile.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,16 +11,18 @@ import {Router} from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-  private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
   email: string;
   id: number;
   currentUser: any;
-
+  profileImageAvatar: any;
+  private roles: string[];
 
   constructor(private tokenStorageService: TokenStorageService,
+              private profileService: ProfileService,
+              private sanitizer: DomSanitizer,
               private router: Router) {
   }
 
@@ -39,6 +43,7 @@ export class DashboardComponent implements OnInit {
     if (this.tokenStorageService.getToken() == null) {
       this.router.navigateByUrl('/home');
     }
+    this.getImageProfileAvatar();
   }
 
   logout(): void {
@@ -46,7 +51,15 @@ export class DashboardComponent implements OnInit {
     this.router.navigateByUrl('/home');
   }
 
-  sendToProfile(id: number){
+  sendToProfile(id: number) {
     this.router.navigateByUrl('dashboard/profile/' + id);
+  }
+
+  getImageProfileAvatar() {
+    this.profileService.getProfileImageByUserId(this.tokenStorageService.getUser().id).subscribe((data: any) => {
+      this.profileImageAvatar = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${data.image}`);
+    }, error => {
+      this.profileImageAvatar = JSON.parse(error.message).message;
+    });
   }
 }

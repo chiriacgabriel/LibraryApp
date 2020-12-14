@@ -17,23 +17,12 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
 
-  editUserByIdProfileImage(id: number, user): Observable<User> {
-    return this.http.put<User>(API_URL + id, {
-      name: user.name,
-      lastName: user.lastName,
-      email: user.email,
-      password: user.password,
-      roleSet: user.roleSet,
-      profilePhoto: user.profilePhoto
-    }, httpOptions);
-  }
-
-  uploadProfileImage(file: File, id: number): Observable<any> {
+  updateProfileImage(file: File, id: number): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('file', file);
 
 
-    const req = new HttpRequest('POST', API_URL_PROFILE_IMAGE + id, formData, {
+    const req = new HttpRequest('PUT', API_URL_PROFILE_IMAGE + id, formData, {
       reportProgress: true,
       responseType: 'json'
     });
