@@ -5,9 +5,10 @@ import {AuthorImageUrlService} from '../../_services/author-image-url.service';
 import {ModalDirective} from 'ng-uikit-pro-standard';
 import {Author} from '../../model/Author';
 import {Router} from '@angular/router';
-import {AlertsService} from "../../_services/alerts.service";
+import {AlertsService} from '../../_services/alerts.service';
 import swal from 'sweetalert';
-import {ReloadPageService} from "../../_services/reload-page.service";
+import {ReloadPageService} from '../../_services/reload-page.service';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-author',
@@ -28,6 +29,7 @@ export class AuthorComponent implements OnInit {
               private authorImageUrl: AuthorImageUrlService,
               private alertsService: AlertsService,
               private reloadPageService: ReloadPageService,
+              private sanitizer: DomSanitizer,
               private router: Router) {
   }
 
@@ -46,6 +48,11 @@ export class AuthorComponent implements OnInit {
   getAuthors() {
     this.authorService.getAllAuthors().subscribe((data: any) => {
         this.authors = data;
+
+        this.authors.forEach((image: any) => {
+          image.authorImageUrl.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${image.authorImageUrl.imageUrl}`);
+        });
+
       },
       error => {
         this.authors = JSON.parse(error.message).message;
@@ -74,19 +81,23 @@ export class AuthorComponent implements OnInit {
   }
 
   editFormAuthor(author: Author, modalDirective: ModalDirective) {
+    const authorImageSelected = this.imageUrlList.find(i => i.id == author.authorImageUrl.id);
+
     modalDirective.toggle();
 
-      this.editAuthorForm = new FormGroup({
-        id: new FormControl(author.id),
-        firstName: new FormControl(author.firstName),
-        lastName: new FormControl(author.lastName),
-        dateOfBirth: new FormControl(author.dateOfBirth),
-        nationality: new FormControl(author.nationality),
-        description: new FormControl(author.description),
-        type: new FormControl(author.type),
-        bookList: new FormControl(author.bookSet),
-        authorImageUrl: new FormControl(author.authorImageUrl)
-      });
+    this.editAuthorForm = new FormGroup({
+      id: new FormControl(author.id),
+      firstName: new FormControl(author.firstName),
+      lastName: new FormControl(author.lastName),
+      dateOfBirth: new FormControl(author.dateOfBirth),
+      nationality: new FormControl(author.nationality),
+      description: new FormControl(author.description),
+      type: new FormControl(author.type),
+      bookList: new FormControl(author.bookSet),
+      authorImageUrl: new FormControl(author.authorImageUrl)
+    });
+
+    this.editAuthorForm.get('authorImageUrl').setValue(authorImageSelected);
 
   }
 
@@ -94,13 +105,13 @@ export class AuthorComponent implements OnInit {
     // tslint:disable-next-line:max-line-length
     this.addAuthorForm.controls.dateOfBirth.setValue(this.dateForm.controls.dateBirth.value + ' - ' + this.dateForm.controls.deathDate.value);
 
-    if (this.addAuthorForm.value.authorImageUrl == ''){
+    if (this.addAuthorForm.value.authorImageUrl == '') {
       this.addAuthorForm.get('authorImageUrl').setValue(null);
     }
 
     this.authorService.addAuthor(this.addAuthorForm.value).subscribe(response => {
         this.isAuthorAlreadyExist = false;
-        this.alertsService.alertShowSuccess();
+        this.alertsService.success();
         modalDirective.toggle();
         this.reloadPageService.reload();
       },
@@ -116,7 +127,7 @@ export class AuthorComponent implements OnInit {
     const id = this.authors[index].id;
 
     this.authorService.editAuthorById(id, this.authors[index]).subscribe(response => {
-      this.alertsService.alertShowSuccess();
+      this.alertsService.success();
       this.isAuthorAlreadyExist = false;
       modalDirective.toggle();
       this.reloadPageService.reload();

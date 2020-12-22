@@ -63,7 +63,7 @@ export class ClientComponent implements OnInit {
 
   addClient(modalDirective: ModalDirective) {
     this.clientService.addClient(this.addClientForm.value).subscribe(response => {
-        this.alertsService.alertShowSuccess();
+        this.alertsService.success();
         this.isClientAlreadyExists = false;
         modalDirective.toggle();
         this.reloadPageService.reload();
@@ -80,7 +80,7 @@ export class ClientComponent implements OnInit {
     const id = this.clients[index].id;
 
     this.clientService.editClientById(id, this.clients[index]).subscribe(response => {
-        this.alertsService.alertShowSuccess();
+        this.alertsService.success();
         modalDirective.toggle();
         this.reloadPageService.reload();
         this.isClientAlreadyExists = false;

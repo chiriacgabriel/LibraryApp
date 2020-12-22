@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthorImageUrl} from '../model/AuthorImageUrl';
 
@@ -20,14 +20,20 @@ export class AuthorImageUrlService {
     return this.http.get<AuthorImageUrl>(API_URL);
   }
 
-  createImageUrl(authorImageUrl: AuthorImageUrl): Observable<any> {
-    return this.http.post<any>(API_URL, {
-      title: authorImageUrl.title,
-      imageUrl: authorImageUrl.imageUrl,
-    }, httpOptions);
+  createImageUrl(title: string, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('title', title);
+    formData.append('file', file);
+
+    const req = new HttpRequest('POST', API_URL, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
   }
 
-  deleteImageById(id: number): Observable<AuthorImageUrl>{
+  deleteImageById(id: number): Observable<AuthorImageUrl> {
     return this.http.delete<AuthorImageUrl>(API_URL + id);
   }
 }

@@ -14,6 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,6 +56,7 @@ public class ReservationService {
 
     public void addReservation(ReservationDto reservationDto) {
         Reservation reservation = reservationMapper.map(reservationDto);
+        reservation.setProcessedDate(LocalDateTime.of(LocalDate.now(), LocalTime.now()));
         reservationRepository.save(reservation);
     }
 
@@ -94,5 +98,9 @@ public class ReservationService {
         return new PageImpl<>(reservationDtoList,
                                         pageable,
                                         reservationRepository.findAllByUser(optionalUser.get()).size());
+    }
+
+    public Integer countAllReservations() {
+        return reservationRepository.countByIdIsNotNull();
     }
 }

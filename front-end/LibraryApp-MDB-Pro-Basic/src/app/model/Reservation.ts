@@ -11,5 +11,6 @@ export class Reservation {
   startDate: Date;
   endDate: Date;
   reservationState: ReservationState;
+  processedDate: Date;
 
 }

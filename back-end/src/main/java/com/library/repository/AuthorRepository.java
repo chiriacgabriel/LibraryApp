@@ -17,4 +17,6 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
     @Query("select a from Author a where a.firstName =:firstName and a.lastName =:lastName")
     Optional<Author> findByFirstNameAndLastName(@Param("firstName") String name,
                                                 @Param("lastName") String lastName);
+
+    Integer countByIdIsNotNull();
 }

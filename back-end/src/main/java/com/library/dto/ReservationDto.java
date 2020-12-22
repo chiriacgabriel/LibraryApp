@@ -7,6 +7,7 @@ import com.library.model.User;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -27,6 +28,8 @@ public class ReservationDto {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    private LocalDateTime processedDate;
 
     private ReservationState reservationState;
 

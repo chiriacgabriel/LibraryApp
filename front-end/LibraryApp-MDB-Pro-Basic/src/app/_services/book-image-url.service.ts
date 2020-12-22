@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {AuthorImageUrl} from '../model/AuthorImageUrl';
-import {BookImageUrl} from '../model/BookImageUrl';
 
 const API_URL = 'http://localhost:8080/api/book-image/';
 const httpOptions = {
@@ -17,18 +15,25 @@ export class BookImageUrlService {
   constructor(private http: HttpClient) {
   }
 
-  getAllImageBook(): Observable<BookImageUrl> {
-    return this.http.get<BookImageUrl>(API_URL);
+  getAllImageBook(): Observable<any> {
+    return this.http.get(API_URL);
   }
 
-  addBookImageUrl(bookImageUrl: BookImageUrl): Observable<BookImageUrl> {
-    return this.http.post<BookImageUrl>(API_URL, {
-      title: bookImageUrl.title,
-      imageUrl: bookImageUrl.imageUrl,
-    }, httpOptions);
+  addBookImageUrl(title: string, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+
+    const req = new HttpRequest('POST', API_URL, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
   }
 
-  deleteBookImageById(id: number): Observable<BookImageUrl>{
-    return this.http.delete<BookImageUrl>(API_URL + id);
+  deleteBookImageById(id: number): Observable<any> {
+    return this.http.delete(API_URL + id);
   }
+
 }

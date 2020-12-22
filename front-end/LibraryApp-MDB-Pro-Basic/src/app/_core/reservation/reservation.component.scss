@@ -1,3 +1,10 @@
+.span-reservation {
+  margin-left: 10px;
+  font-family: 'Font Awesome 5 Pro', 'Font Awesome 5 Free';
+  font-size: 25px;
+}
+
+
 h3 {
   margin: 0 0 10px;
 }
@@ -27,3 +34,52 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+//TABLE CSS
+.add-reservation {
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #87879d;
+  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  width: 100%;
+}
+.add-reservation tbody{
+  font-weight: bold;
+}
+th,
+td {
+  padding: 10px 15px;
+  vertical-align: middle;
+}
+.add-reservation-thead {
+  background: #395870;
+  background: linear-gradient(#49708f, #293f50);
+  color: #fff;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.add-reservation-thead th {
+  border: 0.1rem #46625e solid;
+}
+th:first-child {
+  border-top-left-radius: 5px;
+}
+th:last-child {
+  border-top-right-radius: 5px;
+}
+tbody tr:nth-child(even) {
+  background: #f0f0f2;
+}
+.add-reservation td {
+  border-bottom: 1px solid #cecfd5;
+  border-right: 1px solid #cecfd5;
+}
+.add-reservation td:first-child {
+  border-left: 1px solid #cecfd5;
+}
+.add-reservation ul li {
+  list-style-type: disclosure-closed;
+}
+//END TABLE CSS
+
+

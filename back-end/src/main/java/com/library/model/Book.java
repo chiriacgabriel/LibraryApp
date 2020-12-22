@@ -1,6 +1,7 @@
 package com.library.model;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.library.model.enums.EnumFictional;
 import lombok.*;
 
@@ -31,11 +32,8 @@ public class Book {
     @Column(name = "stock")
     private int stock;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinTable(name = "book_image_url_helper" , joinColumns =
-    @JoinColumn(name =
-            "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_image_url_id"))
+    @ManyToOne
+    @JoinColumn(name = "book_image_url_id")
     private BookImageUrl bookImageUrl;
 
     @ManyToOne

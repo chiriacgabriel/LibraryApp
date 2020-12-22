@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorService} from '../../_services/author.service';
-import {UserService} from '../../_services/user.service';
-import {BookService} from '../../_services/book.service';
-import {ReservationService} from '../../_services/reservation.service';
+import {StatsService} from '../../_services/stats.service';
 
 @Component({
   selector: 'app-stats-card',
@@ -10,57 +7,54 @@ import {ReservationService} from '../../_services/reservation.service';
   styleUrls: ['./stats-card.component.scss']
 })
 export class StatsCardComponent implements OnInit {
-  authors = [];
-  users = [];
-  books = [];
-  reservations = [];
 
-  constructor(private authorService: AuthorService,
-              private userService: UserService,
-              private bookService: BookService,
-              private reservationService: ReservationService) {
+  countAuthors: number;
+  countUsers: number;
+  countBooks: number;
+  countReservations: number;
+
+  constructor(private statsService: StatsService) {
   }
 
   ngOnInit(): void {
-    this.getAuthorsForStatCard();
-    this.getUsersForStatCard();
-    this.getBookForStatCard();
-    this.getReservationsForStatCard();
-  }
-
-  getAuthorsForStatCard() {
-    this.authorService.getAllAuthors().subscribe((data: any) => {
-        this.authors = data;
-      },
-      error => {
-        this.authors = JSON.parse(error.message).message;
-      });
+    this.getCountOfAuthors();
+    this.getCountOfUsers();
+    this.getCountOfBooks();
+    this.getCountOfReservations();
 
   }
 
-  getUsersForStatCard() {
-    this.userService.getUsers().subscribe((data: any) => {
-        this.users = data;
-      },
-      error => {
-        this.users = JSON.parse(error.message).message;
-      });
-  }
-
-  getBookForStatCard() {
-    this.bookService.getAllBooks().subscribe((data: any) => {
-        this.books = data;
-      },
-      error => {
-        this.books = JSON.parse(error.message).message;
-      });
-  }
-
-  getReservationsForStatCard() {
-    this.reservationService.getAllReservation().subscribe((data: any) => {
-      this.reservations = data;
+  getCountOfAuthors() {
+    this.statsService.getAuthorsCount().subscribe((data: any) => {
+      this.countAuthors = data;
     }, error => {
-      this.reservations = JSON.parse(error.message).message;
+      this.countAuthors = JSON.parse(error.message).message;
     });
   }
+
+  getCountOfUsers() {
+    this.statsService.getUsersCount().subscribe((data: any) => {
+      this.countUsers = data;
+    }, error => {
+      this.countUsers = JSON.parse(error.message).message;
+    });
+  }
+
+  getCountOfBooks() {
+    this.statsService.getBooksCount().subscribe((data: any) => {
+      this.countBooks = data;
+    }, error => {
+      this.countBooks = JSON.parse(error.message).message;
+    });
+  }
+
+  getCountOfReservations() {
+    this.statsService.getReservationsCount().subscribe((data: any) => {
+      this.countReservations = data;
+    }, error => {
+      this.countReservations = JSON.parse(error.message).message;
+    });
+  }
+
+
 }

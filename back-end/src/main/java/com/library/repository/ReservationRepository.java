@@ -15,4 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,
 
     Page<Reservation> findAllByUser(User user, Pageable pageable);
     List<Reservation> findAllByUser(User user);
+    Integer countByIdIsNotNull();
 }

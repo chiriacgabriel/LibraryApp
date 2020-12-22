@@ -6,7 +6,9 @@ import com.library.model.AuthorImageUrl;
 import com.library.repository.AuthorImageUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +31,16 @@ public class AuthorImageUrlService {
                                        .collect(Collectors.toList());
     }
 
-    public void addImageUrl(AuthorImageUrlDto authorImageUrlDto) {
-        AuthorImageUrl authorImageUrl =
-                authorImageUrlMapper.map(authorImageUrlDto);
-        authorImageUrl.setTitle(authorImageUrlDto.getTitle().trim());
+    public void addImageUrl(String title, MultipartFile multipartFile) {
+        AuthorImageUrl authorImageUrl = new AuthorImageUrl();
+        authorImageUrl.setTitle(title.trim());
+
+        try {
+            authorImageUrl.setImageUrl(multipartFile.getBytes());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
         authorImageUrlRepository.save(authorImageUrl);
     }
 

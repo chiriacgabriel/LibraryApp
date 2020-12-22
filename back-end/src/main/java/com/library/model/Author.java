@@ -44,11 +44,8 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> bookSet = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinTable(name = "author_image_url_helper", joinColumns =
-    @JoinColumn(name =
-            "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_image_url_id"))
+    @ManyToOne
+    @JoinColumn(name = "author_image_url_id")
     private AuthorImageUrl authorImageUrl;
 
 }

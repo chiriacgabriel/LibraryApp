@@ -11,5 +11,5 @@ public class BookImageUrlDto {
 
     private int id;
     private String title;
-    private String imageUrl;
+    private byte[] imageUrl;
 }

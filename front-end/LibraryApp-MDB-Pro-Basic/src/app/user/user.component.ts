@@ -4,8 +4,9 @@ import {Role} from '../model/Role';
 import {UserService} from '../_services/user.service';
 import {RoleService} from '../_services/role.service';
 import {User} from '../model/User';
-import {ModalDirective, ToastService} from 'ng-uikit-pro-standard';
+import {ModalDirective} from 'ng-uikit-pro-standard';
 import {AlertsService} from '../_services/alerts.service';
+import swal from 'sweetalert';
 
 
 @Component({
@@ -24,6 +25,10 @@ export class UserComponent implements OnInit {
   constructor(private userService: UserService,
               private roleService: RoleService,
               private alertsService: AlertsService) {
+  }
+
+  get password() {
+    return this.userForm.get('password');
   }
 
   ngOnInit(): void {
@@ -64,10 +69,6 @@ export class UserComponent implements OnInit {
     });
   }
 
-  get password() {
-    return this.userForm.get('password');
-  }
-
   resetPassword(modalDirective: ModalDirective): void {
 
     const index = this.users.findIndex(user => user.id == this.userForm.value.id);
@@ -78,7 +79,7 @@ export class UserComponent implements OnInit {
 
         this.ngOnInit();
         modalDirective.toggle();
-        this.alertsService.alertShowSuccess();
+        this.alertsService.success();
 
         this.isResetPasswordFailed = false;
 
@@ -98,7 +99,7 @@ export class UserComponent implements OnInit {
 
     this.userService.editUserById(id, this.users[index]).subscribe(response => {
         this.ngOnInit();
-        this.alertsService.alertShowSuccess();
+        this.alertsService.success();
       },
       err => {
         console.log(err);
@@ -108,21 +109,37 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(user: User, idTable: number) {
-    if (window.confirm('Are you sure you want to delete this user ?')) {
-      const index = this.users.findIndex(obj => obj.id = user.id);
-      const id = this.users[index].id;
 
-      this.userService.deleteUser(id).subscribe(response => {
-          this.ngOnInit();
-        },
-        error => {
-          console.log(error);
-        });
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this registration!',
+      icon: 'warning',
+      buttons: ['Cancel', 'Ok'],
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
 
-      this.users.splice(idTable, 1);
-      this.alertsService.alertShowWarning();
-    }
+          const index = this.users.findIndex(obj => obj.id = user.id);
+          const id = this.users[index].id;
+
+          this.userService.deleteUser(id).subscribe(response => {
+              this.ngOnInit();
+            },
+            error => {
+              console.log(error);
+            });
+
+          this.users.splice(idTable, 1);
+
+          swal('Your registration/file has been deleted!', {
+            icon: 'success',
+          });
+        }
+      });
+
   }
+
 
   selectedObject(role: Role) {
     this.listRoleSelected.push(role);

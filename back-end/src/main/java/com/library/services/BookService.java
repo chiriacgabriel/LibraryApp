@@ -81,4 +81,8 @@ public class BookService {
 
         bookRepository.save(dbBook);
     }
+
+    public Integer countAllBooks() {
+        return bookRepository.countByIdIsNotNull();
+    }
 }

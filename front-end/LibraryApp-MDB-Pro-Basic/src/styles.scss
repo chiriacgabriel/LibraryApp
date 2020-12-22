@@ -1,7 +1,5 @@
-/* angular-cli file: src/styles.css */
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
-
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 .side-nav mdb-accordion-item-head h5  {
   font-size: 18px !important;
   font-weight: 400 !important;
@@ -13,7 +11,6 @@
 .side-nav .collapsible .card {
   padding: 10px !important;
 }
-
 .side-nav .collapsible .card-body li a {
   background-color: rgba(0,0,0,.15);
   color: #fff;
@@ -25,33 +22,24 @@
   padding-left: 47px;
   padding-top: 10px;
 }
-
-//CSS Style Component for Author
+//CSS Style Component Author
 .fixed-top-author{
   position: fixed;
   top: 55px !important;
-  max-height: 60px;
   right: 0;
   left: 0;
   z-index: 1030;
+  max-height: 60px;
 }
-
-.fas-author{
+.fas-author {
   font-size: 25px;
   margin-left: 10px;
 }
-
-//END
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-
+// End Style CSS Author
 //Alert
 #toast-container > mdb-toast-component {
   opacity: .8 !important;
 }
-
-.md-toast-top-right{
+.md-toast-top-right {
   top: 72px !important;
 }

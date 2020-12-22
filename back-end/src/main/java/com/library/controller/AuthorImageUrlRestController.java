@@ -8,6 +8,7 @@ import com.library.validator.AuthorImageUrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,17 +34,18 @@ public class AuthorImageUrlRestController {
 
 
     @PostMapping
-    public ResponseEntity<?> createImage(@Valid @RequestBody AuthorImageUrlDto authorImageUrlDto) {
+    public ResponseEntity<?> createImage(@Valid @RequestParam("title") String title,
+                                         @RequestParam("file") MultipartFile multipartFile) {
 
         try {
-            authorImageUrlValidator.validate(authorImageUrlDto);
+            authorImageUrlValidator.validate(title);
         } catch (AuthorImageException e) {
             return ResponseEntity.badRequest()
                                  .body(new MessageResponse(
                                          "Title already exists"));
         }
 
-        authorImageUrlService.addImageUrl(authorImageUrlDto);
+        authorImageUrlService.addImageUrl(title, multipartFile);
         return ResponseEntity.ok()
                              .build();
     }

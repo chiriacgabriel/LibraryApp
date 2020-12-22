@@ -6,7 +6,9 @@ import com.library.model.BookImageUrl;
 import com.library.repository.BookImageUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +31,20 @@ public class BookImageUrlService {
                                      .collect(Collectors.toList());
     }
 
-    public void addBookImageUrl(BookImageUrlDto bookImageUrlDto) {
-        BookImageUrl bookImageUrl = bookImageUrlMapper.map(bookImageUrlDto);
-        bookImageUrl.setTitle(bookImageUrlDto.getTitle().trim());
+    public void addBookImageUrl(String title, MultipartFile multipartFile) {
+
+        BookImageUrl bookImageUrl = new BookImageUrl();
+
+        bookImageUrl.setTitle(title.trim());
+
+        try{
+            bookImageUrl.setImageUrl(multipartFile.getBytes());
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
         bookImageUrlRepository.save(bookImageUrl);
+
     }
 
     public void deleteBookImageById(int id) {

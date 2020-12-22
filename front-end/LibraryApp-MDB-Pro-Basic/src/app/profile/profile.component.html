@@ -6,23 +6,22 @@
 
             <div class="box">
 
-              <img [src]="imageUser" class="js--image-preview">
-
+              <img [src]="newImageUser" class="js--image-preview" *ngIf="isNewImageUser">
+              <img [src]="imageUser" class="js--image-preview" *ngIf="!isNewImageUser">
 
               <div class="upload-options">
                 <label>
                   <i class="fas fa-search-plus search-style"></i>
                   <input  class="image-upload" type="file" accept="image/*" name="profilePhoto"
-                          (change)="selectFile($event)">
+                          (change)="showPreviewImageProfile($event)">
                 </label>
               </div>
             </div>
             <!--/Card image-->
             <mdb-card-body cascade="true" class="text-center">
 
-              <!--Title-->
-              <h5 class="card-title">{{currentUser.roles}}</h5>
-              <!--Text-->
+              <span class="form-control text-danger" *ngIf="isNewImageUser">{{message}}</span>
+
 
               <div class="row">
                 <div class="col-12">

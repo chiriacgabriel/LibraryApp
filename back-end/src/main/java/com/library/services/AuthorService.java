@@ -61,8 +61,13 @@ public class AuthorService {
         dbAuthor.setNationality(authorDto.getNationality().trim());
         dbAuthor.setDescription(authorDto.getDescription().trim());
         dbAuthor.setType(authorDto.getType().trim());
+
         dbAuthor.setAuthorImageUrl(authorDto.getAuthorImageUrl());
 
         authorRepository.save(dbAuthor);
+    }
+
+    public Integer countAllAuthors() {
+        return authorRepository.countByIdIsNotNull();
     }
 }

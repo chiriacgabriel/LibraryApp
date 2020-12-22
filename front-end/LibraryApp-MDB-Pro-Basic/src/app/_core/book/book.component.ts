@@ -4,13 +4,14 @@ import {BookCategoryTypeService} from '../../_services/book-category-type.servic
 import {BookService} from '../../_services/book.service';
 import {ModalDirective} from 'ng-uikit-pro-standard';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthorService} from "../../_services/author.service";
-import {BookCategory} from "../../model/BookCategory";
-import {BookImageUrl} from "../../model/BookImageUrl";
-import {AlertsService} from "../../_services/alerts.service";
+import {AuthorService} from '../../_services/author.service';
+import {BookCategory} from '../../model/BookCategory';
+import {BookImageUrl} from '../../model/BookImageUrl';
+import {AlertsService} from '../../_services/alerts.service';
 import {Book} from 'src/app/model/Book';
-import swal from "sweetalert";
-import {ReloadPageService} from "../../_services/reload-page.service";
+import swal from 'sweetalert';
+import {ReloadPageService} from '../../_services/reload-page.service';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-book',
@@ -34,14 +35,15 @@ export class BookComponent implements OnInit {
   isFictional = false;
   isNonfictional = false;
 
-  preSelectedTitle = ''
+  preSelectedTitle = '';
 
   constructor(private bookImageUrlService: BookImageUrlService,
               private bookCategoryTypeService: BookCategoryTypeService,
               private bookService: BookService,
               private authorService: AuthorService,
               private alertsService: AlertsService,
-              private reloadPageService: ReloadPageService) {
+              private reloadPageService: ReloadPageService,
+              private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -126,6 +128,11 @@ export class BookComponent implements OnInit {
   getAllBooks() {
     this.bookService.getAllBooks().subscribe((data: any) => {
       this.books = data;
+
+      this.books.forEach((imageBook: any) => {
+        imageBook.bookImageUrl.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${imageBook.bookImageUrl.imageUrl}`);
+      });
+
     }, error => {
       this.books = JSON.parse(error.message).message;
     });
@@ -141,7 +148,7 @@ export class BookComponent implements OnInit {
 
   getAllFictionals() {
     this.bookCategoryTypeService.getAllFictional().subscribe((data: any) => {
-      this.fictionals = data
+      this.fictionals = data;
     }, error => {
       this.fictionals = JSON.parse(error.message).message;
     });
@@ -168,7 +175,7 @@ export class BookComponent implements OnInit {
 
     this.bookService.addBook(this.addBookForm.value).subscribe(response => {
         this.reloadPageService.reload();
-        this.alertsService.alertShowSuccess();
+        this.alertsService.success();
         modalDirective.toggle();
         this.isNonfictional = false;
         this.isFictional = false;
@@ -186,14 +193,14 @@ export class BookComponent implements OnInit {
     const id = this.books[index].id;
 
     this.bookService.editBookById(id, this.books[index]).subscribe(response => {
-        this.reloadPageService.reload()
-        this.alertsService.alertShowSuccess();
+        this.reloadPageService.reload();
+        this.alertsService.success();
         modalDirective.toggle();
 
       },
       err => {
         console.log(err);
-      })
+      });
   }
 
   deleteBook(book: Book) {
@@ -208,6 +215,7 @@ export class BookComponent implements OnInit {
         if (willDelete) {
           this.bookService.deleteBookById(Number(book.id)).subscribe(response => {
               this.reloadPageService.reload();
+              this.alertsService.warning();
             },
             error => {
               console.log(error);

@@ -44,7 +44,7 @@
 
         <!-- Image -->
         <div class="view overlay rounded z-depth-1-half mb-4">
-          <img class="img-fluid" src="{{author.authorImageUrl.imageUrl}}">
+          <img class="img-fluid" [src]="author.authorImageUrl.imageUrl">
           <a>
             <div class="mask rgba-white-slight waves-light" mdbWavesEffect></div>
           </a>
@@ -78,7 +78,7 @@
 
             <!--Book ImageUrl-->
             <div class="view overlay rounded z-depth-1 mb-4" style="width: 250px; height: 350px">
-              <img class="img-fluid" src="{{book.bookImageUrl.imageUrl}}" alt="Sample image">
+              <img class="img-fluid" [src]="book.bookImageUrl.imageUrl" alt="Sample image">
               <a>
                 <div class="mask rgba-white-slight waves-light" mdbWavesEffect></div>
               </a>

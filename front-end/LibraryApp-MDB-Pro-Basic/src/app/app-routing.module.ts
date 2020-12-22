@@ -43,7 +43,8 @@ const routes: Routes = [
         path: 'book', component: BookComponent
       },
       {
-        path: 'media', component: MediaComponent
+        path: 'media', component: MediaComponent,
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'client', component: ClientComponent

@@ -5,6 +5,7 @@ import com.library.exception.BookImageException;
 import com.library.repository.BookImageUrlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class BookImageUrlValidator {
@@ -16,8 +17,8 @@ public class BookImageUrlValidator {
         this.bookImageUrlRepository = bookImageUrlRepository;
     }
 
-    public void validate(BookImageUrlDto bookImageUrlDto) {
-        if (bookImageUrlRepository.existsByTitle(bookImageUrlDto.getTitle().trim())){
+    public void validate(String title) {
+        if (bookImageUrlRepository.existsByTitle(title.trim())){
             throw new BookImageException();
         }
     }

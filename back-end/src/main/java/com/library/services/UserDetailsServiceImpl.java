@@ -29,4 +29,8 @@ public class UserDetailsServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User Not found with email" + email));
         return UserDetailsImpl.build(user);
     }
+
+    public Integer countAllUsers() {
+        return userRepository.countByIdIsNotNull();
+    }
 }

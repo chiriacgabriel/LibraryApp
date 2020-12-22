@@ -22,11 +22,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebServiceConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+
     private UserDetailsServiceImpl userDetailsService;
+    private AuthEntryPointJwt unauthorizedHandler;
 
     @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    public WebServiceConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
+        this.userDetailsService = userDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -78,7 +82,8 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
                     "/api/clients/**",
                     "/api/reservations/**",
                     "/api/state/**",
-                    "api/profile-image/**")
+                    "/api/profile-image/**",
+                    "/api/count-data/**")
             .permitAll();
 
         http.addFilterBefore(authenticationJwtTokenFilter(),

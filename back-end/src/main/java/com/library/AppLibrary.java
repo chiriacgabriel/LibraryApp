@@ -1,5 +1,8 @@
 package com.library;
 
+import com.library.repository.AuthorRepository;
+import com.library.repository.ReservationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

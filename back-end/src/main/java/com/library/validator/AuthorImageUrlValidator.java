@@ -16,9 +16,8 @@ public class AuthorImageUrlValidator {
         this.authorImageUrlRepository = authorImageUrlRepository;
     }
 
-    public void validate(AuthorImageUrlDto authorImageUrlDto) {
-        if (authorImageUrlRepository.existsByTitle(authorImageUrlDto.getTitle()
-                                                                    .trim())) {
+    public void validate(String title) {
+        if (authorImageUrlRepository.existsByTitle(title.trim())) {
             throw new AuthorImageException();
         }
     }

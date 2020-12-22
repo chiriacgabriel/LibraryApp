@@ -26,14 +26,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
   currentUser: any;
   selectedFiles: FileList;
   currentFile: File;
-  imageUser: any;
-  imageId: number;
   page = 1;
   count: any;
   pageSize = 8;
 
+  imageUser: any;
+  newImageUser: any;
+  isNewImageUser = false;
+  imageId: number;
+
   profileImageSubscription: any;
-  navigationSubscription;
+  navigationSubscription: any;
+
+  message = 'Click Update to save your profile photo !';
 
   constructor(private reservationService: ReservationService,
               private token: TokenStorageService,
@@ -43,11 +48,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
               private reloadPageService: ReloadPageService,
               private router: Router) {
     // TO PREVENT MEMORY LEAK
-  this.navigationSubscription = this.router.events.subscribe((e: any) => {
-    if (e instanceof NavigationEnd){
-      this.getImageProfile();
-    }
-  });
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      if (e instanceof NavigationEnd) {
+        this.getImageProfile();
+      }
+    });
   }
 
   @HostListener('input') oninput() {
@@ -62,13 +67,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     this.currentUser = this.token.getUser();
 
-    this.getImageProfile();
-
   }
 
   // PART OF MEMORY LEAK
   ngOnDestroy() {
-    if (this.profileImageSubscription){
+    if (this.profileImageSubscription) {
       this.profileImageSubscription.unsubscribe();
     }
   }
@@ -136,16 +139,29 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectFile(event) {
+  showPreviewImageProfile(event) {
     this.selectedFiles = event.target.files;
+
+    // this will show the profile picture before the update button is pressed
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.newImageUser = reader.result as string;
+      this.isNewImageUser = true;
+    };
+    reader.readAsDataURL(this.selectedFiles.item(0));
+    // END
   }
 
   update() {
+
     this.currentFile = this.selectedFiles.item(0);
+
+    // THIS WILL PRODUCE MEMORY LEAK IF IS NOT UNSUBSCRIBED AND DESTROYED
     this.profileImageSubscription = this.profileService.updateProfileImage(this.currentFile, this.imageId).subscribe(event => {
 
-      // THIS WILL PRODUCE MEMORY LEAK IF UNSUBSCRIBED AND DESTROYED
       this.reloadPageService.reload();
+      this.alertService.success();
+      this.isNewImageUser = false;
 
     }, error => {
       this.profileService = JSON.parse(error.message).message;

@@ -1,8 +1,11 @@
 package com.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,6 +25,11 @@ public class AuthorImageUrl {
     private String title;
 
     @Column(name = "author_image")
-    private String imageUrl;
+    @Lob
+    private byte[] imageUrl;
+
+    @OneToMany(mappedBy = "authorImageUrl", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Author> authorSet = new HashSet<>();
 
 }

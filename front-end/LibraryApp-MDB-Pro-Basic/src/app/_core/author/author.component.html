@@ -43,7 +43,7 @@
       <!--Body-->
       <div class="modal-body">
 
-        <form #addAuthorExist = "ngForm"
+        <form #addAuthorExist="ngForm"
               (ngSubmit)="addAuthorExist.form.valid && addAuthor(addAuthorFrame)"
               [formGroup]="addAuthorForm">
           <div class="row">
@@ -164,7 +164,7 @@
         <!--Body-->
         <div class="modal-body">
 
-          <form #editAuthorExist = "ngForm" (ngSubmit)="editAuthorExist.form.valid &&
+          <form #editAuthorExist="ngForm" (ngSubmit)="editAuthorExist.form.valid &&
           updateAuthor(frameEditAuthor)"
                 [formGroup]="editAuthorForm">
             <div class="row">
@@ -256,27 +256,26 @@
 
 <!-- Content -->
 <div class="row my-5">
-  <div *ngFor="let author of authors" class="card col-md-2-custom my-2">
-    <div class="card-text">
-      <div class="portada" style="background-image: url({{author.authorImageUrl.imageUrl}})">
-      </div>
-      <div class="title-total">
-        <div class="title">{{author.type}}</div>
-        <h2>{{author.firstName}} {{author.lastName}}</h2>
-        <div class="desc">{{author.description}}
+
+  <div *ngFor="let author of authors" class="col-md-2-custom my-2">
+      <div>
+        <div class="img-wrapper">
+          <img [src]="author.authorImageUrl.imageUrl">
+          <h2>{{author.firstName}} {{author.lastName}}</h2>
+          <ul>
+            <li>
+              <a (click)="sendToAuthorInfo(author)" style="color: #2bbbad;"><i class="fas fa-info-circle"></i></a>
+            </li>
+            <li>
+              <a (click)="editFormAuthor(author,frameEditAuthor)" style="color: #ffbb33;"><i class="fas fa-user-edit"></i></a>
+            </li>
+            <li>
+              <a (click)="deleteAuthor(author)" style="color: #ff4444;"><i class="far fa-trash-alt"></i></a>
+            </li>
+          </ul>
         </div>
-        <div class="actions">
-          <button (click)="sendToAuthorInfo(author)" class="button-newCard"
-                  style="color: #2bbbad;"><i
-            class="fas fa-info-circle"></i></button>
-          <button (click)="editFormAuthor(author,frameEditAuthor)"
-                  class="button-newCard" style="color: #ffbb33;"><i
-            class="fas fa-user-edit"></i></button>
-          <button (click)="deleteAuthor(author)" class="button-newCard"
-                  style="color: #ff4444;"><i class="far fa-trash-alt"></i></button>
-        </div>
       </div>
-    </div>
   </div>
+
 </div>
 <!-- End Content -->

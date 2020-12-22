@@ -1,8 +1,13 @@
 package com.library.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +27,10 @@ public class BookImageUrl {
     private String title;
 
     @Column(name = "image_url")
-    private String imageUrl;
+    @Lob
+    private byte[] imageUrl;
 
+    @OneToMany(mappedBy = "bookImageUrl", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Book> bookList = new ArrayList<>();
 }

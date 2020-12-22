@@ -10,7 +10,9 @@ import com.library.services.BookImageUrlService;
 import com.library.validator.BookImageUrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,17 +37,18 @@ public class BookImageUrlRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createBookImage(@Valid @RequestBody BookImageUrlDto bookImageUrlDto){
+    public ResponseEntity<?> createBookImage(@Valid @RequestParam("title") String title,
+                                             @RequestParam("file") MultipartFile multipartFile){
 
         try{
-            bookImageUrlValidator.validate(bookImageUrlDto);
+            bookImageUrlValidator.validate(title);
         }catch (BookImageException e){
             return ResponseEntity.badRequest().body(new MessageResponse(
-                    "Title " + bookImageUrlDto.getTitle() + " already " +
+                    "Title " + title + " already " +
                             "exists!"));
         }
 
-        bookImageUrlService.addBookImageUrl(bookImageUrlDto);
+        bookImageUrlService.addBookImageUrl(title, multipartFile);
 
         return ResponseEntity.ok().build();
     }
