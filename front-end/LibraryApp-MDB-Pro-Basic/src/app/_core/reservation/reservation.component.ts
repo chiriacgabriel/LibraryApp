@@ -248,8 +248,12 @@ export class ReservationComponent implements OnInit {
   }
 
   isBookDisabled(object: any) {
-    return this.bookList.includes(object);
+    const created = this.reservationStateList.find(i => i.nameOfState === 'Created');
+    if (!created) {
+      return this.bookList.includes(object);
+    }
   }
+
   isClientDisabled(object: any) {
     return this.clientList.includes(object);
   }

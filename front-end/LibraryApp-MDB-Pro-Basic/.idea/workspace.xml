@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="906e9424-c178-4d8c-8dab-67d4019b2fa1" name="Default Changelist" comment="App" />
+    <list default="true" id="906e9424-c178-4d8c-8dab-67d4019b2fa1" name="Default Changelist" comment="App">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/_core/reservation/reservation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_core/reservation/reservation.component.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +69,7 @@
       <workItem from="1608986189381" duration="282000" />
       <workItem from="1609576728464" duration="6671000" />
       <workItem from="1609665663700" duration="1302000" />
-      <workItem from="1609670918672" duration="2013000" />
+      <workItem from="1609670918672" duration="2857000" />
     </task>
     <task id="LOCAL-00001" summary="App">
       <created>1609679050388</created>
