@@ -12,7 +12,6 @@ import com.library.payload.response.MessageResponse;
 import com.library.repository.ProfileImageRepository;
 import com.library.repository.RoleRepository;
 import com.library.repository.UserRepository;
-import com.library.services.ProfileImageService;
 import com.library.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
@@ -66,15 +64,15 @@ public class LoginRestController {
                         loginRequest.getPassword()));
 
         SecurityContextHolder.getContext()
-                             .setAuthentication(authentication);
+                .setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         List<String> roles = userDetails.getAuthorities()
-                                        .stream()
-                                        .map(item -> item.getAuthority())
-                                        .collect(Collectors.toList());
+                .stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
@@ -103,24 +101,24 @@ public class LoginRestController {
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByEnumRole(EnumRole.ROLE_USER)
-                                          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
                         Role adminRole = roleRepository.findByEnumRole(EnumRole.ROLE_ADMIN)
-                                                       .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
                         break;
                     case "mod":
                         Role modRole = roleRepository.findByEnumRole(EnumRole.ROLE_MODERATOR)
-                                                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
                         break;
                     default:
                         Role userRole = roleRepository.findByEnumRole(EnumRole.ROLE_USER)
-                                                      .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                 }
             });
@@ -140,15 +138,15 @@ public class LoginRestController {
         return ResponseEntity.ok(new MessageResponse("User Registered successfully !"));
     }
 
-    private byte[] getImage(){
+    private byte[] getImage() {
         File file = new File("back-end/src/main/resources/images/profile_image.jpg");
-        if (file.exists()){
-            try{
+        if (file.exists()) {
+            try {
                 BufferedImage bufferedImage = ImageIO.read(file);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 ImageIO.write(bufferedImage, "jpg", byteArrayOutputStream);
                 return byteArrayOutputStream.toByteArray();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

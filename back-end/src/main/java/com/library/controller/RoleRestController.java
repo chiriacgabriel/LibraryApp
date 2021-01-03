@@ -1,8 +1,6 @@
 package com.library.controller;
 
 import com.library.dto.RoleDto;
-import com.library.model.Role;
-import com.library.repository.RoleRepository;
 import com.library.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class RoleRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RoleDto>> getAllRoles(){
+    public ResponseEntity<List<RoleDto>> getAllRoles() {
         return ResponseEntity.ok(roleService.getAllRoles());
     }
 }

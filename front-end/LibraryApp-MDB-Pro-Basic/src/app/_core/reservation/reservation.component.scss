@@ -82,4 +82,11 @@ tbody tr:nth-child(even) {
 }
 //END TABLE CSS
 
-
+.cancel-reservation {
+  display: flex;
+  float: left;
+}
+.save-reservation{
+  display: flex;
+  float: right;
+}

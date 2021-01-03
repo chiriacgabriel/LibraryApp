@@ -2,15 +2,11 @@ package com.library.controller;
 
 import com.library.dto.BookImageUrlDto;
 import com.library.exception.BookImageException;
-import com.library.model.BookImageUrl;
 import com.library.payload.response.MessageResponse;
-import com.library.repository.BookImageUrlRepository;
-import com.library.repository.BookRepository;
 import com.library.services.BookImageUrlService;
 import com.library.validator.BookImageUrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,17 +28,17 @@ public class BookImageUrlRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookImageUrlDto>> getAllBookImages(){
+    public ResponseEntity<List<BookImageUrlDto>> getAllBookImages() {
         return ResponseEntity.ok(bookImageUrlService.getAllBookImages());
     }
 
     @PostMapping
     public ResponseEntity<?> createBookImage(@Valid @RequestParam("title") String title,
-                                             @RequestParam("file") MultipartFile multipartFile){
+                                             @RequestParam("file") MultipartFile multipartFile) {
 
-        try{
+        try {
             bookImageUrlValidator.validate(title);
-        }catch (BookImageException e){
+        } catch (BookImageException e) {
             return ResponseEntity.badRequest().body(new MessageResponse(
                     "Title " + title + " already " +
                             "exists!"));
@@ -54,7 +50,7 @@ public class BookImageUrlRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BookImageUrlDto> deleteBookImageById(@PathVariable int id){
+    public ResponseEntity<BookImageUrlDto> deleteBookImageById(@PathVariable int id) {
         bookImageUrlService.deleteBookImageById(id);
         return ResponseEntity.ok().build();
     }

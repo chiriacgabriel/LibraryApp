@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ClientService} from '../../_services/client.service';
-import {FormControl, FormGroup} from "@angular/forms";
-import {AlertsService} from "../../_services/alerts.service";
-import {ModalDirective} from "ng-uikit-pro-standard";
-import {Client} from "../../model/Client";
-import swal from "sweetalert";
-import {ReloadPageService} from "../../_services/reload-page.service";
+import {FormControl, FormGroup} from '@angular/forms';
+import {AlertsService} from '../../_services/alerts.service';
+import {ModalDirective} from 'ng-uikit-pro-standard';
+import {Client} from '../../model/Client';
+import swal from 'sweetalert';
+import {ReloadPageService} from '../../_services/reload-page.service';
 
 @Component({
   selector: 'app-client',

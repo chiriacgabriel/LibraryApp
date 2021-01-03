@@ -1,17 +1,12 @@
 package com.library.controller;
 
 import com.library.dto.ReservationDto;
-import com.library.model.Reservation;
-import com.library.model.User;
-import com.library.repository.ReservationRepository;
 import com.library.services.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -20,7 +15,7 @@ public class ReservationRestController {
 
     private ReservationService reservationService;
 
-    public ReservationRestController(ReservationService reservationService){
+    public ReservationRestController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
@@ -33,16 +28,16 @@ public class ReservationRestController {
     public ResponseEntity<Page<ReservationDto>> getAllReservationsByUser(@PathVariable int userId,
                                                                          @RequestParam(defaultValue = "0") int page,
                                                                          @RequestParam(defaultValue = "8") int size) {
-        return ResponseEntity.ok(reservationService.getAllReservationsByUser(userId, page,size));
+        return ResponseEntity.ok(reservationService.getAllReservationsByUser(userId, page, size));
     }
 
     //Read
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDto> getReservationById(@PathVariable int id) {
         return reservationService.findReservationById(id)
-                                    .map(ResponseEntity::ok)
-                                    .orElse(ResponseEntity.notFound()
-                                                          .build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound()
+                        .build());
     }
 
     //Delete
@@ -50,12 +45,12 @@ public class ReservationRestController {
     public ResponseEntity<ReservationDto> deleteReservationById(@PathVariable int id) {
         reservationService.deleteReservationById(id);
         return ResponseEntity.ok()
-                             .build();
+                .build();
     }
 
     //Create
     @PostMapping
-    public ResponseEntity<ReservationDto> createReservation(@RequestBody ReservationDto reservationDto){
+    public ResponseEntity<ReservationDto> createReservation(@RequestBody ReservationDto reservationDto) {
         reservationService.addReservation(reservationDto);
         return ResponseEntity.ok().build();
     }
@@ -63,7 +58,7 @@ public class ReservationRestController {
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<?> updateReservationById(@PathVariable int id,
-                                                             @RequestBody ReservationDto reservationDto){
+                                                   @RequestBody ReservationDto reservationDto) {
 
         reservationService.updateReservation(id, reservationDto);
 

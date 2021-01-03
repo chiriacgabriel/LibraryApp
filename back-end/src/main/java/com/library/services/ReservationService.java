@@ -75,6 +75,8 @@ public class ReservationService {
         dbReservation.setClient(reservationDto.getClient());
         dbReservation.setStartDate(reservationDto.getStartDate());
         dbReservation.setEndDate(reservationDto.getEndDate());
+        dbReservation.setProcessedDate(LocalDateTime.of(LocalDate.now(),
+                LocalTime.now()));
         dbReservation.setReservationState(reservationDto.getReservationState());
 
         reservationRepository.save(dbReservation);

@@ -29,6 +29,7 @@ export class ReservationComponent implements OnInit {
 
   bookList = [];
   selectedBook = [];
+  updateSelectedBook = [];
   userList = [];
   clientList = [];
   filteredOptionsClient: Observable<Client[]>;
@@ -38,6 +39,9 @@ export class ReservationComponent implements OnInit {
 
   stockBook: number;
   currentUser: User;
+
+  isCanceled = false;
+  isFinalised = false;
 
   constructor(private bookService: BookService,
               private userService: UserService,
@@ -53,6 +57,8 @@ export class ReservationComponent implements OnInit {
       items: [null, Validators.required],
     });
     this.bookTableRows = this.formBuilder.array([]);
+
+
   }
 
   ngOnInit(): void {
@@ -64,11 +70,13 @@ export class ReservationComponent implements OnInit {
     this.getAllReservations();
     this.currentUser = this.tokenService.getUser();
     this.bookForm.addControl('bookTableRows', this.bookTableRows);
+
   }
 
   onAddRow() {
     this.bookTableRows.push(this.createItemFormGroup());
   }
+
 
   onRemoveRow(rowIndex: number) {
     this.bookTableRows.removeAt(rowIndex);
@@ -93,14 +101,47 @@ export class ReservationComponent implements OnInit {
 
   editFormReservation(reservation: Reservation, modalDirective: ModalDirective) {
 
+    this.bookTableRows.clear();
+    const clientSelected = this.clientList.find(i => i.id == reservation.client.id);
+    const reservationStateSelected = this.reservationStateList.find(i => i.id == reservation.reservationState.id);
+
     this.editReservationForm = new FormGroup({
       id: new FormControl(reservation.id),
-      bookList: new FormControl(reservation.bookList),
+      bookList: new FormControl(this.updateSelectedBook),
       client: new FormControl(reservation.client),
       startDate: new FormControl(reservation.startDate),
       endDate: new FormControl(reservation.endDate),
       reservationState: new FormControl(reservation.reservationState)
     });
+
+    for (let i = 0; i < reservation.bookList.length; i++) {
+      const bookSelected = this.bookList.find(j => j.id == reservation.bookList[i].id);
+      this.bookTableRows.controls.push(new FormGroup({
+        bookList: new FormControl(bookSelected)
+      }));
+    }
+
+    this.editReservationForm.get('client').setValue(clientSelected);
+    this.editReservationForm.get('reservationState').setValue(reservationStateSelected);
+
+    // CHECK STATE OF LIST
+    const created = this.reservationStateList.find(i => i.nameOfState === 'Created');
+    const finalised = this.reservationStateList.find(i => i.nameOfState === 'Finalised');
+    const canceled = this.reservationStateList.find(i => i.nameOfState === 'Canceled');
+
+    if (this.editReservationForm.value.reservationState === created) {
+      this.isFinalised = true;
+      this.isCanceled = true;
+    }
+    if (this.editReservationForm.value.reservationState === finalised) {
+      this.isFinalised = false;
+      this.isCanceled = false;
+    }
+    if (this.editReservationForm.value.reservationState === canceled) {
+      this.isFinalised = false;
+      this.isCanceled = false;
+    }
+    // END
 
     modalDirective.toggle();
   }
@@ -162,19 +203,23 @@ export class ReservationComponent implements OnInit {
       }
     }
     this.reservationService.addReservation(this.reservationForm.value)
-                           .subscribe(response => {
-      this.alertService.success();
-      modalDirective.toggle();
-      this.reloadPageService.reload();
-    }, error => {
-      console.log(error.message);
-    });
+      .subscribe(response => {
+        this.alertService.success();
+        modalDirective.toggle();
+        this.reloadPageService.reload();
+      }, error => {
+        console.log(error.message);
+      });
   }
 
-  updateReservation(modalDirective: ModalDirective){
+  updateReservation(modalDirective: ModalDirective) {
     const index = this.reservationList.findIndex(reservation => reservation.id == this.editReservationForm.value.id);
     this.reservationList[index] = this.editReservationForm.value;
     const id = this.reservationList[index].id;
+
+    for (let i = 0; i < this.bookTableRows.length; i++) {
+      this.updateSelectedBook.push(this.bookForm.value.bookTableRows[i].bookList);
+    }
 
     this.reservationService.editReservationById(id, this.reservationList[index]).subscribe(response => {
       this.reloadPageService.reload();
@@ -183,5 +228,33 @@ export class ReservationComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+  }
+
+  showReservationFrame(modalDirective: ModalDirective) {
+    modalDirective.toggle();
+    const created = this.reservationStateList.find(i => i.nameOfState === 'Created');
+    this.reservationForm.get('reservationState').setValue(created);
+    this.bookTableRows.clear();
+  }
+
+  cancelReservation() {
+    const canceled = this.reservationStateList.find(i => i.nameOfState === 'Canceled');
+    this.editReservationForm.get('reservationState').setValue(canceled);
+  }
+
+  finaliseReservation() {
+    const finalised = this.reservationStateList.find(i => i.nameOfState === 'Finalised');
+    this.editReservationForm.get('reservationState').setValue(finalised);
+  }
+
+  isBookDisabled(object: any) {
+    return this.bookList.includes(object);
+  }
+  isClientDisabled(object: any) {
+    return this.clientList.includes(object);
+  }
+
+  isStateDisabled(object: any) {
+    return this.reservationStateList.includes(object);
   }
 }

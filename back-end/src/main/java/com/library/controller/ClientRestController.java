@@ -1,8 +1,6 @@
 package com.library.controller;
 
 import com.library.dto.ClientDto;
-import com.library.exception.ClientMissingException;
-import com.library.payload.response.MessageResponse;
 import com.library.services.ClientService;
 import com.library.validator.ClientValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -35,21 +32,21 @@ public class ClientRestController {
     @GetMapping("/{id}")
     public ResponseEntity<ClientDto> getClientById(@PathVariable int id) {
         return clientService.findClientById(id)
-                               .map(ResponseEntity::ok)
-                               .orElse(ResponseEntity.notFound()
-                                                     .build());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound()
+                        .build());
     }
 
     //Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<ClientDto> deleteClientById(@PathVariable int id){
+    public ResponseEntity<ClientDto> deleteClientById(@PathVariable int id) {
         clientService.deleteClientId(id);
         return ResponseEntity.ok().build();
     }
 
     //Create
     @PostMapping
-    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto){
+    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto) {
         clientService.addClient(clientDto);
         return ResponseEntity.ok().build();
     }
@@ -57,7 +54,7 @@ public class ClientRestController {
     //Update
     @PutMapping("/{id}")
     public ResponseEntity<?> updateClientById(@PathVariable int id,
-                                                   @RequestBody ClientDto clientDto){
+                                              @RequestBody ClientDto clientDto) {
 
         clientService.update(id, clientDto);
 
